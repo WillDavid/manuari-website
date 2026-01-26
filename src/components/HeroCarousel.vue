@@ -5,11 +5,11 @@ export default {
       current: 0,
       slides: [
         {
-          image: "https://i.ibb.co/HTb42b0r/MANUARI-2.png",
+          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/MANUARI%20(2).png",
           link: "/produtos/artes"
         },
         {
-          image: "https://i.ibb.co/NdSsN4mQ/MANUARI-1.png",
+          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/MANUARI%20(1).png",
           link: "/produtos/canecas"
         }
         
