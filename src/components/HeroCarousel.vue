@@ -5,11 +5,11 @@ export default {
       current: 0,
       slides: [
         {
-          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/MANUARI%20(2).png",
+          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner1.png",
           link: "/produtos/artes"
         },
         {
-          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/MANUARI%20(1).png",
+          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png",
           link: "/produtos/canecas"
         }
         
@@ -37,6 +37,7 @@ export default {
       target="_blank"
       :style="{ backgroundImage: `url(${slides[current].image})` }"
     />
+
 
     <!-- CONTROLES (FORA DO LINK) -->
     <button class="nav prev" @click="prev">‹</button>
