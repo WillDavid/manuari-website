@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       current: 0,
+      intervalId: null,
       slides: [
         {
           image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png",
@@ -11,11 +12,11 @@ export default {
         {
           image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner1.png",
           link: "/produtos/artes"
-        },
-        
+        }
       ]
     }
   },
+
   methods: {
     next() {
       this.current = (this.current + 1) % this.slides.length
@@ -23,13 +24,36 @@ export default {
     prev() {
       this.current =
         (this.current - 1 + this.slides.length) % this.slides.length
+    },
+    startAutoplay() {
+      if (this.intervalId) return
+      this.intervalId = setInterval(() => {
+        this.next()
+      }, 5000) // ⏱️ 5 segundos
+    },
+    stopAutoplay() {
+      clearInterval(this.intervalId)
+      this.intervalId = null
     }
+  },
+
+  mounted() {
+    this.startAutoplay()
+  },
+
+  beforeUnmount() {
+    this.stopAutoplay()
   }
 }
 </script>
 
+
 <template>
-  <section class="carousel">
+  <section
+    class="carousel"
+    @mouseenter="stopAutoplay"
+    @mouseleave="startAutoplay"
+  >
     <!-- SLIDE CLICÁVEL -->
     <RouterLink
       :to="slides[current].link"
@@ -38,18 +62,14 @@ export default {
       :style="{ backgroundImage: `url(${slides[current].image})` }"
     />
 
-
-    <!-- CONTROLES (FORA DO LINK) -->
+    <!-- CONTROLES -->
     <button class="nav prev" @click="prev">‹</button>
     <button class="nav next" @click="next">›</button>
   </section>
 </template>
 
 
-
 <style scoped>
-
-
   .carousel {
   width: 100%;
   aspect-ratio: 1920 / 650;
