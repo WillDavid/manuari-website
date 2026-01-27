@@ -10,7 +10,6 @@
           <li><RouterLink to="/produtos/xicaras">Xícaras</RouterLink></li>
           <li><RouterLink to="/produtos/azulejos">Azulejos</RouterLink></li>
           <li><RouterLink to="/produtos/artes">Artes</RouterLink></li>
-          <li><RouterLink to="/produtos/mdf">Placas de MDF</RouterLink></li>
         </ul>
       </div>
 
