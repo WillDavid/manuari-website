@@ -7,11 +7,11 @@ export default {
       slides: [
         {
           image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png",
-          link: "/produtos/canecas"
+          link: "/produtos"
         },
         {
           image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner1.png",
-          link: "/produtos/artes"
+          link: "/produtos"
         }
       ]
     }

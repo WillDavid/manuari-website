@@ -30,7 +30,7 @@ export default {
     <RouterLink to="/produtos/xicaras" @click="menuOpen = false">Xícaras</RouterLink>
     <RouterLink to="/produtos/azulejos" @click="menuOpen = false">Azulejos</RouterLink>
     <RouterLink to="/produtos/canecas3d" @click="menuOpen = false">Canecas 3D</RouterLink>
-    <RouterLink to="/para-empresas" @click="menuOpen = false" class="b2b">Para Empresas</RouterLink>
+    <RouterLink to="/para-empresas" @click="menuOpen = false">Para Empresas</RouterLink>
   </nav>
 </template>
 
@@ -115,9 +115,6 @@ export default {
   width: 100%;
 }
 
-.b2b {
-  color: red !important;
-}
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {

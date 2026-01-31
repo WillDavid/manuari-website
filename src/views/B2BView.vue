@@ -7,7 +7,9 @@
         <h1>
           Brindes corporativos<br />
           personalizados para empresas
+          
         </h1>
+        
 
         <p class="hero-sub">
           Canecas, xícaras, azulejos e projetos sob medida para ações
@@ -20,7 +22,7 @@
           Produção organizada, personalização de verdade e entrega confiável.
         </p>
 
-        <a href="https://wa.me/5592991802094?text=Olá!%20Gostaria%20de%20um%20orçamento%20para%20brindes%20corporativos." target="_blank" class="hero-cta">
+        <a href="https://wa.me/5592991802094?text=Olá!%20Gostaria%20de%20um%20orçamento%20para%20brindes%20corporativos." target="_blank" class="hero-cta" alt="canecas personalizadas para empresas Manuari">
         Solicitar orçamento
         </a>
 
