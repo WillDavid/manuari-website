@@ -8,6 +8,7 @@ import PrivacyPolicyView from '../views/PrivacyPolicyView.vue'
 import OurTermsView from '../views/OurTermsView.vue'
 import DeliveryPolicy from '../views/DeliveryPolicy.vue'
 import ProductDatailsView from '../views/ProductDatailsView.vue'
+import B2BView from '../views/B2BView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -18,7 +19,9 @@ const routes = [
   { path: '/nossos-termos', component: OurTermsView },
   { path: '/produtos/:tipo', component: ProductsView, props: true },
   { path: '/produto/:id', component: ProductDatailsView},
+  { path: '/para-empresas', component: B2BView},
   { path: '/:pathMatch(.*)*', name: 'notfound', component: NotFoundView }
+
 ]
 
 export default createRouter({

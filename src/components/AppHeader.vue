@@ -29,8 +29,8 @@ export default {
     <RouterLink to="/produtos/canecas" @click="menuOpen = false">Canecas</RouterLink>
     <RouterLink to="/produtos/xicaras" @click="menuOpen = false">Xícaras</RouterLink>
     <RouterLink to="/produtos/azulejos" @click="menuOpen = false">Azulejos</RouterLink>
-    <!-- <RouterLink to="/produtos/artes" @click="menuOpen = false">Artes</RouterLink> -->
     <RouterLink to="/produtos/canecas3d" @click="menuOpen = false">Canecas 3D</RouterLink>
+    <RouterLink to="/para-empresas" @click="menuOpen = false" class="b2b">Para Empresas</RouterLink>
   </nav>
 </template>
 
@@ -113,6 +113,10 @@ export default {
 .submenu a:hover::after,
 .submenu a.router-link-active::after {
   width: 100%;
+}
+
+.b2b {
+  color: red !important;
 }
 
 /* ===== MOBILE ===== */
