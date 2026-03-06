@@ -20,7 +20,7 @@
       </h2>
 
       <p class="modal-text">
-        Um atendente pode te ajudar a escolher a arte ou <strong>personalizar do zero</strong> para você!
+        Um atendente pode <strong>personalizar do zero</strong> para você!
       </p>
 
       <div class="buttons">
