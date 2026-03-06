@@ -2,12 +2,14 @@
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import WhatsAppFloat from './components/WhatsAppFloat.vue';
+import ModalOrcamento from './components/ModalOrcamento.vue';
 
 export default {
   components: {
     AppHeader,
     AppFooter,
-    WhatsAppFloat
+    WhatsAppFloat,
+    ModalOrcamento
   }
 }
 </script>
@@ -17,6 +19,7 @@ export default {
     <AppHeader />
 
     <main class="container">
+      <ModalOrcamento />
       <router-view />
       <WhatsAppFloat
     phone="5592991802094"
