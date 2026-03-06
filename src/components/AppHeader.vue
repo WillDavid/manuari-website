@@ -14,7 +14,7 @@ export default {
     <RouterLink to="/">
     <img
       class="img-logo"
-      src="../assets/logoH_principal-300ppi.png"
+      src="../assets/manuari-logotipo-300dpi.png"
       alt="Manuari"
     /></RouterLink>
 

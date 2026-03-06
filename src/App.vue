@@ -1,8 +1,8 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
-import WhatsAppFloat from './components/WhatsAppFloat.vue';
-import ModalOrcamento from './components/ModalOrcamento.vue';
+import WhatsAppFloat from './components/WhatsAppFloat.vue'
+import ModalOrcamento from './components/ModalOrcamento.vue'
 
 export default {
   components: {
@@ -10,6 +10,32 @@ export default {
     AppFooter,
     WhatsAppFloat,
     ModalOrcamento
+  },
+
+  mounted() {
+    this.updateSEO(this.$route)
+  },
+
+  watch: {
+    $route(to) {
+      this.updateSEO(to)
+    }
+  },
+
+  methods: {
+    updateSEO(route) {
+
+      if (route.meta && route.meta.title) {
+        document.title = route.meta.title
+      }
+
+      const description = document.querySelector("meta[name='description']")
+
+      if (description && route.meta && route.meta.description) {
+        description.setAttribute("content", route.meta.description)
+      }
+
+    }
   }
 }
 </script>

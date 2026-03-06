@@ -10,7 +10,7 @@
 
       <!-- logo -->
       <img
-        src="../assets/logoH_principal-300ppi.png"
+        src="../assets/manuari-logotipo-300dpi.png"
         alt="Manuari"
         class="logo"
       />

@@ -45,6 +45,8 @@ export default {
   <section>
     <HeroCarousel />
 
+    <h1 class="visually-hidden"> Caneca personalizada em Manaus com foto ou nome | Manuari </h1>
+
     <!-- LANÇAMENTOS -->
     <h2>Lançamentos</h2>
 
@@ -68,6 +70,48 @@ export default {
       v-else-if="destaques.length"
       :products="destaques"
     />
+
+    <section class="seo-content">
+
+  <div class="seo-wrapper">
+
+    <h2>Caneca personalizada em Manaus com nome ou foto</h2>
+
+    <p class="seo-lead">
+      A <strong>Manuari</strong> produz <strong>caneca personalizada em Manaus</strong>
+      com nome, foto ou arte exclusiva. Ideal para presentes, empresas e
+      ocasiões especiais.
+    </p>
+
+    <p>
+      Se você quer <strong>comprar caneca personalizada</strong> ou procura
+      <strong>onde fazer caneca personalizada em Manaus</strong>, criamos
+      <strong>caneca personalizada com nome e foto</strong> e também
+      <strong>xícaras personalizadas</strong> com produção rápida e entrega local.
+    </p>
+
+  </div>
+
+</section>
+
+    <section class="cta-final">
+
+  <h2>Quer criar sua caneca personalizada?</h2>
+
+  <p>
+    Fale direto com a Manuari e receba um atendimento rápido
+    para criar sua caneca personalizada com nome, foto ou arte exclusiva.
+  </p>
+
+  <a
+    href="https://wa.me/5592991802094?text=Olá!%20Vim%20pelo%20site%20da%20Manuari%20e%20quero%20fazer%20uma%20caneca%20personalizada."
+    target="_blank"
+    class="cta-botao"
+  >
+    Falar no WhatsApp
+  </a>
+
+    </section>
 
     
 
@@ -126,6 +170,75 @@ h2 {
   .skeleton-row {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.seo-content {
+  margin-top: 6rem;
+}
+
+.seo-wrapper {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.seo-wrapper h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: none;
+}
+
+.seo-lead {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.seo-wrapper p {
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.cta-final {
+  margin-top: 2rem;
+  padding: 2rem 1rem;
+  background: #ff4425;
+  color: #fff;
+  border-radius: 24px;
+  text-align: center;
+}
+
+.cta-final h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border: none;
+}
+
+.cta-final p {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.cta-botao {
+  display: inline-block;
+  margin-top: 1.8rem;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 
