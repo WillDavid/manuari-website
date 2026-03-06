@@ -14,14 +14,16 @@ export default {
   data() {
     return {
       currentIndex: 0,
-      itemsPerView: 4
+      itemsPerView: 4,
+      autoplay: null,
+      shuffledProducts: []
     }
   },
 
   computed: {
     maxIndex() {
-      return Math.max(this.products.length - this.itemsPerView, 0)
-    },
+  return Math.max(this.shuffledProducts.length - this.itemsPerView, 0)
+},
     trackStyle() {
       const percent = (100 / this.itemsPerView) * this.currentIndex
       return {
@@ -31,6 +33,39 @@ export default {
   },
 
   methods: {
+
+    pauseAutoplay() {
+  clearInterval(this.autoplay)
+  this.autoplay = null
+},
+
+resumeAutoplay() {
+  if (!this.autoplay) {
+    this.startAutoplay()
+  }
+},
+    shuffleProducts() {
+  this.shuffledProducts = [...this.products].sort(() => Math.random() - 0.5)
+}, 
+    startAutoplay() {
+  if (this.autoplay) return
+
+  const delay = Math.random() * 2000
+
+  setTimeout(() => {
+
+    this.autoplay = setInterval(() => {
+
+      if (this.currentIndex < this.maxIndex) {
+        this.currentIndex++
+      } else {
+        this.currentIndex = 0
+      }
+
+    }, 2000)
+
+  }, delay)
+},
     next() {
       if (this.currentIndex < this.maxIndex) {
         this.currentIndex++
@@ -53,18 +88,26 @@ export default {
   },
 
   mounted() {
-    this.updateItemsPerView()
-    window.addEventListener('resize', this.updateItemsPerView)
+     this.shuffleProducts()
+
+  this.updateItemsPerView()
+  window.addEventListener('resize', this.updateItemsPerView)
+
+  this.startAutoplay()
   },
 
   beforeUnmount() {
-    window.removeEventListener('resize', this.updateItemsPerView)
-  }
+  window.removeEventListener('resize', this.updateItemsPerView)
+  clearInterval(this.autoplay)
+}
 }
 </script>
 
 <template>
-  <section class="carousel">
+  <section class="carousel" @mouseenter="pauseAutoplay"
+  @mouseleave="resumeAutoplay"
+  @touchstart="pauseAutoplay"
+  @touchend="resumeAutoplay">
     <!-- BOTÃO ESQUERDA -->
     <button
       class="nav prev"
@@ -78,17 +121,17 @@ export default {
     <div class="viewport">
       <div class="track" :style="trackStyle">
         <div
-          class="slide"
-          v-for="(product, index) in products"
-          :key="index"
-        >
-          <CardProduct
-            :name="product.name"
-            :image="product.images"
-            :tipo="product.tipo"
-            :id="product.id"
-          />
-        </div>
+  class="slide"
+  v-for="(product, index) in shuffledProducts"
+  :key="index"
+>
+  <CardProduct
+    :name="product.name"
+    :image="product.images"
+    :tipo="product.tipo"
+    :id="product.id"
+  />
+</div>
       </div>
     </div>
 
