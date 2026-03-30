@@ -4,6 +4,12 @@ import AppFooter from './components/AppFooter.vue'
 import WhatsAppFloat from './components/WhatsAppFloat.vue'
 import ModalOrcamento from './components/ModalOrcamento.vue'
 
+import {
+  criarSessao,
+  registrarEvento,
+  finalizarSessao
+} from './services/supabaseApi'
+
 export default {
   components: {
     AppHeader,
@@ -12,19 +18,32 @@ export default {
     ModalOrcamento
   },
 
-  mounted() {
+  data() {
+    return {
+      sessionId: null
+    }
+  },
+
+  async mounted() {
     this.updateSEO(this.$route)
+
+    await this.initSession()
+
+    this.registrarPageView(this.$route)
   },
 
   watch: {
     $route(to) {
       this.updateSEO(to)
+      this.registrarPageView(to)
     }
   },
 
   methods: {
+    // ==========================
+    // 🔍 SEO
+    // ==========================
     updateSEO(route) {
-
       if (route.meta && route.meta.title) {
         document.title = route.meta.title
       }
@@ -34,7 +53,41 @@ export default {
       if (description && route.meta && route.meta.description) {
         description.setAttribute("content", route.meta.description)
       }
+    },
 
+    // ==========================
+    // 🧠 SESSÃO
+    // ==========================
+    async initSession() {
+      let sessionId = localStorage.getItem('session_id')
+
+      if (!sessionId) {
+        sessionId = await criarSessao()
+        localStorage.setItem('session_id', sessionId)
+      }
+
+      this.sessionId = sessionId
+
+      // ⏱️ quando sair do site
+      window.addEventListener('beforeunload', () => {
+        if (this.sessionId) {
+          finalizarSessao(this.sessionId)
+        }
+      })
+    },
+
+    // ==========================
+    // 📊 EVENTOS
+    // ==========================
+    async registrarPageView(route) {
+      if (!this.sessionId) return
+
+      await registrarEvento({
+        session_id: this.sessionId,
+        page: route.name || route.path,
+        product_id: route.params?.id || null,
+        product_name: null
+      })
     }
   }
 }
@@ -46,20 +99,20 @@ export default {
 
     <main class="container">
       <ModalOrcamento />
+
       <router-view />
+
       <WhatsAppFloat
-    phone="5592991802094"
-    message="Olá! Vim pelo site da Manuari e gostaria de mais informações!"
-  />
+        phone="5592991802094"
+        message="Olá! Vim pelo site da Manuari e gostaria de mais informações!"
+      />
     </main>
 
     <AppFooter />
   </div>
 </template>
 
-
 <style>
-
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -73,10 +126,8 @@ body {
 
 .container {
   flex: 1;
-  /* max-width: 1280px; */
   padding: 2rem 12rem 2rem 12rem;
 }
-
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -91,7 +142,4 @@ body {
     padding: 1rem;
   }
 }
-
-
-
 </style>

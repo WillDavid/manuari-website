@@ -1,5 +1,5 @@
 <script>
-import { fetchProductById } from '../services/supabaseApi'
+import { fetchProductById, incrementarAcessos } from '../services/supabaseApi'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue';
 
@@ -83,6 +83,9 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
   async mounted() {
     try {
       const id = this.$route.params.id
+
+      incrementarAcessos(id)
+
       const data = await fetchProductById(id)
 
       this.produto = data
