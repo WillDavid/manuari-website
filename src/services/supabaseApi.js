@@ -71,6 +71,10 @@ export async function fetchProducts(params = '') {
   return res.json()
 }
 
+export async function fetchMaisAcessados() {
+  return fetchProducts('&order=acessos.desc&limit=6')
+}
+
 export async function fetchProductById(id) {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/products?id=eq.${id}&select=*`,

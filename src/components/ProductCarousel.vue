@@ -8,6 +8,10 @@ export default {
     products: {
       type: Array,
       required: true
+    },
+    shuffle: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -45,8 +49,12 @@ resumeAutoplay() {
   }
 },
     shuffleProducts() {
-  this.shuffledProducts = [...this.products].sort(() => Math.random() - 0.5)
-}, 
+  if (this.shuffle) {
+    this.shuffledProducts = [...this.products].sort(() => Math.random() - 0.5)
+  } else {
+    this.shuffledProducts = [...this.products]
+  }
+},
     startAutoplay() {
   if (this.autoplay) return
 

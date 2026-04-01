@@ -2,7 +2,7 @@
 import HeroCarousel from '../components/HeroCarousel.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
 import SkeletonCard from '../components/SkeletonCard.vue';
-import { fetchProducts } from '../services/supabaseApi'
+import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 
 export default {
   components: {
@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       products: [],
+      maisAcessados: [],
       loading: true
     }
   },
@@ -28,16 +29,23 @@ export default {
   },
 
   async mounted() {
-    try {
-      this.loading = true
-      const data = await fetchProducts()
-      this.products = data
-    } catch (e) {
-      console.error('Erro ao carregar produtos', e)
-    } finally {
-      this.loading = false
-    }
+  try {
+    this.loading = true
+
+    const [products, mais] = await Promise.all([
+      fetchProducts(),          // tudo (pra lancamentos/destaques)
+      fetchMaisAcessados()      // só os top 6
+    ])
+
+    this.products = products
+    this.maisAcessados = mais
+
+  } catch (e) {
+    console.error('Erro ao carregar produtos', e)
+  } finally {
+    this.loading = false
   }
+}
 }
 </script>
 
@@ -46,6 +54,17 @@ export default {
     <HeroCarousel />
 
     <h1 class="visually-hidden"> Caneca personalizada em Manaus com foto ou nome | Manuari </h1>
+
+    <h2>Mais Vistos</h2>
+
+<div v-if="loading" class="skeleton-row">
+  <SkeletonCard v-for="i in 4" :key="i" />
+</div>
+
+<ProductCarousel
+  v-else-if="maisAcessados.length"
+  :products="maisAcessados" :shuffle="false"
+/>
 
     <!-- LANÇAMENTOS -->
     <h2>Lançamentos</h2>
@@ -70,6 +89,7 @@ export default {
       v-else-if="destaques.length"
       :products="destaques"
     />
+
 
     <section class="seo-content">
 
