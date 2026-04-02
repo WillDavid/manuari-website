@@ -2,6 +2,7 @@
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import WhatsAppFloat from './components/WhatsAppFloat.vue'
+import InstagramFloat from './components/InstagramFloat.vue'
 import ModalOrcamento from './components/ModalOrcamento.vue'
 
 import {
@@ -15,6 +16,7 @@ export default {
     AppHeader,
     AppFooter,
     WhatsAppFloat,
+    InstagramFloat,
     ModalOrcamento
   },
 
@@ -106,6 +108,7 @@ export default {
         phone="5592991802094"
         message="Olá! Vim pelo site da Manuari e gostaria de mais informações!"
       />
+      <InstagramFloat username="manuari.loja" />
     </main>
 
     <AppFooter />

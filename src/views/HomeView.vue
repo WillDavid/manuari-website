@@ -4,6 +4,7 @@ import ProductCarousel from '../components/ProductCarousel.vue'
 import SkeletonCard from '../components/SkeletonCard.vue';
 import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 
+
 export default {
   components: {
     HeroCarousel,
@@ -116,7 +117,7 @@ export default {
 
     <section class="cta-final">
 
-  <h2>Quer criar sua caneca personalizada?</h2>
+  <h2>Não encontrou o que procura?</h2>
 
   <p>
     Fale direto com a Manuari e receba um atendimento rápido

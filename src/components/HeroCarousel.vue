@@ -1,19 +1,32 @@
 <script>
 export default {
+  name: 'HeroCarousel',
+
   data() {
     return {
       current: 0,
       intervalId: null,
+
       slides: [
         {
           image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png",
           link: "/produtos"
         },
         {
-          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner1.png",
-          link: "/produtos"
+          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png",
+          link: "https://wa.me/5592991802094?text=Olá, gostaria de saber mais sobre envio para outros estados!"
         }
       ]
+    }
+  },
+
+  computed: {
+    currentSlide() {
+      return this.slides[this.current]
+    },
+
+    isCurrentExternal() {
+      return this.currentSlide.link.startsWith('http')
     }
   },
 
@@ -21,23 +34,35 @@ export default {
     next() {
       this.current = (this.current + 1) % this.slides.length
     },
+
     prev() {
       this.current =
         (this.current - 1 + this.slides.length) % this.slides.length
     },
+
     startAutoplay() {
       if (this.intervalId) return
+
       this.intervalId = setInterval(() => {
         this.next()
-      }, 5000) // ⏱️ 5 segundos
+      }, 5000)
     },
+
     stopAutoplay() {
       clearInterval(this.intervalId)
       this.intervalId = null
+    },
+
+    shuffleSlides() {
+      for (let i = this.slides.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[this.slides[i], this.slides[j]] = [this.slides[j], this.slides[i]]
+      }
     }
   },
 
   mounted() {
+    this.shuffleSlides() // 🔀 ordem aleatória
     this.startAutoplay()
   },
 
@@ -47,19 +72,20 @@ export default {
 }
 </script>
 
-
 <template>
   <section
     class="carousel"
     @mouseenter="stopAutoplay"
     @mouseleave="startAutoplay"
   >
-    <!-- SLIDE CLICÁVEL -->
-    <RouterLink
-      :to="slides[current].link"
+    <!-- SLIDE DINÂMICO -->
+    <component
+      :is="isCurrentExternal ? 'a' : 'RouterLink'"
+      :href="isCurrentExternal ? currentSlide.link : null"
+      :to="!isCurrentExternal ? currentSlide.link : null"
+      :target="isCurrentExternal ? '_blank' : null"
       class="slide"
-      target="_blank"
-      :style="{ backgroundImage: `url(${slides[current].image})` }"
+      :style="{ backgroundImage: `url(${currentSlide.image})` }"
     />
 
     <!-- CONTROLES -->
@@ -68,16 +94,15 @@ export default {
   </section>
 </template>
 
-
 <style scoped>
-  .carousel {
+.carousel {
   width: 100%;
   aspect-ratio: 1920 / 650;
   position: relative;
   overflow: hidden;
 }
 
-/* SLIDE (LINK) */
+/* SLIDE */
 .slide {
   position: absolute;
   inset: 0;
@@ -85,6 +110,7 @@ export default {
   background-size: cover;
   background-position: center;
   cursor: pointer;
+  transition: opacity 0.4s ease;
 }
 
 /* CONTROLES */
@@ -92,14 +118,15 @@ export default {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.35);
   border: none;
   color: white;
   font-size: 2rem;
   width: 42px;
   height: 42px;
   cursor: pointer;
-  z-index: 10; /* 🔑 acima do link */
+  z-index: 10;
+  border-radius: 8px;
 }
 
 .prev {
@@ -112,11 +139,14 @@ export default {
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .carousel {
+    aspect-ratio: 16 / 9;
+  }
+
   .nav {
     width: 34px;
     height: 34px;
     font-size: 1.4rem;
   }
 }
-
 </style>
