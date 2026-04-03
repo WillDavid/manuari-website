@@ -139,9 +139,7 @@ export default {
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .carousel {
-    aspect-ratio: 16 / 9;
-  }
+
 
   .nav {
     width: 34px;
