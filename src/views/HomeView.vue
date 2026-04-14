@@ -4,7 +4,7 @@ import ProductCarousel from '../components/ProductCarousel.vue'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
-
+import { usePreferencias } from '../composables/usePreferencias'
 
 export default {
   components: {
@@ -13,13 +13,19 @@ export default {
     SkeletonCard
   },
 
+  setup() {
+    const { getPreferenciaPrincipal, getCategoriasPreferidas } = usePreferencias()
+    return { getPreferenciaPrincipal, getCategoriasPreferidas }
+  },
+
   data() {
     return {
       products: [],
       maisAcessados: [],
       loading: true,
       whatsappPhone: WHATSAPP.phone,
-      whatsappMessage: WHATSAPP.messages.home
+      whatsappMessage: WHATSAPP.messages.home,
+      preferencia: null
     }
   },
 
@@ -30,8 +36,55 @@ export default {
     lancamentos() {
       return this.products.filter(p => p.lancamento === true)
     },
-    destaques() {
-      return this.products.filter(p => p.destaque === true)
+    todasTags() {
+      const tags = new Set()
+      this.products.forEach(p => {
+        if (p.categorias && Array.isArray(p.categorias)) {
+          p.categorias.forEach(cat => tags.add(cat))
+        }
+      })
+      return [...tags].filter(tag => {
+        const produtos = this.products.filter(p => 
+          p.categorias && p.categorias.includes(tag)
+        )
+        return produtos.length >= 5
+      })
+    },
+    tagDoDia() {
+      if (this.preferencia) {
+        const temProdutos = this.products.filter(p => 
+          p.categorias && p.categorias.includes(this.preferencia)
+        )
+        if (temProdutos.length >= 5) {
+          return this.preferencia
+        }
+      }
+      if (this.todasTags.length === 0) return null
+      const indice = Math.floor(Math.random() * this.todasTags.length)
+      return this.todasTags[indice]
+    },
+    tagsAleatorias() {
+      if (this.todasTags.length < 2) return []
+      
+      const available = this.todasTags.filter(t => t !== this.tagDoDia)
+      if (available.length === 0) return []
+      
+      const indice = Math.floor(Math.random() * available.length)
+      return [available[indice]]
+    },
+    produtosTagDoDia() {
+      if (!this.tagDoDia) return []
+      return this.products.filter(p => 
+        p.categorias && p.categorias.includes(this.tagDoDia)
+      )
+    },
+    produtosTagsAleatorias() {
+      return this.tagsAleatorias.map(tag => ({
+        nome: tag,
+        produtos: this.products.filter(p => 
+          p.categorias && p.categorias.includes(tag)
+        )
+      }))
     }
   },
 
@@ -40,12 +93,22 @@ export default {
     this.loading = true
 
     const [products, mais] = await Promise.all([
-      fetchProducts(),          // tudo (pra lancamentos/destaques)
-      fetchMaisAcessados()      // só os top 6
+      fetchProducts(),
+      fetchMaisAcessados()
     ])
 
     this.products = products
     this.maisAcessados = mais
+
+    const preferencia = this.getPreferenciaPrincipal()
+    if (preferencia) {
+      const produtosPref = this.products.filter(p => 
+        p.categorias && p.categorias.includes(preferencia)
+      )
+      if (produtosPref.length >= 5) {
+        this.preferencia = preferencia
+      }
+    }
 
   } catch (e) {
     console.error('Erro ao carregar produtos', e)
@@ -85,17 +148,31 @@ export default {
       :products="lancamentos"
     />
 
-    <!-- DESTAQUES -->
-    <h2>Destaques</h2>
+    <!-- TAG DO DIA / PERSONALIZADO -->
+    <h2 v-if="tagDoDia && produtosTagDoDia.length">
+      {{ preferencia ? 'Para Você' : tagDoDia }}
+    </h2>
 
     <div v-if="loading" class="skeleton-row">
       <SkeletonCard v-for="i in 4" :key="i" />
     </div>
 
     <ProductCarousel
-      v-else-if="destaques.length"
-      :products="destaques"
+      v-else-if="produtosTagDoDia.length"
+      :products="produtosTagDoDia"
     />
+
+    <!-- TAGS ALEATÓRIAS -->
+    <template v-for="(item, index) in produtosTagsAleatorias" :key="index">
+      <h2 v-if="item.produtos.length">{{ item.nome }}</h2>
+      <div v-if="loading" class="skeleton-row">
+        <SkeletonCard v-for="i in 4" :key="i" />
+      </div>
+      <ProductCarousel
+        v-else-if="item.produtos.length"
+        :products="item.produtos"
+      />
+    </template>
 
     <section class="cta-final">
 
@@ -221,5 +298,3 @@ h2 {
 
 
 </style>
-
-

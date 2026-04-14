@@ -35,7 +35,7 @@ async function fetchWithCache(endpoint, params = '', options = {}) {
 
   if (!res.ok) throw new Error(`Erro na API: ${res.status}`)
 
-  const data = params ? res.json() : await res.json()
+  const data = await res.json()
   
   try {
     localStorage.setItem(cacheKey, JSON.stringify({

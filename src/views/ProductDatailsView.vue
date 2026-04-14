@@ -1,35 +1,63 @@
 <script>
 import { fetchProductById, incrementarAcessos } from '../services/supabaseApi'
-import { PRODUCT_TYPES, WHATSAPP } from '../constants/config'
+import { WHATSAPP } from '../constants/config'
+import { usePreferencias } from '../composables/usePreferencias'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
+
+const PRODUTO_VARIACOES = {
+  canecas: [
+    { label: 'Total Branca', price: 34.9 },
+    { label: 'Alça e Interior Preto', price: 46.9 },
+    { label: 'Alça e Interior Rosa', price: 46.9 },
+    { label: 'Alça e Interior Vermelho', price: 46.9 },
+    { label: 'Alça e Interior Amarelo', price: 46.9 },
+    { label: 'Alça e Interior Lilás', price: 46.9 },
+    { label: 'Alça e Interior Azul', price: 46.9 }
+  ],
+  xicaras: [
+    { label: 'Com Pires', price: 46.9 },
+    { label: 'Sem Pires', price: 42.9 }
+  ],
+  azulejos: [
+    { label: '15x15', price: 29.9 },
+    { label: '20x20', price: 34.9 }
+  ]
+}
 
 export default {
   name: 'ProductDetailsView',
   components: { Breadcrumb, Specifications },
+
+  setup() {
+    const { adicionarVisualizacao } = usePreferencias()
+    return { adicionarVisualizacao }
+  },
 
   data() {
     return {
       produto: null,
       loading: true,
       imagemAtiva: null,
-      variacaoSelecionada: null,
-      precoFinal: null,
-      precoArte: null,
+      indiceSelecionado: 0,
+      precoFinal: 34.9,
       whatsappPhone: WHATSAPP.phone
     }
   },
 
   computed: {
-    variacoesDisponiveis() {
-      if (!this.produto) return []
-      const config = PRODUCT_TYPES[this.produto.tipo]
-      return config?.variations || []
+    variacoes() {
+      if (!this.produto?.tipo) return []
+      const vars = PRODUTO_VARIACOES[this.produto.tipo] || []
+      return [...vars].sort((a, b) => a.price - b.price)
+    },
+
+    variacaoSelecionada() {
+      return this.variacoes[this.indiceSelecionado] || null
     },
 
     mensagemWhats() {
-      if (!this.produto || !this.precoFinal) return ''
-
+      if (!this.produto || !this.precoFinal || !this.variacaoSelecionada) return ''
       return `Olá! Quero o produto "${this.produto.name}"
 Opção: ${this.variacaoSelecionada.label}
 Valor: R$ ${this.precoFinal.toFixed(2)}`
@@ -44,29 +72,40 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
     }
   },
 
-  watch: {
-    precoArte(val) {
-      this.precoFinal = val ? Number(val) : null
-    }
-  },
-
   async mounted() {
     try {
       const id = this.$route.params.id
       incrementarAcessos(id)
       const data = await fetchProductById(id)
+      
       this.produto = data
       this.imagemAtiva = data.images?.[0] || null
 
-      const config = PRODUCT_TYPES[data.tipo]
-      if (config?.variations?.length) {
-        this.variacaoSelecionada = config.variations[0]
-        this.precoFinal = config.variations[0].price
+      this.adicionarVisualizacao(data)
+
+      const tipo = data?.tipo
+      if (tipo && PRODUTO_VARIACOES[tipo]) {
+        const vars = PRODUTO_VARIACOES[tipo]
+        const sorted = [...vars].sort((a, b) => a.price - b.price)
+        this.indiceSelecionado = 0
+        this.precoFinal = sorted[0].price
       }
+
     } catch (err) {
       console.error('Erro ao carregar produto', err)
     } finally {
       this.loading = false
+    }
+  },
+
+  methods: {
+    selecionarVariacao(index) {
+      const tipo = this.produto?.tipo
+      if (tipo && PRODUTO_VARIACOES[tipo]) {
+        const sorted = [...PRODUTO_VARIACOES[tipo]].sort((a, b) => a.price - b.price)
+        this.indiceSelecionado = index
+        this.precoFinal = sorted[index].price
+      }
     }
   }
 }
@@ -84,7 +123,6 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
     </div>
 
     <div class="gallery">
-      
       <div class="thumbs">
         <img
           v-for="(img, i) in produto.images"
@@ -103,15 +141,15 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
     <div class="info">
       <h1>{{ produto.name }}</h1>
 
-      <div v-if="variacoesDisponiveis.length">
+      <div v-if="variacoes.length">
         <h4>Escolha uma opção:</h4>
 
         <div class="options">
           <button
-            v-for="v in variacoesDisponiveis"
-            :key="v.label"
-            :class="{ selected: variacaoSelecionada?.label === v.label }"
-            @click="variacaoSelecionada = v; precoFinal = v.price"
+            v-for="(v, index) in variacoes"
+            :key="index"
+            :class="{ selected: indiceSelecionado === index }"
+            @click="selecionarVariacao(index)"
           >
             {{ v.label }}
           </button>
@@ -142,7 +180,6 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
 
   <Specifications v-if="tipoProduto" :tipo="tipoProduto" />
 </template>
-
 
 
 <style scoped>
@@ -207,12 +244,6 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
 .options button.selected {
   border-color: #000;
   font-weight: 600;
-}
-
-.input-price input {
-  padding: 0.5rem;
-  width: 100%;
-  margin-bottom: 1rem;
 }
 
 .price {
