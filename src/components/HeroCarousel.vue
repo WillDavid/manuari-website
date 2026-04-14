@@ -1,4 +1,6 @@
 <script>
+import { BANNERS } from '../constants/config'
+
 export default {
   name: 'HeroCarousel',
 
@@ -6,17 +8,7 @@ export default {
     return {
       current: 0,
       intervalId: null,
-
-      slides: [
-        {
-          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png",
-          link: "/produtos"
-        },
-        {
-          image: "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png",
-          link: "https://wa.me/5592991802094?text=Olá, gostaria de saber mais sobre envio para outros estados!"
-        }
-      ]
+      slides: BANNERS.hero
     }
   },
 
@@ -62,7 +54,7 @@ export default {
   },
 
   mounted() {
-    this.shuffleSlides() // 🔀 ordem aleatória
+    this.shuffleSlides()
     this.startAutoplay()
   },
 
@@ -78,7 +70,6 @@ export default {
     @mouseenter="stopAutoplay"
     @mouseleave="startAutoplay"
   >
-    <!-- SLIDE DINÂMICO -->
     <component
       :is="isCurrentExternal ? 'a' : 'RouterLink'"
       :href="isCurrentExternal ? currentSlide.link : null"
@@ -88,7 +79,6 @@ export default {
       :style="{ backgroundImage: `url(${currentSlide.image})` }"
     />
 
-    <!-- CONTROLES -->
     <button class="nav prev" @click="prev">‹</button>
     <button class="nav next" @click="next">›</button>
   </section>
@@ -102,7 +92,6 @@ export default {
   overflow: hidden;
 }
 
-/* SLIDE */
 .slide {
   position: absolute;
   inset: 0;
@@ -113,7 +102,6 @@ export default {
   transition: opacity 0.4s ease;
 }
 
-/* CONTROLES */
 .nav {
   position: absolute;
   top: 50%;
@@ -137,10 +125,7 @@ export default {
   right: 1rem;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
-
-
   .nav {
     width: 34px;
     height: 34px;

@@ -1,8 +1,9 @@
 <script>
 import HeroCarousel from '../components/HeroCarousel.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
-import SkeletonCard from '../components/SkeletonCard.vue';
+import SkeletonCard from '../components/SkeletonCard.vue'
 import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
+import { WHATSAPP } from '../constants/config'
 
 
 export default {
@@ -16,11 +17,16 @@ export default {
     return {
       products: [],
       maisAcessados: [],
-      loading: true
+      loading: true,
+      whatsappPhone: WHATSAPP.phone,
+      whatsappMessage: WHATSAPP.messages.home
     }
   },
 
   computed: {
+    whatsAppLink() {
+      return `https://wa.me/${this.whatsappPhone}?text=${encodeURIComponent(this.whatsappMessage)}`
+    },
     lancamentos() {
       return this.products.filter(p => p.lancamento === true)
     },
@@ -91,30 +97,6 @@ export default {
       :products="destaques"
     />
 
-
-    <section class="seo-content">
-
-  <div class="seo-wrapper">
-
-    <h2>Caneca personalizada em Manaus com nome ou foto</h2>
-
-    <p class="seo-lead">
-      A <strong>Manuari</strong> produz <strong>caneca personalizada em Manaus</strong>
-      com nome, foto ou arte exclusiva. Ideal para presentes, empresas e
-      ocasiões especiais.
-    </p>
-
-    <p>
-      Se você quer <strong>comprar caneca personalizada</strong> ou procura
-      <strong>onde fazer caneca personalizada em Manaus</strong>, criamos
-      <strong>caneca personalizada com nome e foto</strong> e também
-      <strong>xícaras personalizadas</strong> com produção rápida e entrega local.
-    </p>
-
-  </div>
-
-</section>
-
     <section class="cta-final">
 
   <h2>Não encontrou o que procura?</h2>
@@ -124,13 +106,13 @@ export default {
     para criar sua caneca personalizada com nome, foto ou arte exclusiva.
   </p>
 
-  <a
-    href="https://wa.me/5592991802094?text=Olá!%20Vim%20pelo%20site%20da%20Manuari%20e%20quero%20fazer%20uma%20caneca%20personalizada."
-    target="_blank"
-    class="cta-botao"
-  >
-    Falar no WhatsApp
-  </a>
+    <a
+      :href="whatsAppLink"
+      target="_blank"
+      class="cta-botao"
+    >
+      Falar no WhatsApp
+    </a>
 
     </section>
 
@@ -203,32 +185,6 @@ h2 {
   clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
-}
-
-.seo-content {
-  margin-top: 6rem;
-}
-
-.seo-wrapper {
-  max-width: 820px;
-  margin: 0 auto;
-}
-
-.seo-wrapper h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  border: none;
-}
-
-.seo-lead {
-  font-size: 1.15rem;
-  margin-bottom: 1.5rem;
-}
-
-.seo-wrapper p {
-  color: #444;
-  line-height: 1.7;
-  margin-bottom: 1rem;
 }
 
 .cta-final {

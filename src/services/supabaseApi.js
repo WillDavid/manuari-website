@@ -1,6 +1,64 @@
-const SUPABASE_URL = 'https://byriesholblgyysnmnpu.supabase.co'
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5cmllc2hvbGJsZ3l5c25tbnB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxMDI4ODgsImV4cCI6MjA4NDY3ODg4OH0.QppXyuMNaidr3oNoCBv3SImYctDVgeLbWqeg60u3auE'
+import { SUPABASE, CACHE_TTL } from '../constants/config'
 
+const { url: SUPABASE_URL, key: SUPABASE_KEY } = SUPABASE
+
+function getCacheKey(endpoint, params = '') {
+  return `cache_${endpoint}_${params.replace(/[?=]/g, '_')}`
+}
+
+async function fetchWithCache(endpoint, params = '', options = {}) {
+  const cacheKey = getCacheKey(endpoint, params)
+  
+  try {
+    const cached = localStorage.getItem(cacheKey)
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached)
+      if (Date.now() - timestamp < CACHE_TTL) {
+        return data
+      }
+    }
+  } catch {
+    // cache invalid, continue to fetch
+  }
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/${endpoint}?select=*${params}`,
+    {
+      ...options,
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        ...options.headers
+      }
+    }
+  )
+
+  if (!res.ok) throw new Error(`Erro na API: ${res.status}`)
+
+  const data = params ? res.json() : await res.json()
+  
+  try {
+    localStorage.setItem(cacheKey, JSON.stringify({
+      data: data instanceof Promise ? await data : data,
+      timestamp: Date.now()
+    }))
+  } catch (e) {
+    console.warn('Cache write failed:', e)
+  }
+
+  return data instanceof Promise ? await data : data
+}
+
+function clearCache(pattern = '') {
+  const keys = Object.keys(localStorage)
+  keys.forEach(key => {
+    if (key.startsWith('cache_') && key.includes(pattern)) {
+      localStorage.removeItem(key)
+    }
+  })
+}
+
+export { fetchWithCache, clearCache }
 
 // INCREMENTAR ACESSOS
 export async function incrementarAcessos(id) {
@@ -24,10 +82,7 @@ export async function incrementarAcessos(id) {
   }
 }
 
-
-// ==========================
-// 🔍 UTILITÁRIOS
-// ==========================
+// UTILITÁRIOS
 function getDevice() {
   return /Mobi|Android/i.test(navigator.userAgent)
     ? 'mobile'
@@ -53,22 +108,9 @@ function getOrigin() {
   return 'outro'
 }
 
-// ==========================
-// 📦 PRODUTOS (já tinha)
-// ==========================
+// PRODUTOS
 export async function fetchProducts(params = '') {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/products?select=*${params}`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      }
-    }
-  )
-
-  if (!res.ok) throw new Error('Erro ao buscar produtos')
-  return res.json()
+  return fetchWithCache('products', params)
 }
 
 export async function fetchMaisAcessados() {
@@ -76,25 +118,19 @@ export async function fetchMaisAcessados() {
 }
 
 export async function fetchProductById(id) {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/products?id=eq.${id}&select=*`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      }
-    }
-  )
-
-  if (!res.ok) throw new Error('Erro ao buscar produto')
-
-  const data = await res.json()
-  return data[0] || null
+  const data = await fetchWithCache('products', `&id=eq.${id}`)
+  return data?.[0] || null
 }
 
-// ==========================
-// 🧠 SESSÃO
-// ==========================
+export async function fetchProductsByType(tipo) {
+  return fetchWithCache('products', `&tipo=eq.${tipo}&order=relevancia.desc`)
+}
+
+export async function fetchProductsByCategory(categoria) {
+  return fetchWithCache('products', `&categorias.cs.{"${categoria}"}`)
+}
+
+// SESSÃO
 export async function criarSessao() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/sessions`, {
     method: 'POST',
@@ -120,9 +156,7 @@ export async function criarSessao() {
   return data[0]?.id
 }
 
-// ==========================
-// 📊 EVENTOS
-// ==========================
+// EVENTOS
 export async function registrarEvento({
   session_id,
   page,
@@ -145,9 +179,7 @@ export async function registrarEvento({
   })
 }
 
-// ==========================
-// ⏱️ FINALIZAR SESSÃO
-// ==========================
+// FINALIZAR SESSÃO
 export async function finalizarSessao(sessionId) {
   await fetch(`${SUPABASE_URL}/rest/v1/sessions?id=eq.${sessionId}`, {
     method: 'PATCH',

@@ -1,4 +1,6 @@
 <script>
+import { PRODUCT_TYPES } from '../constants/config'
+
 export default {
   props: {
     id: {
@@ -31,14 +33,8 @@ export default {
     },
 
     priceRange() {
-      const ranges = {
-        canecas: 'R$ 34,90 – R$ 46,90',
-        xicaras: 'R$ 42,90 – R$ 46,90',
-        azulejos: 'R$ 29,90 – R$ 34,90',
-        canecas3d: 'R$ 69,90'
-      }
-
-      return ranges[this.tipo] || ''
+      const config = PRODUCT_TYPES[this.tipo]
+      return config?.priceRange || ''
     }
   },
 
@@ -48,7 +44,6 @@ export default {
     },
 
     startHover() {
-      // só troca se existir segunda imagem
       if (this.image.length > 1) {
         this.currentImageIndex = 1
       }
@@ -60,7 +55,6 @@ export default {
   }
 }
 </script>
-
 
 <template>
   <article
@@ -87,8 +81,6 @@ export default {
   </article>
 </template>
 
-
-
 <style scoped>
 .product-card {
   width: 100%;
@@ -102,7 +94,6 @@ export default {
   transform: scale(1.04);
 }
 
-/* IMAGEM */
 .image-wrapper {
   aspect-ratio: 1 / 1;
   overflow: hidden;
@@ -115,7 +106,6 @@ export default {
   object-fit: cover;
 }
 
-/* TIPO */
 .product-tipo {
   margin-top: 0.5rem;
   font-size: 0.7rem;
@@ -124,7 +114,6 @@ export default {
   text-align: center;
 }
 
-/* NOME */
 .product-name {
   margin: 0.6rem 0 0.9rem;
   font-size: 0.9rem;
@@ -133,8 +122,6 @@ export default {
   text-align: center;
 }
 
-
-/* PREÇO */
 .product-price {
   font-size: 0.85rem;
   font-weight: 500;
@@ -142,7 +129,4 @@ export default {
   text-align: center;
   margin-top: 0;
 }
-
-
-
 </style>

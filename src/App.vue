@@ -1,4 +1,5 @@
 <script>
+import { WHATSAPP } from './constants/config'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import WhatsAppFloat from './components/WhatsAppFloat.vue'
@@ -22,7 +23,9 @@ export default {
 
   data() {
     return {
-      sessionId: null
+      sessionId: null,
+      whatsappPhone: WHATSAPP.phone,
+      whatsappMessage: WHATSAPP.defaultMessage
     }
   },
 
@@ -42,9 +45,6 @@ export default {
   },
 
   methods: {
-    // ==========================
-    // 🔍 SEO
-    // ==========================
     updateSEO(route) {
       if (route.meta && route.meta.title) {
         document.title = route.meta.title
@@ -57,9 +57,6 @@ export default {
       }
     },
 
-    // ==========================
-    // 🧠 SESSÃO
-    // ==========================
     async initSession() {
       let sessionId = localStorage.getItem('session_id')
 
@@ -70,7 +67,6 @@ export default {
 
       this.sessionId = sessionId
 
-      // ⏱️ quando sair do site
       window.addEventListener('beforeunload', () => {
         if (this.sessionId) {
           finalizarSessao(this.sessionId)
@@ -78,9 +74,6 @@ export default {
       })
     },
 
-    // ==========================
-    // 📊 EVENTOS
-    // ==========================
     async registrarPageView(route) {
       if (!this.sessionId) return
 
@@ -105,8 +98,8 @@ export default {
       <router-view />
 
       <WhatsAppFloat
-        phone="5592991802094"
-        message="Olá! Vim pelo site da Manuari e gostaria de mais informações!"
+        :phone="whatsappPhone"
+        :message="whatsappMessage"
       />
       <InstagramFloat username="manuari.loja" />
     </main>
@@ -132,14 +125,12 @@ body {
   padding: 2rem 12rem 2rem 12rem;
 }
 
-/* Tablet */
 @media (max-width: 1024px) {
   .container {
     padding: 1.5rem;
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;

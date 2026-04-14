@@ -1,48 +1,49 @@
 <script>
+import { NAV_ITEMS } from '../constants/config'
+
 export default {
   data() {
     return {
-      menuOpen: false
+      menuOpen: false,
+      navItems: NAV_ITEMS
     }
   }
 }
 </script>
 
 <template>
-  <!-- HEADER -->
   <header class="header">
     <RouterLink to="/">
-    <img
-      class="img-logo"
-      src="../assets/manuari-logotipo-300dpi.png"
-      alt="Manuari"
-    /></RouterLink>
+      <img
+        class="img-logo"
+        src="../assets/manuari-logotipo-300dpi.png"
+        alt="Manuari"
+      /></RouterLink>
 
     <button class="hamburger" @click="menuOpen = !menuOpen">
       ☰
     </button>
   </header>
 
-  <!-- SUBMENU -->
   <nav class="submenu" :class="{ open: menuOpen }">
-    <RouterLink to="/produtos" @click="menuOpen = false">Todos</RouterLink>
-    <RouterLink to="/produtos/canecas" @click="menuOpen = false">Canecas</RouterLink>
-    <RouterLink to="/produtos/xicaras" @click="menuOpen = false">Xícaras</RouterLink>
-    <RouterLink to="/produtos/azulejos" @click="menuOpen = false">Azulejos</RouterLink>
-    <RouterLink to="/produtos/canecas3d" @click="menuOpen = false">Canecas 3D</RouterLink>
-    <RouterLink to="/para-empresas" @click="menuOpen = false">Para Empresas</RouterLink>
+    <RouterLink 
+      v-for="item in navItems" 
+      :key="item.path"
+      :to="item.path" 
+      @click="menuOpen = false"
+    >
+      {{ item.label }}
+    </RouterLink>
   </nav>
 </template>
 
 <style scoped>
-/* ===== VAR DE MARCA ===== */
 :root {
   --manuari-red: #e94b35;
   --dark: #111;
   --dark-soft: #1c1c1c;
 }
 
-/* ===== HEADER ===== */
 .header {
   display: flex;
   align-items: center;
@@ -63,7 +64,6 @@ export default {
   max-width: 70%;
 }
 
-/* ===== HAMBURGER ===== */
 .hamburger {
   display: none;
   position: absolute;
@@ -75,7 +75,6 @@ export default {
   cursor: pointer;
 }
 
-/* ===== SUBMENU (DESKTOP) ===== */
 .submenu {
   background: var(--dark);
   display: flex;
@@ -98,7 +97,6 @@ export default {
   transition: 0.3s;
 }
 
-/* underline elegante */
 .submenu a::after {
   content: '';
   position: absolute;
@@ -115,8 +113,6 @@ export default {
   width: 100%;
 }
 
-
-/* ===== MOBILE ===== */
 @media (max-width: 768px) {
   .header {
     justify-content: flex-start;

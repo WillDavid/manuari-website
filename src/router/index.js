@@ -1,20 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
-import ProductsView from '../views/ProductsView.vue'
-import AboutView from '../views/AboutView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
-import PrivacyPolicyView from '../views/PrivacyPolicyView.vue'
-import OurTermsView from '../views/OurTermsView.vue'
-import DeliveryPolicy from '../views/DeliveryPolicy.vue'
-import ProductDatailsView from '../views/ProductDatailsView.vue'
-import B2BView from '../views/B2BView.vue'
-
 const routes = [
-
   {
     path: '/',
-    component: HomeView,
+    component: () => import('../views/HomeView.vue'),
     meta: {
       title: 'Caneca Personalizada em Manaus | Manuari',
       description: 'Compre caneca personalizada em Manaus com nome, foto ou arte exclusiva. Produção rápida e entrega em toda Manaus.'
@@ -23,7 +12,7 @@ const routes = [
 
   {
     path: '/produtos',
-    component: ProductsView,
+    component: () => import('../views/ProductsView.vue'),
     meta: {
       title: 'Canecas Personalizadas | Manuari',
       description: 'Veja nossas canecas personalizadas com nome, foto ou arte exclusiva. Ideais para presentes e lembranças.'
@@ -32,7 +21,7 @@ const routes = [
 
   {
     path: '/produtos/:tipo',
-    component: ProductsView,
+    component: () => import('../views/ProductsView.vue'),
     props: true,
     meta: {
       title: 'Caneca Personalizada com Foto ou Nome | Manuari',
@@ -42,7 +31,7 @@ const routes = [
 
   {
     path: '/produto/:id',
-    component: ProductDatailsView,
+    component: () => import('../views/ProductDatailsView.vue'),
     meta: {
       title: 'Comprar Caneca Personalizada | Manuari',
       description: 'Compre caneca personalizada com foto, nome ou arte exclusiva. Produção rápida em Manaus.'
@@ -51,7 +40,7 @@ const routes = [
 
   {
     path: '/sobre',
-    component: AboutView,
+    component: () => import('../views/AboutView.vue'),
     meta: {
       title: 'Sobre a Manuari | Canecas Personalizadas',
       description: 'Conheça a Manuari, especialista em caneca personalizada em Manaus.'
@@ -60,7 +49,7 @@ const routes = [
 
   {
     path: '/para-empresas',
-    component: B2BView,
+    component: () => import('../views/B2BView.vue'),
     meta: {
       title: 'Canecas Personalizadas para Empresas | Manuari',
       description: 'Produção de canecas personalizadas para empresas, brindes corporativos e eventos.'
@@ -69,7 +58,7 @@ const routes = [
 
   {
     path: '/politica-privacidade',
-    component: PrivacyPolicyView,
+    component: () => import('../views/PrivacyPolicyView.vue'),
     meta: {
       title: 'Política de Privacidade | Manuari',
       description: 'Política de privacidade da Manuari.'
@@ -78,7 +67,7 @@ const routes = [
 
   {
     path: '/politica-entrega',
-    component: DeliveryPolicy,
+    component: () => import('../views/DeliveryPolicy.vue'),
     meta: {
       title: 'Política de Entrega | Manuari',
       description: 'Veja como funciona a entrega das canecas personalizadas em Manaus.'
@@ -87,7 +76,7 @@ const routes = [
 
   {
     path: '/nossos-termos',
-    component: OurTermsView,
+    component: () => import('../views/OurTermsView.vue'),
     meta: {
       title: 'Termos de Uso | Manuari',
       description: 'Termos de uso da loja Manuari.'
@@ -97,13 +86,12 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notfound',
-    component: NotFoundView,
+    component: () => import('../views/NotFoundView.vue'),
     meta: {
       title: 'Página não encontrada | Manuari',
       description: 'A página que você procura não existe.'
     }
   }
-
 ]
 
 const router = createRouter({
