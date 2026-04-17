@@ -1,6 +1,6 @@
 <script>
 import CardProduct from '../components/CardProduct.vue'
-import { fetchProducts } from '../services/supabaseApi'
+import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import Breadcrumb from '../components/Breadcrumb.vue'
 
@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       products: [],
+      topAcessados: [],
       busca: '',
       ordenacao: 'relevancia',
       categoriaSelecionada: null,
@@ -56,7 +57,7 @@ export default {
           return lista.sort((a, b) => (b.preco || 0) - (a.preco || 0))
         case 'relevancia':
         default:
-          return lista.sort((a, b) => (b.relevancia || 0) - (a.relevancia || 0))
+          return lista.sort((a, b) => (b.acessos || 0) - (a.acessos || 0))
       }
     },
 
@@ -82,6 +83,10 @@ export default {
         canecas3d: 'Canecas 3D'
       }
       return this.tipoAtual ? (nomes[this.tipoAtual] || this.tipoAtual) : 'Todos os produtos'
+    },
+
+    topAcessadosIds() {
+      return new Set(this.topAcessados.map(p => p.id))
     }
   },
 
@@ -103,6 +108,7 @@ export default {
 
   async mounted() {
     await this.carregarProdutos()
+    await this.carregarTopAcessados()
   },
 
   methods: {
@@ -115,6 +121,15 @@ export default {
         console.error(e)
       } finally {
         this.loading = false
+      }
+    },
+
+    async carregarTopAcessados() {
+      try {
+        const data = await fetchMaisAcessados()
+        this.topAcessados = data.slice(0, 10)
+      } catch (e) {
+        console.error(e)
       }
     },
 
@@ -210,6 +225,7 @@ export default {
           :name="p.name"
           :image="p.images"
           :tipo="p.tipo"
+          :isTopAcessado="topAcessadosIds.has(p.id)"
         />
       </div>
 

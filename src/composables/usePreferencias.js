@@ -36,8 +36,8 @@ export function usePreferencias() {
     
     historico.value.unshift(item)
     
-    if (historico.value.length > MAX_ITENS) {
-      historico.value = historico.value.slice(0, MAX_ITENS)
+    if (historico.value.length > MAX_ITEMS) {
+      historico.value = historico.value.slice(0, MAX_ITEMS)
     }
     
     saveHistorico()

@@ -18,6 +18,10 @@ export default {
     tipo: {
       type: String,
       required: true
+    },
+    isTopAcessado: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -65,6 +69,9 @@ export default {
   >
     <div class="image-wrapper">
       <img :src="currentImage" :alt="name" loading="lazy" />
+      <span v-if="isTopAcessado" class="top-badge">
+        <i class="fas fa-star"></i> Em Alta
+      </span>
     </div>
 
     <span class="product-tipo">
@@ -98,12 +105,40 @@ export default {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #f3f3f3;
+  position: relative;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.top-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 12px rgba(255, 165, 0, 0.6);
+  animation: pulse-gold 2s ease-in-out infinite;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+@keyframes pulse-gold {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.top-badge i {
+  font-size: 0.6rem;
 }
 
 .product-tipo {

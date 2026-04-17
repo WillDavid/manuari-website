@@ -123,7 +123,7 @@ export async function fetchProductById(id) {
 }
 
 export async function fetchProductsByType(tipo) {
-  return fetchWithCache('products', `&tipo=eq.${tipo}&order=relevancia.desc`)
+  return fetchWithCache('products', `&tipo=eq.${tipo}&order=acessos.desc`)
 }
 
 export async function fetchProductsByCategory(categoria) {

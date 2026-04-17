@@ -1,9 +1,10 @@
 <script>
-import { fetchProductById, incrementarAcessos } from '../services/supabaseApi'
+import { fetchProductById, fetchProductsByType, incrementarAcessos } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
+import ProductCarousel from '../components/ProductCarousel.vue'
 
 const PRODUTO_VARIACOES = {
   canecas: [
@@ -27,7 +28,7 @@ const PRODUTO_VARIACOES = {
 
 export default {
   name: 'ProductDetailsView',
-  components: { Breadcrumb, Specifications },
+  components: { Breadcrumb, Specifications, ProductCarousel },
 
   setup() {
     const { adicionarVisualizacao } = usePreferencias()
@@ -41,7 +42,8 @@ export default {
       imagemAtiva: null,
       indiceSelecionado: 0,
       precoFinal: 34.9,
-      whatsappPhone: WHATSAPP.phone
+      whatsappPhone: WHATSAPP.phone,
+      produtosSemelhantes: []
     }
   },
 
@@ -69,6 +71,10 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
 
     tipoProduto() {
       return this.produto?.tipo || null
+    },
+
+    categoriasProduto() {
+      return this.produto?.categorias || []
     }
   },
 
@@ -91,6 +97,8 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
         this.precoFinal = sorted[0].price
       }
 
+      await this.carregarSemelhantes(tipo, data?.categorias, id)
+
     } catch (err) {
       console.error('Erro ao carregar produto', err)
     } finally {
@@ -99,6 +107,26 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
   },
 
   methods: {
+    async carregarSemelhantes(tipo, categorias, produtoId) {
+      if (!tipo || !categorias?.length) return
+      
+      try {
+        const todos = await fetchProductsByType(tipo)
+        const filtrados = todos
+          .filter(p => {
+            if (p.id === produtoId) return false
+            if (!p.categorias?.length) return false
+            const temCategoriaComum = p.categorias.some(cat => categorias.includes(cat))
+            return temCategoriaComum
+          })
+          .slice(0, 6)
+        
+        this.produtosSemelhantes = filtrados
+      } catch (e) {
+        console.error(e)
+      }
+    },
+
     selecionarVariacao(index) {
       const tipo = this.produto?.tipo
       if (tipo && PRODUTO_VARIACOES[tipo]) {
@@ -179,6 +207,14 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
   </div>
 
   <Specifications v-if="tipoProduto" :tipo="tipoProduto" />
+
+  <section v-if="produtosSemelhantes.length" class="semelhantes-section">
+    <h2>Produtos Semelhantes</h2>
+    <ProductCarousel 
+      :products="produtosSemelhantes" 
+      :shuffle="true" 
+    />
+  </section>
 </template>
 
 
@@ -324,5 +360,28 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
   grid-column: 1 / -1;
   font-size: 0.8rem;
   color: #777;
+}
+
+.semelhantes-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.semelhantes-section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .semelhantes-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .semelhantes-section h2 {
+    font-size: 1.2rem;
+  }
 }
 </style>

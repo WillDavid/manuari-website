@@ -34,7 +34,9 @@ export default {
       return `https://wa.me/${this.whatsappPhone}?text=${encodeURIComponent(this.whatsappMessage)}`
     },
     lancamentos() {
-      return this.products.filter(p => p.lancamento === true)
+      return [...this.products]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 6)
     },
     todasTags() {
       const tags = new Set()
