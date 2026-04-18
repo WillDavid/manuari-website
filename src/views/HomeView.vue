@@ -176,6 +176,12 @@ export default {
       />
     </template>
 
+<section class="ver-todos">
+      <RouterLink to="/produtos" class="ver-todos-btn">
+        Ver todos os produtos
+      </RouterLink>
+    </section>
+
     <section class="cta-final">
 
   <h2>Não encontrou o que procura?</h2>
@@ -185,15 +191,15 @@ export default {
     para criar sua caneca personalizada com nome, foto ou arte exclusiva.
   </p>
 
-    <a
-      :href="whatsAppLink"
-      target="_blank"
-      class="cta-botao"
-    >
-      Falar no WhatsApp
-    </a>
+  <a
+    :href="whatsAppLink"
+    target="_blank"
+    class="cta-botao"
+  >
+    Falar no WhatsApp
+  </a>
 
-    </section>
+  </section>
 
     
 
@@ -297,6 +303,25 @@ h2 {
   text-decoration: none;
 }
 
+.ver-todos {
+  text-align: center;
+  margin: 1.5rem 0;
+}
 
+.ver-todos-btn {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  background: #111;
+  color: #fff;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.ver-todos-btn:hover {
+  background: #e94b35;
+  transform: scale(1.04);
+}
 
 </style>
