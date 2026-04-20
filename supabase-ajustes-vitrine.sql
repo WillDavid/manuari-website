@@ -224,18 +224,21 @@ FROM public.vitrine_variacoes vv
 JOIN public.vitrine v ON v.id = vv.vitrine_id
 JOIN (
   VALUES
-    ('33mm', 10, '10+', 4.00, false, 1),
-    ('33mm', 50, '50+', 2.90, false, 2),
-    ('33mm', 100, '100+', 2.30, true, 3),
-    ('33mm', 200, '200+', 2.00, false, 4),
-    ('44mm', 10, '10+', 4.80, false, 1),
-    ('44mm', 50, '50+', 3.50, false, 2),
-    ('44mm', 100, '100+', 3.00, true, 3),
-    ('44mm', 200, '200+', 2.60, false, 4),
-    ('58mm', 10, '10+', 6.00, false, 1),
-    ('58mm', 50, '50+', 4.80, false, 2),
-    ('58mm', 100, '100+', 4.00, true, 3),
-    ('58mm', 200, '200+', 3.50, false, 4)
+    ('33mm', 1, '01 a 09 un.', 4.00, false, 1),
+    ('33mm', 10, '10 a 29 un.', 3.50, false, 2),
+    ('33mm', 30, '30 a 49 un.', 3.00, false, 3),
+    ('33mm', 50, '50 a 99 un.', 2.50, false, 4),
+    ('33mm', 100, '100+ un.*', 2.30, true, 5),
+    ('44mm', 1, '01 a 09 un.', 5.00, false, 1),
+    ('44mm', 10, '10 a 29 un.', 4.50, false, 2),
+    ('44mm', 30, '30 a 49 un.', 4.00, false, 3),
+    ('44mm', 50, '50 a 99 un.', 3.50, false, 4),
+    ('44mm', 100, '100+ un.*', 2.70, true, 5),
+    ('58mm', 1, '01 a 09 un.', 6.00, false, 1),
+    ('58mm', 10, '10 a 29 un.', 5.50, false, 2),
+    ('58mm', 30, '30 a 49 un.', 5.00, false, 3),
+    ('58mm', 50, '50 a 99 un.', 4.50, false, 4),
+    ('58mm', 100, '100+ un.*', 3.20, true, 5)
 ) AS faixa(nome, quantidade_minima, quantidade_label, preco, destaque, ordem)
   ON faixa.nome = vv.nome
 WHERE v.tipo = 'bottons'

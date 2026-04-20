@@ -6,6 +6,12 @@ import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
 
+const BOTTON_VARIACAO_LABELS = {
+  '33mm': 'Button 33mm (Pequeno)',
+  '44mm': 'Button 44mm (Padrão)',
+  '58mm': 'Button 58mm (Premium)'
+}
+
 export default {
   name: 'ProductDetailsView',
   components: { Breadcrumb, Specifications, ProductCarousel },
@@ -124,15 +130,6 @@ export default {
       return this.variacaoSelecionada?.priceTiers || []
     },
 
-    faixasPrecoComTotal() {
-      return this.faixasPreco.map((faixa) => ({
-        ...faixa,
-        valorTotal: faixa.quantidadeMinima && faixa.preco != null
-          ? faixa.quantidadeMinima * faixa.preco
-          : null
-      }))
-    },
-
     precoBaseBottonPronto() {
       if (!this.ehBottonKitOuIndividual || !this.faixasPreco.length) return null
 
@@ -173,7 +170,63 @@ export default {
     },
 
     temTabelaPreco() {
-      return this.ehBottonSobDemanda && this.faixasPreco.length > 0
+      if (!this.ehBottonSobDemanda) return false
+
+      return this.variacoes.some((variacao) => (variacao.priceTiers || []).length > 0)
+    },
+
+    tabelaPrecoBottons() {
+      if (!this.temTabelaPreco) return null
+
+      const variacoesOrdenadas = [...this.variacoes]
+        .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+        .map((variacao) => ({
+          id: variacao.id,
+          titulo: BOTTON_VARIACAO_LABELS[variacao.nome] || `Button ${variacao.nome}`,
+          priceTiers: variacao.priceTiers || []
+        }))
+
+      const linhasMap = new Map()
+
+      variacoesOrdenadas.forEach((variacao) => {
+        variacao.priceTiers.forEach((faixa) => {
+          if (!faixa || faixa.preco == null) return
+
+          const labelOriginal = faixa.quantidadeLabel || `${faixa.quantidadeMinima}+`
+          const chave = `${faixa.quantidadeMinima}-${labelOriginal}`
+
+          if (!linhasMap.has(chave)) {
+            linhasMap.set(chave, {
+              chave,
+              quantidadeLabel: labelOriginal.replace(/\*/g, '').trim(),
+              quantidadeMinima: faixa.quantidadeMinima || 0,
+              possuiObservacao: /\*/.test(labelOriginal),
+              precos: {}
+            })
+          }
+
+          const linha = linhasMap.get(chave)
+          linha.precos[variacao.id] = faixa.preco
+
+          if (/\*/.test(labelOriginal)) {
+            linha.possuiObservacao = true
+          }
+        })
+      })
+
+      const linhas = Array.from(linhasMap.values())
+        .sort((a, b) => a.quantidadeMinima - b.quantidadeMinima)
+
+      if (!variacoesOrdenadas.length || !linhas.length) return null
+
+      return {
+        variacoes: variacoesOrdenadas,
+        linhas
+      }
+    },
+
+    possuiObsTabelaBottons() {
+      return Boolean(this.tabelaPrecoBottons?.linhas.some((linha) => linha.possuiObservacao))
     },
 
     mostrarPreco() {
@@ -293,39 +346,50 @@ export default {
         </div>
       </div>
 
-      <div v-if="temTabelaPreco" class="tabela-bottons">
-        <table class="tabela-precos">
+      <div v-if="temTabelaPreco && tabelaPrecoBottons" class="tabela-bottons">
+        <table class="tabela-precos tabela-precos-bottons">
           <thead>
             <tr>
               <th>Quantidade</th>
-              <th>Preço unitário</th>
-              <th>Valor total</th>
-              <th></th>
+              <th
+                v-for="variacao in tabelaPrecoBottons.variacoes"
+                :key="variacao.id"
+              >
+                {{ variacao.titulo }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="faixa in faixasPrecoComTotal"
-              :key="faixa.id"
-              :class="{ destaque: faixa.destaque }"
+              v-for="linha in tabelaPrecoBottons.linhas"
+              :key="linha.chave"
             >
               <td class="qty">
-                {{ faixa.quantidadeLabel || `${faixa.quantidadeMinima}+` }}
+                {{ linha.quantidadeLabel }}
               </td>
-              <td class="unit">
-                R$ {{ faixa.preco.toFixed(2) }}
-              </td>
-              <td class="total">
-                <template v-if="faixa.valorTotal != null">
-                  R$ {{ faixa.valorTotal.toFixed(2) }}
+              <td
+                v-for="variacao in tabelaPrecoBottons.variacoes"
+                :key="`${linha.chave}-${variacao.id}`"
+                class="unit"
+              >
+                <template v-if="linha.precos[variacao.id] != null">
+                  R$ {{ linha.precos[variacao.id].toFixed(2) }}
+                  <span
+                    v-if="linha.possuiObservacao"
+                    class="tabela-asterisco"
+                  >*</span>
                 </template>
-              </td>
-              <td class="check">
-                <span v-if="faixa.destaque" class="mais-vendido">mais vendido</span>
+                <template v-else>
+                  --
+                </template>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <p v-if="possuiObsTabelaBottons" class="tabela-precos-nota">
+          * Valores especiais para pedidos a partir de 100 unidades. Confirme com nosso time para validar a arte e o prazo.
+        </p>
       </div>
 
       <div v-if="mostrarPreco" class="price">
@@ -472,36 +536,38 @@ export default {
   border-bottom: 1px solid #eee;
 }
 
-.tabela-precos tr.destaque {
-  background: #fff3cd;
+.tabela-precos-bottons th {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
 }
 
-.tabela-precos tr.destaque td {
-  font-weight: 700;
+.tabela-precos-bottons td {
+  font-size: 1rem;
 }
 
 .tabela-precos .qty {
   font-weight: 600;
+  text-align: left;
+  padding-left: 1rem;
 }
 
 .tabela-precos .unit {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.tabela-precos .total {
-  font-size: 1rem;
   font-weight: 600;
+  font-size: 1rem;
 }
 
-.tabela-precos .mais-vendido {
-  font-size: 0.65rem;
+.tabela-precos .tabela-asterisco {
+  font-size: 0.75rem;
   font-weight: 700;
-  text-transform: uppercase;
+  margin-left: 0.1rem;
   color: #e94b35;
-  background: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
+}
+
+.tabela-precos-nota {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.4;
 }
 
 .price {

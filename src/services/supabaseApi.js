@@ -30,10 +30,11 @@ const FALLBACK_VARIATIONS_BY_TYPE = {
       tipoVariacao: 'tamanho',
       ordem: 1,
       faixas: [
-        { quantidadeMinima: 10, quantidadeLabel: '10+', preco: 4.0, destaque: false, ordem: 1 },
-        { quantidadeMinima: 50, quantidadeLabel: '50+', preco: 2.9, destaque: false, ordem: 2 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+', preco: 2.3, destaque: true, ordem: 3 },
-        { quantidadeMinima: 200, quantidadeLabel: '200+', preco: 2.0, destaque: false, ordem: 4 }
+        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 4.0, destaque: false, ordem: 1 },
+        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 3.5, destaque: false, ordem: 2 },
+        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 3.0, destaque: false, ordem: 3 },
+        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 2.5, destaque: false, ordem: 4 },
+        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 2.3, destaque: true, ordem: 5 }
       ]
     },
     {
@@ -41,10 +42,11 @@ const FALLBACK_VARIATIONS_BY_TYPE = {
       tipoVariacao: 'tamanho',
       ordem: 2,
       faixas: [
-        { quantidadeMinima: 10, quantidadeLabel: '10+', preco: 4.8, destaque: false, ordem: 1 },
-        { quantidadeMinima: 50, quantidadeLabel: '50+', preco: 3.5, destaque: false, ordem: 2 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+', preco: 3.0, destaque: true, ordem: 3 },
-        { quantidadeMinima: 200, quantidadeLabel: '200+', preco: 2.6, destaque: false, ordem: 4 }
+        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 5.0, destaque: false, ordem: 1 },
+        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 4.5, destaque: false, ordem: 2 },
+        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 4.0, destaque: false, ordem: 3 },
+        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 3.5, destaque: false, ordem: 4 },
+        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 2.7, destaque: true, ordem: 5 }
       ]
     },
     {
@@ -52,10 +54,11 @@ const FALLBACK_VARIATIONS_BY_TYPE = {
       tipoVariacao: 'tamanho',
       ordem: 3,
       faixas: [
-        { quantidadeMinima: 10, quantidadeLabel: '10+', preco: 6.0, destaque: false, ordem: 1 },
-        { quantidadeMinima: 50, quantidadeLabel: '50+', preco: 4.8, destaque: false, ordem: 2 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+', preco: 4.0, destaque: true, ordem: 3 },
-        { quantidadeMinima: 200, quantidadeLabel: '200+', preco: 3.5, destaque: false, ordem: 4 }
+        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 6.0, destaque: false, ordem: 1 },
+        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 5.5, destaque: false, ordem: 2 },
+        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 5.0, destaque: false, ordem: 3 },
+        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 4.5, destaque: false, ordem: 4 },
+        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 3.2, destaque: true, ordem: 5 }
       ]
     }
   ]
