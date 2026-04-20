@@ -31,54 +31,6 @@ export const BANNERS = {
   ]
 }
 
-export const PRODUCT_TYPES = {
-  canecas: {
-    label: 'Canecas',
-    variations: [
-      { label: 'Total Branca', price: 34.9 },
-      { label: 'Alça e Interior Preto', price: 46.9 },
-      { label: 'Alça e Interior Rosa', price: 46.9 },
-      { label: 'Alça e Interior Vermelho', price: 46.9 },
-      { label: 'Alça e Interior Amarelo', price: 46.9 },
-      { label: 'Alça e Interior Lilás', price: 46.9 },
-      { label: 'Alça e Interior Azul', price: 46.9 }
-    ],
-    priceRange: 'R$ 34,90 – R$ 46,90'
-  },
-  xicaras: {
-    label: 'Xícaras',
-    variations: [
-      { label: 'Com Pires', price: 46.9 },
-      { label: 'Sem Pires', price: 42.9 }
-    ],
-    priceRange: 'R$ 42,90 – R$ 46,90'
-  },
-  azulejos: {
-    label: 'Azulejos',
-    variations: [
-      { label: '15x15', price: 29.9 },
-      { label: '20x20', price: 34.9 }
-    ],
-    priceRange: 'R$ 29,90 – R$ 34,90'
-  },
-  canecas3d: {
-    label: 'Canecas 3D',
-    variations: [
-      { label: 'Cerâmica', price: 69.90 }
-    ],
-    priceRange: 'R$ 69,90'
-  },
-  bottons: {
-    label: 'Bottons',
-    variations: [
-      { label: '3.2cm', price: 0 },
-      { label: '4.4cm', price: 0 },
-      { label: '5.8cm', price: 0 }
-    ],
-    priceRange: 'Sob consulta'
-  }
-}
-
 export const NAV_ITEMS = [
   { label: 'Todos', path: '/produtos' },
   { label: 'Canecas', path: '/produtos/canecas' },

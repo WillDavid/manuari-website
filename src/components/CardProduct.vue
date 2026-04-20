@@ -1,10 +1,8 @@
 <script>
-import { PRODUCT_TYPES } from '../constants/config'
-
 export default {
   props: {
     id: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     name: {
@@ -18,6 +16,10 @@ export default {
     tipo: {
       type: String,
       required: true
+    },
+    priceRange: {
+      type: String,
+      default: ''
     },
     isTopAcessado: {
       type: Boolean,
@@ -34,11 +36,6 @@ export default {
   computed: {
     currentImage() {
       return this.image[this.currentImageIndex]
-    },
-
-    priceRange() {
-      const config = PRODUCT_TYPES[this.tipo]
-      return config?.priceRange || ''
     }
   },
 

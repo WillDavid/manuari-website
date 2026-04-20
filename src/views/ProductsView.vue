@@ -226,6 +226,7 @@ export default {
           :name="p.name"
           :image="p.images"
           :tipo="p.tipo"
+          :priceRange="p.priceRange"
           :isTopAcessado="topAcessadosIds.has(p.id)"
         />
       </div>

@@ -89,13 +89,13 @@ bottons: {
     descricao: 'Buttons personalizados com sua arte, logo ou foto. Alta qualidade e acabamento profissional.',
     caracteristicas: [
       ['Material', 'Plastico resistente'],
-      ['Tamanhos', '3,2cm - 4,4cm - 5,8cm'],
+      ['Tamanhos', '33mm - 44mm - 58mm'],
       ['Fixacao', 'Alfinete metallic'],
       ['Impressao', 'Cores vibrantes']
     ],
     duvidas: [
       ['Resistente a agua?', 'Sim, protecao contra respingos.'],
-      ['Qual o tamanho?', '3,2cm, 4,4cm ou 5,8cm.'],
+      ['Qual o tamanho?', '33mm, 44mm ou 58mm.'],
       ['Tempo de producao?', '1 a 3 dias uteis.']
     ]
   }
@@ -288,4 +288,3 @@ export default {
 }
 
 </style>
-

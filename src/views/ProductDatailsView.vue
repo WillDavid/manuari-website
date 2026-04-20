@@ -6,52 +6,6 @@ import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
 
-const PRODUTO_VARIACOES = {
-  canecas: [
-    { label: 'Total Branca', price: 34.9 },
-    { label: 'Alça e Interior Preto', price: 46.9 },
-    { label: 'Alça e Interior Rosa', price: 46.9 },
-    { label: 'Alça e Interior Vermelho', price: 46.9 },
-    { label: 'Alça e Interior Amarelo', price: 46.9 },
-    { label: 'Alça e Interior Lilás', price: 46.9 },
-    { label: 'Alça e Interior Azul', price: 46.9 }
-  ],
-  xicaras: [
-    { label: 'Com Pires', price: 46.9 },
-    { label: 'Sem Pires', price: 42.9 }
-  ],
-  azulejos: [
-    { label: '15x15', price: 29.9 },
-    { label: '20x20', price: 34.9 }
-  ],
-  bottons: [
-    { label: '3.2cm', price: 0 },
-    { label: '4.4cm', price: 0 },
-    { label: '5.8cm', price: 0 }
-  ]
-}
-
-const BOTTONS_TABELA = {
-  '3.2cm': [
-    { qty: '10+', preco: 4.00 },
-    { qty: '50+', preco: 2.90 },
-    { qty: '100+', preco: 2.30, destaque: true },
-    { qty: '200+', preco: 2.00 }
-  ],
-  '4.4cm': [
-    { qty: '10+', preco: 4.80 },
-    { qty: '50+', preco: 3.50 },
-    { qty: '100+', preco: 3.00, destaque: true },
-    { qty: '200+', preco: 2.60 }
-  ],
-  '5.8cm': [
-    { qty: '10+', preco: 6.00 },
-    { qty: '50+', preco: 4.80 },
-    { qty: '100+', preco: 4.00, destaque: true },
-    { qty: '200+', preco: 3.50 }
-  ]
-}
-
 export default {
   name: 'ProductDetailsView',
   components: { Breadcrumb, Specifications, ProductCarousel },
@@ -66,35 +20,72 @@ export default {
       produto: null,
       loading: true,
       imagemAtiva: null,
-      indiceSelecionado: 0,
-      precoFinal: 34.9,
+      variacaoIdSelecionada: null,
       whatsappPhone: WHATSAPP.phone,
       produtosSemelhantes: []
     }
   },
 
   computed: {
+    nomeProdutoNormalizado() {
+      return String(this.produto?.name || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+    },
+
     variacoes() {
-      if (!this.produto?.tipo) return []
-      const vars = PRODUTO_VARIACOES[this.produto.tipo] || []
-      return [...vars]
+      return this.produto?.variacoes || []
     },
 
     variacaoSelecionada() {
-      return this.variacoes[this.indiceSelecionado] || null
+      if (!this.variacoes.length) return null
+
+      return this.variacoes.find((variacao) => variacao.id === this.variacaoIdSelecionada)
+        || this.variacoes[0]
+        || null
+    },
+
+    rotuloSeletor() {
+      switch (this.variacaoSelecionada?.tipoVariacao) {
+        case 'cor':
+          return 'Escolha a cor:'
+        case 'tamanho':
+          return 'Escolha o tamanho:'
+        case 'modelo':
+          return 'Escolha o modelo:'
+        default:
+          return 'Escolha uma opção:'
+      }
+    },
+
+    rotuloWhats() {
+      switch (this.variacaoSelecionada?.tipoVariacao) {
+        case 'cor':
+          return 'Cor'
+        case 'tamanho':
+          return 'Tamanho'
+        case 'modelo':
+          return 'Modelo'
+        default:
+          return 'Opção'
+      }
     },
 
     mensagemWhats() {
-      if (!this.produto || !this.variacaoSelecionada) return ''
-      
-      if (this.ehBottons) {
-        return `Olá! Gostaria de um orçamento para o produto "${this.produto.name}"
-Tamanho: ${this.variacaoSelecionada.label}`
+      if (!this.produto) return ''
+
+      const linhas = [`Olá! Quero o produto "${this.produto.name}"`]
+
+      if (this.variacaoSelecionada?.nome) {
+        linhas.push(`${this.rotuloWhats}: ${this.variacaoSelecionada.nome}`)
       }
-      
-      return `Olá! Quero o produto "${this.produto.name}"
-Opção: ${this.variacaoSelecionada.label}
-Valor: R$ ${this.precoFinal.toFixed(2)}`
+
+      if (this.precoSelecionado != null) {
+        linhas.push(`Valor: R$ ${this.precoSelecionado.toFixed(2)}`)
+      }
+
+      return linhas.join('\n')
     },
 
     linkWhats() {
@@ -109,21 +100,88 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
       return this.produto?.categorias || []
     },
 
-    ehBottons() {
+    ehBotton() {
       return this.produto?.tipo === 'bottons'
     },
 
-    precoBottons() {
-      if (!this.ehBottons || !this.variacaoSelecionada) return []
-      const tamanho = this.variacaoSelecionada.label
-      return BOTTONS_TABELA[tamanho] || []
+    ehBottonSobDemanda() {
+      return this.ehBotton && this.nomeProdutoNormalizado.includes('envie sua arte')
+    },
+
+    ehBottonKitOuIndividual() {
+      return this.ehBotton && !this.ehBottonSobDemanda && (
+        this.nomeProdutoNormalizado.includes('kit')
+        || this.nomeProdutoNormalizado.includes('individual')
+      )
+    },
+
+    quantidadeKit() {
+      const match = this.produto?.name?.match(/kit\s+(\d+)/i)
+      return match ? Number(match[1]) : 1
+    },
+
+    faixasPreco() {
+      return this.variacaoSelecionada?.priceTiers || []
+    },
+
+    faixasPrecoComTotal() {
+      return this.faixasPreco.map((faixa) => ({
+        ...faixa,
+        valorTotal: faixa.quantidadeMinima && faixa.preco != null
+          ? faixa.quantidadeMinima * faixa.preco
+          : null
+      }))
+    },
+
+    precoBaseBottonPronto() {
+      if (!this.ehBottonKitOuIndividual || !this.faixasPreco.length) return null
+
+      const faixaDestaque = this.faixasPreco.find((faixa) => faixa.destaque)
+      const faixaReferencia = faixaDestaque || this.faixasPreco[0]
+
+      if (!faixaReferencia?.preco) return null
+
+      if (this.nomeProdutoNormalizado.includes('kit')) {
+        return faixaReferencia.preco * this.quantidadeKit
+      }
+
+      return faixaReferencia.preco
+    },
+
+    precoSelecionado() {
+      if (!this.variacaoSelecionada) {
+        return this.produto?.preco ?? this.produto?.precoMinimo ?? null
+      }
+
+      if (this.variacaoSelecionada.preco != null) return this.variacaoSelecionada.preco
+      if (this.ehBottonKitOuIndividual) return this.precoBaseBottonPronto
+      if (!this.faixasPreco.length) return this.variacaoSelecionada.precoMinimo
+
+      return null
+    },
+
+    precoExibicao() {
+      if (this.ehBottonSobDemanda) {
+        return ''
+      }
+
+      if (this.precoSelecionado != null) {
+        return `R$ ${this.precoSelecionado.toFixed(2)}`
+      }
+
+      return this.produto?.priceRange || ''
+    },
+
+    temTabelaPreco() {
+      return this.ehBottonSobDemanda && this.faixasPreco.length > 0
     },
 
     mostrarPreco() {
-      if (this.ehBottons) {
-        return this.precoBottons.length > 0
-      }
-      return this.precoFinal > 0
+      return Boolean(this.precoExibicao)
+    },
+
+    textoBotao() {
+      return this.temTabelaPreco || this.ehBottonKitOuIndividual ? 'Fazer Orçamento' : 'Pedir no WhatsApp'
     }
   },
 
@@ -143,15 +201,11 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
       
       this.produto = data
       this.imagemAtiva = data.images?.[0] || null
+      this.variacaoIdSelecionada = data.variacoes?.[0]?.id || null
 
       this.adicionarVisualizacao(data)
 
       const tipo = data?.tipo
-      if (tipo && PRODUTO_VARIACOES[tipo]) {
-        const vars = PRODUTO_VARIACOES[tipo]
-        this.indiceSelecionado = 0
-        this.precoFinal = vars[0]?.price || 0
-      }
 
       await this.carregarSemelhantes(tipo, data?.categorias, id)
 
@@ -183,17 +237,8 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
       }
     },
 
-    selecionarVariacao(index) {
-      const tipo = this.produto?.tipo
-      if (tipo && PRODUTO_VARIACOES[tipo]) {
-        const vars = PRODUTO_VARIACOES[tipo]
-        this.indiceSelecionado = index
-        if (tipo === 'bottons') {
-          this.precoFinal = 0
-        } else {
-          this.precoFinal = vars[index]?.price || 0
-        }
-      }
+    selecionarVariacao(variacaoId) {
+      this.variacaoIdSelecionada = variacaoId
     }
   }
 }
@@ -230,40 +275,46 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
       <h1>{{ produto.name }}</h1>
 
       <div v-if="variacoes.length">
-        <h4>Escolha uma opção:</h4>
+        <h4>{{ rotuloSeletor }}</h4>
 
         <div class="options">
           <button
-            v-for="(v, index) in variacoes"
-            :key="index"
-            :class="{ selected: indiceSelecionado === index }"
-            @click="selecionarVariacao(index)"
+            v-for="v in variacoes"
+            :key="v.id"
+            :class="{ selected: variacaoSelecionada?.id === v.id }"
+            @click="selecionarVariacao(v.id)"
           >
-            {{ v.label }}
+            {{ v.nome }}
           </button>
         </div>
       </div>
 
-      <div v-if="ehBottons && precoBottons" class="tabela-bottons">
+      <div v-if="temTabelaPreco" class="tabela-bottons">
         <table class="tabela-precos">
           <thead>
             <tr>
               <th>Quantidade</th>
               <th>Preço unitário</th>
+              <th>Valor total</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="(faixa, index) in precoBottons"
-              :key="index"
+              v-for="faixa in faixasPrecoComTotal"
+              :key="faixa.id"
               :class="{ destaque: faixa.destaque }"
             >
               <td class="qty">
-                {{ faixa.qty }}
+                {{ faixa.quantidadeLabel || `${faixa.quantidadeMinima}+` }}
               </td>
               <td class="unit">
                 R$ {{ faixa.preco.toFixed(2) }}
+              </td>
+              <td class="total">
+                <template v-if="faixa.valorTotal != null">
+                  R$ {{ faixa.valorTotal.toFixed(2) }}
+                </template>
               </td>
               <td class="check">
                 <span v-if="faixa.destaque" class="mais-vendido">mais vendido</span>
@@ -273,12 +324,12 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
         </table>
       </div>
 
-      <div v-if="mostrarPreco && !ehBottons" class="price">
-        R$ {{ precoFinal.toFixed(2) }}
+      <div v-if="mostrarPreco" class="price">
+        {{ precoExibicao }}
       </div>
 
       <a
-        v-if="mostrarPreco"
+        v-if="variacaoSelecionada"
         :href="linkWhats"
         target="_blank"
         class="buy-btn"
@@ -286,8 +337,7 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
         <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
-        <template v-if="ehBottons">Fazer Orçamento</template>
-        <template v-else>Pedir no WhatsApp</template>
+        {{ textoBotao }}
       </a>
     </div>
   </section>
@@ -433,6 +483,11 @@ Valor: R$ ${this.precoFinal.toFixed(2)}`
 .tabela-precos .unit {
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.tabela-precos .total {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .tabela-precos .mais-vendido {

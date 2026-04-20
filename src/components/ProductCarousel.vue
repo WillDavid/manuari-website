@@ -138,6 +138,7 @@ resumeAutoplay() {
     :image="product.images"
     :tipo="product.tipo"
     :id="product.id"
+    :priceRange="product.priceRange"
   />
 </div>
       </div>
