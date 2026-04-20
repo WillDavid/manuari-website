@@ -218,19 +218,23 @@ export default {
 
   methods: {
     async carregarSemelhantes(tipo, categorias, produtoId) {
-      if (!tipo || !categorias?.length) return
+      if (!tipo) return
       
       try {
         const todos = await fetchProductsByType(tipo)
-        const filtrados = todos
+
+        const produtosMesmoTipo = todos.filter((p) => p.id !== produtoId)
+        const produtosPorCategoria = produtosMesmoTipo
           .filter(p => {
-            if (p.id === produtoId) return false
             if (!p.categorias?.length) return false
+            if (!categorias?.length) return false
             const temCategoriaComum = p.categorias.some(cat => categorias.includes(cat))
             return temCategoriaComum
           })
+
+        const filtrados = (produtosPorCategoria.length ? produtosPorCategoria : produtosMesmoTipo)
           .slice(0, 6)
-        
+         
         this.produtosSemelhantes = filtrados
       } catch (e) {
         console.error(e)
