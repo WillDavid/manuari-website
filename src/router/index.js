@@ -23,10 +23,10 @@ const routes = [
     path: '/produtos/:tipo',
     component: () => import('../views/ProductsView.vue'),
     props: true,
-    meta: {
-      title: 'Caneca Personalizada com Foto ou Nome | Manuari',
-      description: 'Escolha sua caneca personalizada com foto ou nome. Personalize sua xícara com arte exclusiva.'
-    }
+    meta: (route) => ({
+      title: route.params.tipo === 'bottons' ? 'Bottons Personalizados | Manuari' : 'Caneca Personalizada com Foto ou Nome | Manuari',
+      description: route.params.tipo === 'bottons' ? 'Bottons personalizados com sua arte ou foto. Perfeitos para artesanato e projetos personalizados.' : 'Escolha sua caneca personalizada com foto ou nome. Personalize sua xícara com arte exclusiva.'
+    })
   },
 
   {

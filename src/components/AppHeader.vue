@@ -76,7 +76,7 @@ export default {
 }
 
 .submenu {
-  background: var(--dark);
+  background: #fff;
   display: flex;
   justify-content: center;
   gap: 2.5rem;

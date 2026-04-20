@@ -83,6 +83,21 @@ diferente da caneca totalmente branca.
       ['Pode ir ao micro-ondas?', 'Não recomendado.'],
       ['Pode ir na lava-louças?', 'Não. Lavar à mão.']
     ]
+  },
+
+bottons: {
+    descricao: 'Buttons personalizados com sua arte, logo ou foto. Alta qualidade e acabamento profissional.',
+    caracteristicas: [
+      ['Material', 'Plastico resistente'],
+      ['Tamanhos', '3,2cm - 4,4cm - 5,8cm'],
+      ['Fixacao', 'Alfinete metallic'],
+      ['Impressao', 'Cores vibrantes']
+    ],
+    duvidas: [
+      ['Resistente a agua?', 'Sim, protecao contra respingos.'],
+      ['Qual o tamanho?', '3,2cm, 4,4cm ou 5,8cm.'],
+      ['Tempo de producao?', '1 a 3 dias uteis.']
+    ]
   }
 }
 
@@ -132,18 +147,7 @@ export default {
 
   </div>
 
-  <!-- BLOCO EXTRA (somente se existir) -->
-<div v-if="spec.extras" class="spec-extra">
-  <div class="extra-text">
-    <h3>{{ spec.extras.titulo }}</h3>
-    <p>{{ spec.extras.texto }}</p>
-    <small>{{ spec.extras.observacao }}</small>
-  </div>
-
-  <div class="extra-image">
-    <img :src="spec.extras.imagem" alt="Canecas com alça e interior coloridos" />
-  </div>
-</div>
+  
 
 </template>
 

@@ -67,6 +67,15 @@ export const PRODUCT_TYPES = {
       { label: 'Cerâmica', price: 69.90 }
     ],
     priceRange: 'R$ 69,90'
+  },
+  bottons: {
+    label: 'Bottons',
+    variations: [
+      { label: '3.2cm', price: 0 },
+      { label: '4.4cm', price: 0 },
+      { label: '5.8cm', price: 0 }
+    ],
+    priceRange: 'Sob consulta'
   }
 }
 
@@ -75,6 +84,7 @@ export const NAV_ITEMS = [
   { label: 'Canecas', path: '/produtos/canecas' },
   { label: 'Xícaras', path: '/produtos/xicaras' },
   { label: 'Azulejos', path: '/produtos/azulejos' },
+  { label: 'Bottons', path: '/produtos/bottons' },
   { label: 'Para Empresas', path: '/para-empresas' }
 ]
 

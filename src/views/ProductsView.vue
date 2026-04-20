@@ -80,7 +80,8 @@ export default {
         canecas: 'Canecas',
         xicaras: 'Xícaras',
         azulejos: 'Azulejos',
-        canecas3d: 'Canecas 3D'
+        canecas3d: 'Canecas 3D',
+        bottons: 'Buttons'
       }
       return this.tipoAtual ? (nomes[this.tipoAtual] || this.tipoAtual) : 'Todos os produtos'
     },

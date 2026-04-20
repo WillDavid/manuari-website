@@ -1,4 +1,12 @@
 <script>
+const TIPO_LABELS = {
+  canecas: 'Canecas',
+  xicaras: 'Xícaras',
+  azulejos: 'Azulejos',
+  canecas3d: 'Canecas 3D',
+  bottons: 'Buttons'
+}
+
 export default {
   name: 'Breadcrumb',
 
@@ -10,6 +18,12 @@ export default {
     nomeProduto: {
       type: String,
       default: ''
+    }
+  },
+
+  computed: {
+    tipoLabel() {
+      return this.tipo ? (TIPO_LABELS[this.tipo] || this.tipo) : null
     }
   },
 
@@ -36,7 +50,7 @@ export default {
       class="link"
       @click="goToTipo"
     >
-      {{ tipo }}
+      {{ tipoLabel }}
     </span>
 
     <span> › </span>
