@@ -17,8 +17,16 @@ export const WHATSAPP = {
 export const BANNERS = {
   hero: [
     {
-      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner2.png',
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png',
       link: '/produtos'
+    },
+    {
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner7.png',
+      link: '/produtos/bottons'
+    },
+    {
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner5.png',
+      link: 'https://wa.me/5592991802094?text=Olá, quero caneca dia das mães por 31,90'
     },
     {
       image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png',
