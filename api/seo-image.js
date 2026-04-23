@@ -5,7 +5,15 @@ export default async function handler(req, res) {
     ? req.query.path.join('/')
     : req.query.path
 
-  const remoteUrl = SEO_IMAGE_BY_ALIAS[aliasPath]
+  const normalizedPath = decodeURIComponent(String(aliasPath || '')).replace(/^\/+/, '')
+  const lookupKeys = [
+    normalizedPath,
+    `seo-images/${normalizedPath}`
+  ]
+
+  const remoteUrl = lookupKeys
+    .map((key) => SEO_IMAGE_BY_ALIAS[key])
+    .find(Boolean)
 
   if (!remoteUrl) {
     res.statusCode = 404
