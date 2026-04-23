@@ -1,4 +1,6 @@
 <script>
+import { getSeoImageUrl } from '../utils/seoImage'
+
 export default {
   props: {
     id: {
@@ -14,6 +16,10 @@ export default {
       required: true
     },
     tipo: {
+      type: String,
+      required: true
+    },
+    slug: {
       type: String,
       required: true
     },
@@ -35,7 +41,7 @@ export default {
 
   computed: {
     currentImage() {
-      return this.image[this.currentImageIndex]
+      return getSeoImageUrl(this.image[this.currentImageIndex])
     },
     tipoLabel() {
       const labels = {
@@ -46,12 +52,30 @@ export default {
         canecas3d: 'Caneca 3D'
       }
       return labels[this.tipo] || this.tipo
+    },
+    imageAlt() {
+      const labels = {
+        canecas: 'caneca personalizada',
+        bottons: 'botton personalizado',
+        xicaras: 'xícara personalizada',
+        azulejos: 'azulejo personalizado',
+        canecas3d: 'caneca 3D personalizada'
+      }
+
+      const tipo = labels[this.tipo] || 'produto personalizado'
+      return `${this.name} - ${tipo} da Manuari em Manaus`
     }
   },
 
   methods: {
     openDetails() {
-      this.$router.push(`/produto/${this.id}`)
+      this.$router.push({
+        name: 'product-detail',
+        params: {
+          tipo: this.tipo,
+          slug: this.slug
+        }
+      })
     },
 
     startHover() {
@@ -75,11 +99,13 @@ export default {
     @mouseleave="stopHover"
   >
     <div class="image-wrapper">
-      <img
-        :src="currentImage"
-        :alt="`${name} - Caneca personalizada, botton personalizado ou inúmera personalizada em Manaus | Manuari`"
-        loading="lazy"
-      />
+        <img
+          :src="currentImage"
+          :alt="imageAlt"
+          :title="imageAlt"
+          loading="lazy"
+          decoding="async"
+        />
       <span v-if="isTopAcessado" class="top-badge">
         <i class="fas fa-star"></i> Em Alta
       </span>

@@ -3,9 +3,16 @@ import CardProduct from '../components/CardProduct.vue'
 import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 import SkeletonCard from '../components/SkeletonCard.vue'
 import Breadcrumb from '../components/Breadcrumb.vue'
+import { useJsonLd, jsonLd } from '../composables/useJsonLd'
+import { getSeoImageUrls } from '../utils/seoImage'
 
 export default {
   components: { CardProduct, SkeletonCard, Breadcrumb },
+
+  setup() {
+    const { inject: injectJsonLd } = useJsonLd()
+    return { injectJsonLd }
+  },
 
   data() {
     return {
@@ -88,6 +95,38 @@ export default {
 
     topAcessadosIds() {
       return new Set(this.topAcessados.map(p => p.id))
+    },
+
+    listingImageJsonLd() {
+      if (!this.produtosPaginados.length) return null
+
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: this.titulo,
+        description: `Coleção da Manuari para ${this.titulo.toLowerCase()} em Manaus.`,
+        url: `https://manuari.com.br${this.$route.path}`,
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: this.produtosPaginados.slice(0, 16).map((product, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            url: `https://manuari.com.br/produtos/${product.tipo}/${product.slug}`,
+            item: {
+              '@type': 'Product',
+              name: product.name,
+              image: getSeoImageUrls(product.images || []).map((url) => (
+                url.startsWith('/') ? `https://manuari.com.br${url}` : url
+              )),
+              category: product.tipo,
+              brand: {
+                '@type': 'Brand',
+                name: 'Manuari'
+              }
+            }
+          }))
+        }
+      }
     }
   },
 
@@ -104,12 +143,25 @@ export default {
     },
     porPagina() {
       this.paginaAtual = 1
+    },
+    listingImageJsonLd(newVal) {
+      if (newVal) {
+        this.injectJsonLd(`listing-image-seo-${this.$route.fullPath}`, newVal)
+      }
     }
   },
 
   async mounted() {
     await this.carregarProdutos()
     await this.carregarTopAcessados()
+
+    if (this.listingImageJsonLd) {
+      this.injectJsonLd(`listing-image-seo-${this.$route.fullPath}`, this.listingImageJsonLd)
+    }
+  },
+
+  beforeUnmount() {
+    jsonLd.remove()
   },
 
   methods: {
@@ -226,6 +278,7 @@ export default {
           :name="p.name"
           :image="p.images"
           :tipo="p.tipo"
+          :slug="p.slug"
           :priceRange="p.priceRange"
           :isTopAcessado="topAcessadosIds.has(p.id)"
         />

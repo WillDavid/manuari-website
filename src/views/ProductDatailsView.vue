@@ -1,8 +1,9 @@
 <script>
-import { fetchProductById, fetchProductsByType, incrementarAcessos } from '../services/supabaseApi'
+import { fetchProductById, fetchProductBySlug, fetchProductsByType, incrementarAcessos } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
 import { useJsonLd, jsonLd } from '../composables/useJsonLd'
+import { getSeoImageUrl, getSeoImageUrls } from '../utils/seoImage'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
@@ -27,6 +28,7 @@ export default {
     return {
       produto: null,
       loading: true,
+      notFound: false,
       imagemAtiva: null,
       variacaoIdSelecionada: null,
       whatsappPhone: WHATSAPP.phone,
@@ -243,14 +245,17 @@ export default {
       if (!this.produto) return null
 
       const BASE_URL = 'https://manuari.com.br'
+      const productPath = this.getCanonicalProductPath(this.produto)
 
       const schema = {
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: this.produto.name,
         description: this.produto.name,
-        image: this.produto.images || [],
-        url: `${BASE_URL}/produto/${this.produto.id}`,
+        image: getSeoImageUrls(this.produto.images || []).map((url) => (
+          url.startsWith('/') ? `https://manuari.com.br${url}` : url
+        )),
+        url: `${BASE_URL}${productPath}`,
         productID: String(this.produto.id),
         brand: {
           '@type': 'Brand',
@@ -264,7 +269,7 @@ export default {
         category: this.produto.tipo === 'bottons' ? 'Botton personalizado' : 'Caneca personalizada',
         offers: {
           '@type': 'Offer',
-          url: `${BASE_URL}/produto/${this.produto.id}`,
+          url: `${BASE_URL}${productPath}`,
           availability: 'https://schema.org/InStock',
           priceCurrency: 'BRL',
           seller: {
@@ -289,23 +294,95 @@ export default {
       if (newVal && this.produto) {
         this.injectJsonLd(`produto-${this.produto.id}`, newVal)
       }
+    },
+    '$route.fullPath'() {
+      this.carregarProduto()
     }
   },
 
   async mounted() {
-    try {
-      const id = this.$route.params.id
-      try {
-        incrementarAcessos(id)
-      } catch (e) {}
-      
-      const data = await fetchProductById(id)
-      
-      if (!data) {
-        this.loading = false
-        return
+    await this.carregarProduto()
+  },
+
+  beforeUnmount() {
+    jsonLd.remove()
+  },
+
+  methods: {
+    getCanonicalProductPath(product) {
+      if (!product?.tipo || !product?.slug) return '/produtos'
+      return `/produtos/${product.tipo}/${product.slug}`
+    },
+
+    atualizarSeoProduto(product) {
+      if (!product) return
+
+      const canonicalPath = this.getCanonicalProductPath(product)
+      const productImage = product.images?.[0] ? getSeoImageUrl(product.images[0]) : null
+      const tipoLabel = product.tipo === 'bottons'
+        ? 'botton personalizado'
+        : product.tipo === 'xicaras'
+          ? 'xícara personalizada'
+          : product.tipo === 'azulejos'
+            ? 'azulejo personalizado'
+            : 'caneca personalizada'
+
+      document.title = `${product.name} | ${tipoLabel} em Manaus | Manuari`
+
+      const description = document.querySelector("meta[name='description']")
+      if (description) {
+        description.setAttribute('content', `${product.name}. ${tipoLabel} da Manuari com personalização exclusiva e atendimento via WhatsApp em Manaus.`)
       }
-      
+
+      const canonical = document.getElementById('canonical-url')
+      if (canonical) {
+        canonical.setAttribute('href', `https://manuari.com.br${canonicalPath}`)
+      }
+
+      const ogUrl = document.getElementById('og-url')
+      if (ogUrl) {
+        ogUrl.setAttribute('content', `https://manuari.com.br${canonicalPath}`)
+      }
+
+      const ogTitle = document.querySelector("meta[property='og:title']")
+      if (ogTitle) {
+        ogTitle.setAttribute('content', document.title)
+      }
+
+      const ogDescription = document.querySelector("meta[property='og:description']")
+      if (ogDescription) {
+        ogDescription.setAttribute('content', `${product.name}. ${tipoLabel} em Manaus pela Manuari.`)
+      }
+
+      const ogImageAlt = document.querySelector("meta[property='og:image:alt']")
+      if (ogImageAlt) {
+        ogImageAlt.setAttribute('content', `${product.name} - ${tipoLabel} da Manuari em Manaus`)
+      }
+
+      const twitterTitle = document.querySelector("meta[name='twitter:title']")
+      if (twitterTitle) {
+        twitterTitle.setAttribute('content', document.title)
+      }
+
+      const twitterDescription = document.querySelector("meta[name='twitter:description']")
+      if (twitterDescription) {
+        twitterDescription.setAttribute('content', `${product.name}. ${tipoLabel} em Manaus pela Manuari.`)
+      }
+
+      if (productImage) {
+        const ogImage = document.querySelector("meta[property='og:image']")
+        if (ogImage) {
+          ogImage.setAttribute('content', productImage.startsWith('/') ? `https://manuari.com.br${productImage}` : productImage)
+        }
+
+        const twitterImage = document.querySelector("meta[name='twitter:image']")
+        if (twitterImage) {
+          twitterImage.setAttribute('content', productImage.startsWith('/') ? `https://manuari.com.br${productImage}` : productImage)
+        }
+      }
+    },
+
+    definirProduto(data) {
       this.produto = data
       this.imagemAtiva = data.images?.[0] || null
       this.variacaoIdSelecionada = data.variacoes?.[0]?.id || null
@@ -315,23 +392,56 @@ export default {
       if (this.productJsonLd) {
         this.injectJsonLd(`produto-${data.id}`, this.productJsonLd)
       }
+    },
 
-      const tipo = data?.tipo
+    async carregarProduto() {
+      this.loading = true
+      this.notFound = false
 
-      await this.carregarSemelhantes(tipo, data?.categorias, id)
+      try {
+        const legacyId = this.$route.params.id
+        const tipo = this.$route.params.tipo
+        const slug = this.$route.params.slug
 
-    } catch (err) {
-      console.error('Erro ao carregar produto', err)
-    } finally {
-      this.loading = false
-    }
-  },
+        let data = null
 
-  beforeUnmount() {
-    jsonLd.remove()
-  },
+        if (legacyId) {
+          data = await fetchProductById(legacyId)
+        } else {
+          data = await fetchProductBySlug(tipo, slug)
+        }
 
-  methods: {
+        if (!data) {
+          this.produto = null
+          this.produtosSemelhantes = []
+          this.notFound = true
+          return
+        }
+
+        this.definirProduto(data)
+
+        const canonicalPath = this.getCanonicalProductPath(data)
+        if (this.$route.path !== canonicalPath) {
+          await this.$router.replace(canonicalPath)
+          return
+        }
+
+        try {
+          incrementarAcessos(data.id)
+        } catch {
+          // noop
+        }
+
+        this.atualizarSeoProduto(data)
+
+        await this.carregarSemelhantes(data.tipo, data.categorias, data.id)
+      } catch (err) {
+        console.error('Erro ao carregar produto', err)
+      } finally {
+        this.loading = false
+      }
+    },
+
     async carregarSemelhantes(tipo, categorias, produtoId) {
       if (!tipo) return
       
@@ -379,14 +489,22 @@ export default {
         <img
           v-for="(img, i) in produto.images"
           :key="i"
-          :src="img"
+          :src="getSeoImageUrl(img)"
+          :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus - foto ${i + 1}`"
+          :title="`${produto.name} - foto ${i + 1}`"
           :class="{ active: imagemAtiva === img }"
           @click="imagemAtiva = img"
         />
       </div>
 
       <div class="main-image">
-        <img :src="imagemAtiva" :alt="produto.name" />
+        <img
+          :src="getSeoImageUrl(imagemAtiva)"
+          :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus`"
+          :title="produto.name"
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
     </div>
 
@@ -472,6 +590,10 @@ export default {
     </div>
   </section>
 
+  <div v-else-if="!loading && notFound" class="loading">
+    Produto não encontrado.
+  </div>
+
   <div v-else class="loading">
     Carregando produto...
   </div>
@@ -526,6 +648,7 @@ export default {
   max-width: 420px;
   object-fit: contain;
 }
+
 
 .info h1 {
   font-size: 1.6rem;
@@ -681,6 +804,7 @@ export default {
   .main-image img {
     max-width: 100%;
   }
+
 
   .info h1 {
     font-size: 1.3rem;

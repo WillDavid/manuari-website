@@ -1,5 +1,6 @@
 <script>
 import { BANNERS } from '../constants/config'
+import { getSeoImageUrl } from '../utils/seoImage'
 
 export default {
   name: 'HeroCarousel',
@@ -19,6 +20,22 @@ export default {
 
     isCurrentExternal() {
       return this.currentSlide.link.startsWith('http')
+    },
+
+    currentSlideAlt() {
+      if (this.currentSlide.link.includes('/produtos/canecas')) {
+        return 'Canecas personalizadas da Manuari em Manaus'
+      }
+
+      if (this.currentSlide.link.includes('/produtos/bottons')) {
+        return 'Bottons personalizados da Manuari em Manaus'
+      }
+
+      return 'Produtos personalizados da Manuari em Manaus'
+    },
+
+    currentSlideImage() {
+      return getSeoImageUrl(this.currentSlide.image)
     }
   },
 
@@ -76,9 +93,19 @@ export default {
       :to="!isCurrentExternal ? currentSlide.link : null"
       :target="isCurrentExternal ? '_blank' : null"
       class="slide"
-      :style="{ backgroundImage: `url(${currentSlide.image})` }"
-      :aria-label="`Banner ${current + 1} - Canecas personalizados, botton personalizado e muito mais em Manaus | Manuari`"
-    />
+      :aria-label="currentSlideAlt"
+      :title="currentSlideAlt"
+    >
+      <img
+        class="slide-image"
+        :src="currentSlideImage"
+        :alt="currentSlideAlt"
+        :title="currentSlideAlt"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </component>
 
     <button class="nav prev" @click="prev">‹</button>
     <button class="nav next" @click="next">›</button>
@@ -97,10 +124,15 @@ export default {
   position: absolute;
   inset: 0;
   display: block;
-  background-size: cover;
-  background-position: center;
   cursor: pointer;
   transition: opacity 0.4s ease;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .nav {

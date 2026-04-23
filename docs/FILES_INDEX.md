@@ -55,7 +55,7 @@ Generic cache utilities
 |------|-----------|
 | HomeView.vue | Homepage: hero, mais acessados, lançamentos, personalizado |
 | ProductsView.vue | Listing: filtros, busca, ordenação, paginação |
-| ProductDatailsView.vue | Detalhes: gallery, variações, preço, WA link |
+| ProductDatailsView.vue | Detalhes: gallery, variações, preço, WA link, URL amigável |
 | AboutView.vue | About page |
 | B2BView.vue | Landing page corporativa |
 | PrivacyPolicyView.vue | Política privacidade |

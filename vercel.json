@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/seo-images/(.*)",
+      "dest": "/api/seo-image?path=$1"
+    },
+    {
       "handle": "filesystem"
     },
     {

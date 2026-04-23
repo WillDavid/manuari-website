@@ -20,8 +20,7 @@
       </h2>
 
       <p class="modal-text">
-        Um atendente pode criar do zero — caneca, botton, xícara ou azulejo
-        personalizado para você!
+        Um atendente pode criar do zero personalizado para você!
       </p>
 
       <div class="buttons">

@@ -26,7 +26,7 @@ Rotas:
 - `/` → HomeView
 - `/produtos` → ProductsView (todos)
 - `/produtos/:tipo` → ProductsView (filtro)
-- `/produto/:id` → ProductDatailsView
+- `/produtos/:tipo/:slug` → ProductDatailsView
 - `/sobre` → AboutView
 - `/para-empresas` → B2BView
 - `/politica-privacidade` → PrivacyPolicyView

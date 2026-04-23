@@ -13,6 +13,7 @@ const routes = [
 
   {
     path: '/produtos',
+    name: 'products',
     component: () => import('../views/ProductsView.vue'),
     meta: {
       title: 'Canecas e Bottons Personalizados em Manaus | Manuari',
@@ -22,7 +23,19 @@ const routes = [
   },
 
   {
+    path: '/produtos/:tipo/:slug',
+    name: 'product-detail',
+    component: () => import('../views/ProductDatailsView.vue'),
+    meta: {
+      title: 'Comprar Caneca ou Botton Personalizado | Manuari',
+      description: 'Compre caneca personalizada, botton personalizado e muito mais. Produção rápida e entrega em Manaus. Personalize do seu jeito!',
+      keywords: 'comprar caneca personalizada, comprar botton personalizado, caneca online, botton online, produto personalizado manaus'
+    }
+  },
+
+  {
     path: '/produtos/:tipo',
+    name: 'products-by-type',
     component: () => import('../views/ProductsView.vue'),
     props: true,
     meta: (route) => {
@@ -60,6 +73,7 @@ const routes = [
 
   {
     path: '/produto/:id',
+    name: 'product-detail-legacy',
     component: () => import('../views/ProductDatailsView.vue'),
     meta: {
       title: 'Comprar Caneca ou Botton Personalizado | Manuari',

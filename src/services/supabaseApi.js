@@ -89,6 +89,18 @@ function toNumber(value) {
   return Number.isFinite(parsed) ? parsed : null
 }
 
+function slugify(text) {
+  if (!text) return ''
+  return String(text)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 function normalizeText(value) {
   return String(value || '')
     .normalize('NFD')
@@ -306,7 +318,8 @@ function normalizeProduct(product) {
     preco: precoMinimo,
     precoMinimo,
     precoMaximo,
-    priceRange: formatPriceRange(precoMinimo, precoMaximo)
+    priceRange: formatPriceRange(precoMinimo, precoMaximo),
+    slug: slugify(product.name)
   }
 }
 
@@ -453,6 +466,12 @@ export async function fetchProductsByCategory(categoria) {
   )
 
   return data.map(normalizeProduct)
+}
+
+export async function fetchProductBySlug(tipo, slug) {
+  if (!tipo || !slug) return null
+  const products = await fetchProductsByType(tipo)
+  return products.find((product) => product.slug === slug) || null
 }
 
 // SESSÃO

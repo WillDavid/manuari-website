@@ -47,6 +47,7 @@ export default {
   methods: {
     updateSEO(route) {
       const BASE_URL = 'https://manuari.com.br'
+      const DEFAULT_IMAGE = 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png'
 
       const canonical = document.getElementById('canonical-url')
       const ogUrl = document.getElementById('og-url')
@@ -92,6 +93,21 @@ export default {
       const twitterDesc = document.querySelector("meta[name='twitter:description']")
       if (twitterDesc && route.meta && route.meta.description) {
         twitterDesc.setAttribute('content', route.meta.description)
+      }
+
+      const ogImage = document.querySelector("meta[property='og:image']")
+      if (ogImage) {
+        ogImage.setAttribute('content', DEFAULT_IMAGE)
+      }
+
+      const ogImageAlt = document.querySelector("meta[property='og:image:alt']")
+      if (ogImageAlt) {
+        ogImageAlt.setAttribute('content', 'Canecas e produtos personalizados da Manuari em Manaus')
+      }
+
+      const twitterImage = document.querySelector("meta[name='twitter:image']")
+      if (twitterImage) {
+        twitterImage.setAttribute('content', DEFAULT_IMAGE)
       }
 
       const robots = document.querySelector("meta[name='robots']")

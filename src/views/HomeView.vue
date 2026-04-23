@@ -5,6 +5,8 @@ import SkeletonCard from '../components/SkeletonCard.vue'
 import { fetchProducts, fetchMaisAcessados } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
+import { useJsonLd, jsonLd } from '../composables/useJsonLd'
+import { getSeoImageUrls } from '../utils/seoImage'
 
 export default {
   components: {
@@ -15,7 +17,8 @@ export default {
 
   setup() {
     const { getPreferenciaPrincipal, getCategoriasPreferidas } = usePreferencias()
-    return { getPreferenciaPrincipal, getCategoriasPreferidas }
+    const { inject: injectJsonLd } = useJsonLd()
+    return { getPreferenciaPrincipal, getCategoriasPreferidas, injectJsonLd }
   },
 
   data() {
@@ -32,6 +35,11 @@ export default {
   computed: {
     whatsAppLink() {
       return `https://wa.me/${this.whatsappPhone}?text=${encodeURIComponent(this.whatsappMessage)}`
+    },
+    canecasIndexaveis() {
+      return this.products
+        .filter((product) => product.tipo === 'canecas' && product.images?.[0])
+        .slice(0, 12)
     },
     lancamentos() {
       return [...this.products]
@@ -87,6 +95,45 @@ export default {
           p.categorias && p.categorias.includes(tag)
         )
       }))
+    },
+    homeImageJsonLd() {
+      if (!this.canecasIndexaveis.length) return null
+
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Canecas personalizadas em Manaus | Manuari',
+        description: 'Coleção de canecas personalizadas da Manuari em Manaus.',
+        url: 'https://manuari.com.br/',
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: this.canecasIndexaveis.map((product, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            url: `https://manuari.com.br/produtos/${product.tipo}/${product.slug}`,
+            item: {
+              '@type': 'Product',
+              name: product.name,
+              image: getSeoImageUrls(product.images || []).map((url) => (
+                url.startsWith('/') ? `https://manuari.com.br${url}` : url
+              )),
+              category: 'Caneca personalizada',
+              brand: {
+                '@type': 'Brand',
+                name: 'Manuari'
+              }
+            }
+          }))
+        }
+      }
+    }
+  },
+
+  watch: {
+    homeImageJsonLd(newVal) {
+      if (newVal) {
+        this.injectJsonLd('home-image-seo', newVal)
+      }
     }
   },
 
@@ -112,11 +159,19 @@ export default {
       }
     }
 
+    if (this.homeImageJsonLd) {
+      this.injectJsonLd('home-image-seo', this.homeImageJsonLd)
+    }
+
   } catch (e) {
     console.error('Erro ao carregar produtos', e)
   } finally {
     this.loading = false
   }
+},
+
+beforeUnmount() {
+  jsonLd.remove()
 }
 }
 </script>
