@@ -59,10 +59,7 @@
 
     <p>
       <strong>Manuari.</strong><br />
-      <strong>Do seu jeito, para momentos que realmente importam.</strong><br />
-      <RouterLink to="/produtos/bottons" style="color:#e94b35;text-decoration:underline">
-        Veja os bottons personalizados
-      </RouterLink>
+      <strong>Do seu jeito, para momentos que realmente importam.</strong>
     </p>
   </section>
 
