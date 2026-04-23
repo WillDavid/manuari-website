@@ -6,10 +6,10 @@
       <div class="footer-col">
         <h3>Produtos</h3>
         <ul>
-          <li><RouterLink to="/produtos/canecas">Canecas</RouterLink></li>
+          <li><RouterLink to="/produtos/canecas">Canecas Personalizadas</RouterLink></li>
+          <li><RouterLink to="/produtos/bottons">Botton Personalizado</RouterLink></li>
           <li><RouterLink to="/produtos/xicaras">Xícaras</RouterLink></li>
           <li><RouterLink to="/produtos/azulejos">Azulejos</RouterLink></li>
-          <li><RouterLink to="/produtos/bottons">Bottons</RouterLink></li>
           <li><RouterLink to="/para-empresas">Para Empresas</RouterLink></li>
         </ul>
       </div>

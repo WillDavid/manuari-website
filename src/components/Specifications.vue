@@ -86,17 +86,19 @@ diferente da caneca totalmente branca.
   },
 
 bottons: {
-    descricao: 'Buttons personalizados com sua arte, logo ou foto. Alta qualidade e acabamento profissional.',
+    descricao: 'Botton personalizado com sua arte, logo ou foto. Alta qualidade e acabamento profissional.',
     caracteristicas: [
-      ['Material', 'Plastico resistente'],
+      ['Material', 'Plástico resistente'],
       ['Tamanhos', '33mm - 44mm - 58mm'],
-      ['Fixacao', 'Alfinete metallic'],
-      ['Impressao', 'Cores vibrantes']
+      ['Fixação', 'Alfinete metálico'],
+      ['Impressão', 'Cores vibrantes']
     ],
     duvidas: [
-      ['Resistente a agua?', 'Sim, protecao contra respingos.'],
-      ['Qual o tamanho?', '33mm, 44mm ou 58mm.'],
-      ['Tempo de producao?', '1 a 3 dias uteis.']
+      ['Resistente à água?', 'Sim, proteção contra respingos.'],
+      ['Qual o tamanho ideal?', '33mm para finesse, 44mm padrão, 58mm para destaque.'],
+      ['Tempo de produção?', '1 a 3 dias úteis.'],
+      ['Posso enviar minha arte?', 'Sim! Envie sua logo, foto ou arte.'],
+      ['Serve para evento corporativo?', 'Sim! Ideal para feiras, eventos e ações de RH.']
     ]
   }
 }

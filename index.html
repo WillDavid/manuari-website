@@ -5,8 +5,20 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/manuari-logo.png" />
+    <link rel="apple-touch-icon" href="/manuari-logo.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ff4425" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ff4425" />
+    <meta name="author" content="Manuari" />
+    <meta name="copyright" content="Manuari - CNPJ 61.175.754/0001-77" />
+    <meta name="geo.region" content="BR-AM" />
+    <meta name="geo.placename" content="Manaus" />
+
+    <!-- Canonical URL (será atualizado via JS para cada página) -->
+    <link rel="canonical" id="canonical-url" href="https://manuari.com.br/" />
 
     <!-- SEO TITLE -->
     <title>Caneca Personalizada em Manaus | Manuari</title>
@@ -14,44 +26,167 @@
     <!-- SEO DESCRIPTION -->
     <meta
       name="description"
-      content="Caneca personalizada em Manaus com foto, nome ou arte exclusiva. Compre canecas personalizadas para presente, empresa ou uso pessoal. Entrega rápida em Manaus."
+      content="Caneca personalizada em Manaus com foto, nome ou arte exclusiva. Botton personalizado, xícara e azulejo personalizado. Compre online com entrega rápida em Manaus."
     />
 
-    <!-- KEYWORDS -->
+    <!-- KEYWORDS ( Bing ainda usa ) -->
     <meta
       name="keywords"
       content="
       caneca personalizada,
       caneca personalizada com foto,
       caneca personalizada com nome,
+      caneca personalizada manaus,
+      caneca personalizada perto de mim,
       comprar caneca personalizada,
       onde fazer caneca personalizada,
-      caneca personalizada manaus,
-      caneca personalizada perto de mim
+      caneca personalizada online,
+      xícara personalizada,
+      xícara personalizada manaus,
+      azulejo personalizado,
+      azulejo personalizado manaus,
+      botton personalizado,
+      botton personalizado manaus,
+      botton personalizado online,
+      botton personalizado com foto,
+      botton personalizado com sua arte,
+      botton Manaus,
+      botão personalizado,
+      botão personalizado manaus,
+      fazer botton,
+      comprar botton,
+      manuari,
+      brindes corporativos manaus,
+      caneca corporativa,
+      presente personalizado manaus,
+      presente criativo manaus,
+      lembrancinha personalizada manaus
       "
     />
 
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-    <!-- OPEN GRAPH (quando compartilha link) -->
-    <meta property="og:title" content="Manuari - Canecas Personalizadas" />
-    <meta property="og:description" content="Canecas personalizadas em Manaus com foto, nome ou arte exclusiva." />
-    <meta property="og:image" content="https://manuari.com/manuari-logo.png" />
-    <meta property="og:url" content="https://manuari.com" />
+    <!-- OPEN GRAPH -->
+    <meta property="og:site_name" content="Manuari" />
+    <meta property="og:title" content="Manuari - Canecas e Bottons Personalizados em Manaus" />
+    <meta property="og:description" content="Caneca personalizada, botton personalizado e muito mais em Manaus. Compre online com entrega rápida. Faça o seu!" />
+    <meta property="og:image" content="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Manuari - Canecas e Bottons Personalizados em Manaus" />
+    <meta property="og:url" id="og-url" content="https://manuari.com.br/" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:updated_time" content="2026-04-23T00:00:00-04:00" />
 
-    <!-- SEO LOCAL -->
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@manuari.loja" />
+    <meta name="twitter:creator" content="@manuari.loja" />
+    <meta name="twitter:title" content="Manuari - Canecas e Bottons Personalizados em Manaus" />
+    <meta name="twitter:description" content="Caneca personalizada, botton personalizado e muito mais em Manaus. Compre online com entrega rápida." />
+    <meta name="twitter:image" content="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png" />
+
+    <!-- STRUCTURED DATA - ORGANIZATION -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Store",
+      "@type": "Organization",
       "name": "Manuari",
-      "url": "https://manuari.com",
-      "description": "Canecas personalizadas em Manaus com foto ou nome.",
-      "areaServed": "Manaus",
+      "alternateName": "Manuari Personalizados",
+      "url": "https://manuari.com.br",
+      "logo": "https://manuari.com.br/manuari-logo.png",
+      "description": "Manuari - Especialista em canecas e bottons personalizados em Manaus. Produzimos produtos personalizados com foto, nome ou arte exclusiva. Entrega rápida em Manaus e região.",
+      "image": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png",
+      "telephone": "+55-92-99180-2094",
+      "email": "manuari.loja@gmail.com",
+      "areaServed": {
+        "@type": "City",
+        "name": "Manaus",
+        "containedInPlace": {
+          "@type": "State",
+          "name": "Amazonas",
+          "containedInPlace": {
+            "@type": "Country",
+            "name": "Brasil"
+          }
+        }
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Manaus",
+        "addressRegion": "AM",
+        "addressCountry": "BR"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
       "sameAs": [
-        "https://instagram.com/manuari.loja"
+        "https://instagram.com/manuari.loja",
+        "https://tiktok.com/@manuari.loja"
       ]
+    }
+    </script>
+
+    <!-- STRUCTURED DATA - LOCAL BUSINESS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Manuari - Canecas e Bottons Personalizados",
+      "description": "Especialista em canecas personalizadas, bottons personalizados, xícaras e azulejos personalizados em Manaus. Produção rápida e entrega em toda Manaus.",
+      "url": "https://manuari.com.br",
+      "telephone": "+5592991802094",
+      "email": "manuari.loja@gmail.com",
+      "image": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Manaus",
+        "addressRegion": "AM",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "addressLocality": "Manaus",
+        "addressRegion": "AM"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Manaus"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "priceRange": "$$"
+    }
+    </script>
+
+    <!-- STRUCTURED DATA - SITE NAVIGATION -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Manuari",
+      "url": "https://manuari.com.br",
+      "description": "Loja online de canecas e bottons personalizados em Manaus.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Manuari",
+        "url": "https://manuari.com.br"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://manuari.com.br/produtos?busca={search_term_string}",
+        "query-input": "required name=search_term_string",
+        "name": "Busca produtos Manuari"
+      }
     }
     </script>
 

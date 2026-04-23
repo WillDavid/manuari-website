@@ -77,6 +77,7 @@ export default {
       :target="isCurrentExternal ? '_blank' : null"
       class="slide"
       :style="{ backgroundImage: `url(${currentSlide.image})` }"
+      :aria-label="`Banner ${current + 1} - Canecas personalizados, botton personalizado e muito mais em Manaus | Manuari`"
     />
 
     <button class="nav prev" @click="prev">‹</button>

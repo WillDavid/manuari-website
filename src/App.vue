@@ -46,6 +46,18 @@ export default {
 
   methods: {
     updateSEO(route) {
+      const BASE_URL = 'https://manuari.com.br'
+
+      const canonical = document.getElementById('canonical-url')
+      const ogUrl = document.getElementById('og-url')
+
+      if (canonical) {
+        canonical.setAttribute('href', `${BASE_URL}${route.path}`)
+      }
+      if (ogUrl) {
+        ogUrl.setAttribute('content', `${BASE_URL}${route.path}`)
+      }
+
       if (route.meta && route.meta.title) {
         document.title = route.meta.title
       }
@@ -53,7 +65,42 @@ export default {
       const description = document.querySelector("meta[name='description']")
 
       if (description && route.meta && route.meta.description) {
-        description.setAttribute("content", route.meta.description)
+        description.setAttribute('content', route.meta.description)
+      }
+
+      const keywords = document.querySelector("meta[name='keywords']")
+
+      if (keywords && route.meta && route.meta.keywords) {
+        keywords.setAttribute('content', route.meta.keywords)
+      }
+
+      const ogTitle = document.querySelector("meta[property='og:title']")
+      if (ogTitle && route.meta && route.meta.title) {
+        ogTitle.setAttribute('content', route.meta.title)
+      }
+
+      const ogDesc = document.querySelector("meta[property='og:description']")
+      if (ogDesc && route.meta && route.meta.description) {
+        ogDesc.setAttribute('content', route.meta.description)
+      }
+
+      const twitterTitle = document.querySelector("meta[name='twitter:title']")
+      if (twitterTitle && route.meta && route.meta.title) {
+        twitterTitle.setAttribute('content', route.meta.title)
+      }
+
+      const twitterDesc = document.querySelector("meta[name='twitter:description']")
+      if (twitterDesc && route.meta && route.meta.description) {
+        twitterDesc.setAttribute('content', route.meta.description)
+      }
+
+      const robots = document.querySelector("meta[name='robots']")
+      if (robots) {
+        if (route.name === 'notfound') {
+          robots.setAttribute('content', 'noindex, nofollow')
+        } else {
+          robots.setAttribute('content', 'index, follow, max-snippet:-1, max-image-preview:large')
+        }
       }
     },
 

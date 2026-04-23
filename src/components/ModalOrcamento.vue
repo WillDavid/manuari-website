@@ -16,11 +16,12 @@
       />
 
       <h2 class="modal-title">
-        Que tal uma caneca única?
+        Que tal uma caneca única ou um botton com sua arte?
       </h2>
 
       <p class="modal-text">
-        Um atendente pode <strong>personalizar do zero</strong> para você!
+        Um atendente pode criar do zero — caneca, botton, xícara ou azulejo
+        personalizado para você!
       </p>
 
       <div class="buttons">
@@ -59,7 +60,7 @@ export default {
     return{
       visible: false,
       whatsappPhone: WHATSAPP.phone,
-      mensagem: "Olá! Quero fazer um orçamento de caneca personalizada."
+      mensagem: "Olá! Quero fazer um orçamento de caneca personalizada ou botton personalizado."
     }
   },
 

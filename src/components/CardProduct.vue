@@ -36,6 +36,16 @@ export default {
   computed: {
     currentImage() {
       return this.image[this.currentImageIndex]
+    },
+    tipoLabel() {
+      const labels = {
+        canecas: 'Caneca Personalizada',
+        bottons: 'Botton Personalizado',
+        xicaras: 'Xícara',
+        azulejos: 'Azulejo',
+        canecas3d: 'Caneca 3D'
+      }
+      return labels[this.tipo] || this.tipo
     }
   },
 
@@ -65,14 +75,18 @@ export default {
     @mouseleave="stopHover"
   >
     <div class="image-wrapper">
-      <img :src="currentImage" :alt="name" loading="lazy" />
+      <img
+        :src="currentImage"
+        :alt="`${name} - Caneca personalizada, botton personalizado ou inúmera personalizada em Manaus | Manuari`"
+        loading="lazy"
+      />
       <span v-if="isTopAcessado" class="top-badge">
         <i class="fas fa-star"></i> Em Alta
       </span>
     </div>
 
     <span class="product-tipo">
-      {{ tipo }}
+      {{ tipoLabel }}
     </span>
 
     <h3 class="product-name">

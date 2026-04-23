@@ -125,7 +125,10 @@ export default {
   <section>
     <HeroCarousel />
 
-    <h1 class="visually-hidden"> Caneca personalizada em Manaus com foto ou nome | Manuari </h1>
+    <h1 class="visually-hidden">
+      Caneca personalizada em Manaus, Botton personalizado online, Xícara personalizada,
+      Azulejo personalizado - Manuari | Compre online com entrega rápida em Manaus
+    </h1>
 
     <h2>Mais Vistos</h2>
 
@@ -178,7 +181,7 @@ export default {
 
 <section class="ver-todos">
       <RouterLink to="/produtos" class="ver-todos-btn">
-        Ver todos os produtos
+        Ver todos os produtos — Canecas, Bottons e muito mais
       </RouterLink>
     </section>
 
@@ -188,7 +191,8 @@ export default {
 
   <p>
     Fale direto com a Manuari e receba um atendimento rápido
-    para criar sua caneca personalizada com nome, foto ou arte exclusiva.
+    para criar sua caneca personalizada, botton com sua arte ou qualquer
+    produto com nome, foto ou arte exclusiva.
   </p>
 
   <a

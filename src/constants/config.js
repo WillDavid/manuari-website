@@ -5,10 +5,10 @@ export const SUPABASE = {
 
 export const WHATSAPP = {
   phone: '5592991802094',
-  defaultMessage: 'Olá! Vim pelo site da Manuari e gostaria de mais informações!',
+  defaultMessage: 'Olá! Vim pelo site da Manuari e gostaria de mais informações sobre canecas, bottons personalizados e outros produtos!',
   messages: {
     home: 'Olá! Vim pelo site da Manuari e gostaria de mais informações!',
-    b2b: 'Olá! Gostaria de um orçamento para brindes corporativos.',
+    b2b: 'Olá! Gostaria de um orçamento para brindes corporativos — canecas e bottons personalizados.',
     product: (name, price) => `Olá! Quero o produto "${name}" no valor de R$ ${price}`,
     custom: (message) => message
   }

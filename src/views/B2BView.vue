@@ -12,7 +12,7 @@
         
 
         <p class="hero-sub">
-          Canecas, xícaras, azulejos e projetos sob medida para ações
+          Canecas, bottons, xícaras, azulejos e projetos sob medida para ações
           corporativas, eventos e endomarketing.
         </p>
 
@@ -32,7 +32,7 @@
       </div>
 
       <div class="hero-image">
-        <img src="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/b2b-1.png" alt="Brindes corporativos personalizados para empresas" />
+        <img src="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/b2b-1.png" alt="Canecas e bottons personalizados para empresas em Manaus | Manuari" />
       </div>
     </div>
 
@@ -56,11 +56,19 @@
           </p>
         </article>
 
-        <article class="produto">
+<article class="produto">
           <h3>Azulejos personalizados</h3>
           <p>
-            Ideais para homenagens, campanhas internas e reconhecimento de
+            Ideais para homenagem, campanhas internas e reconhecimento de
             colaboradores.
+          </p>
+        </article>
+
+        <article class="produto">
+          <h3>Bottons personalizados</h3>
+          <p>
+            Bottons corporativos com sua logo ou arte. Perfeitos para eventos,
+            feiras, seminários e ações de endomarketing.
           </p>
         </article>
 
@@ -76,17 +84,17 @@
     <!-- VALOR -->
     <section class="valor">
       <div class="valor-image">
-        <img src="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/b2b-2.png" alt="Brindes corporativos para empresas" />
+        <img src="https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/b2b-2.png" alt="Brindes corporativos Manuari - Canecas, bottons e mais para empresas" />
       </div>
 
       <div class="valor-text">
         <h2>Por que empresas escolhem a Manuari</h2>
 
         <ul>
-          <li>Brindes úteis, com alto valor percebido</li>
+          <li>Brindes úteis, com alto valor percebido — canecas, bottons e muito mais</li>
           <li>Personalização alinhada à identidade da sua marca</li>
           <li>Soluções ideais para RH, marketing e eventos corporativos</li>
-          <li>Produção organizada, com padrão e prazo</li>
+          <li>Botton personalizado com logo, arte ou foto — ideal para feiras e eventos</li>
           <li>Atendimento direto, humano e sem burocracia</li>
         </ul>
       </div>
@@ -121,7 +129,7 @@
 
     <!-- CTA FINAL -->
     <section class="cta-final">
-      <h2>Fale com um especialista em brindes corporativos</h2>
+      <h2>Fale com um especialista em brindes corporativos e bottons personalizados</h2>
       <p>
         Receba uma proposta sob medida para a sua empresa, sem compromisso.
       </p>

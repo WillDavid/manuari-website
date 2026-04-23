@@ -4,7 +4,7 @@ const TIPO_LABELS = {
   xicaras: 'Xícaras',
   azulejos: 'Azulejos',
   canecas3d: 'Canecas 3D',
-  bottons: 'Buttons'
+  bottons: 'Botton Personalizado'
 }
 
 export default {

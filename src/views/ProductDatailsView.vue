@@ -2,6 +2,7 @@
 import { fetchProductById, fetchProductsByType, incrementarAcessos } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
+import { useJsonLd, jsonLd } from '../composables/useJsonLd'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import Specifications from '../components/Specifications.vue'
 import ProductCarousel from '../components/ProductCarousel.vue'
@@ -18,7 +19,8 @@ export default {
 
   setup() {
     const { adicionarVisualizacao } = usePreferencias()
-    return { adicionarVisualizacao }
+    const { inject: injectJsonLd } = useJsonLd()
+    return { adicionarVisualizacao, injectJsonLd }
   },
 
   data() {
@@ -235,6 +237,58 @@ export default {
 
     textoBotao() {
       return this.temTabelaPreco || this.ehBottonKitOuIndividual ? 'Fazer Orçamento' : 'Pedir no WhatsApp'
+    },
+
+    productJsonLd() {
+      if (!this.produto) return null
+
+      const BASE_URL = 'https://manuari.com.br'
+
+      const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: this.produto.name,
+        description: this.produto.name,
+        image: this.produto.images || [],
+        url: `${BASE_URL}/produto/${this.produto.id}`,
+        productID: String(this.produto.id),
+        brand: {
+          '@type': 'Brand',
+          name: 'Manuari'
+        },
+        manufacturer: {
+          '@type': 'Organization',
+          name: 'Manuari',
+          url: BASE_URL
+        },
+        category: this.produto.tipo === 'bottons' ? 'Botton personalizado' : 'Caneca personalizada',
+        offers: {
+          '@type': 'Offer',
+          url: `${BASE_URL}/produto/${this.produto.id}`,
+          availability: 'https://schema.org/InStock',
+          priceCurrency: 'BRL',
+          seller: {
+            '@type': 'Organization',
+            name: 'Manuari'
+          }
+        }
+      }
+
+      if (this.precoSelecionado != null) {
+        schema.offers.price = this.precoSelecionado.toFixed(2)
+      } else if (this.produto.precoMinimo != null) {
+        schema.offers.price = this.produto.precoMinimo.toFixed(2)
+      }
+
+      return schema
+    }
+  },
+
+  watch: {
+    productJsonLd(newVal) {
+      if (newVal && this.produto) {
+        this.injectJsonLd(`produto-${this.produto.id}`, newVal)
+      }
     }
   },
 
@@ -258,6 +312,10 @@ export default {
 
       this.adicionarVisualizacao(data)
 
+      if (this.productJsonLd) {
+        this.injectJsonLd(`produto-${data.id}`, this.productJsonLd)
+      }
+
       const tipo = data?.tipo
 
       await this.carregarSemelhantes(tipo, data?.categorias, id)
@@ -267,6 +325,10 @@ export default {
     } finally {
       this.loading = false
     }
+  },
+
+  beforeUnmount() {
+    jsonLd.remove()
   },
 
   methods: {
@@ -418,9 +480,9 @@ export default {
 
   <section v-if="produtosSemelhantes.length" class="semelhantes-section">
     <h2>Produtos Semelhantes</h2>
-    <ProductCarousel 
-      :products="produtosSemelhantes" 
-      :shuffle="true" 
+    <ProductCarousel
+      :products="produtosSemelhantes"
+      :shuffle="true"
     />
   </section>
 </template>

@@ -77,13 +77,13 @@ export default {
 
     titulo() {
       const nomes = {
-        canecas: 'Canecas',
-        xicaras: 'Xícaras',
-        azulejos: 'Azulejos',
+        canecas: 'Canecas Personalizadas',
+        xicaras: 'Xícaras Personalizadas',
+        azulejos: 'Azulejos Personalizados',
         canecas3d: 'Canecas 3D',
-        bottons: 'Buttons'
+        bottons: 'Botton Personalizado'
       }
-      return this.tipoAtual ? (nomes[this.tipoAtual] || this.tipoAtual) : 'Todos os produtos'
+      return this.tipoAtual ? (nomes[this.tipoAtual] || this.tipoAtual) : 'Canecas, Bottons e Mais'
     },
 
     topAcessadosIds() {
@@ -191,7 +191,7 @@ export default {
           <input
             v-model="busca"
             type="text"
-            placeholder="Buscar produto..."
+            placeholder="Buscar caneca, botton, xícara..."
             class="search-input"
           />
           <select v-model="ordenacao" class="sort-select">
@@ -208,7 +208,7 @@ export default {
         </div>
 
         <p v-if="!loading" class="results-count">
-          Mostrando {{ produtosPaginados.length }} de {{ totalResultados }} produtos
+          Mostrando {{ produtosPaginados.length }} de {{ totalResultados }} canecas, bottons e mais
         </p>
       </div>
 
@@ -234,7 +234,7 @@ export default {
       <!-- EMPTY STATE -->
       <div v-else class="empty-state">
         <p>Nenhum produto encontrado</p>
-        <span>Tente buscar por outro termo ou filtro</span>
+        <span>Busque por caneca, botton, xícara ou outra palavra-chave</span>
         <button @click="busca = ''; categoriaSelecionada = null">
           Limpar filtros
         </button>

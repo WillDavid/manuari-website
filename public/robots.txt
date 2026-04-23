@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://manuari.com/sitemap.xml
+# Regras específicas
+Allow: /produtos/bottons
+Allow: /produtos/canecas
+Allow: /produtos/xicaras
+Allow: /produtos/azulejos
+Allow: /para-empresas
+Allow: /sobre
+
+# Bloquear páginas administrativas (se existirem)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+
+Sitemap: https://manuari.com.br/sitemap.xml
+
+# Arquivos estáticos permitidos
+Allow: /assets/
+Allow: /manuari-logo.png
+Allow: /robots.txt
