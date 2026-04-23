@@ -314,6 +314,10 @@ export default {
       return `/produtos/${product.tipo}/${product.slug}`
     },
 
+    resolveSeoImageUrl(url) {
+      return getSeoImageUrl(url)
+    },
+
     atualizarSeoProduto(product) {
       if (!product) return
 
@@ -489,7 +493,7 @@ export default {
         <img
           v-for="(img, i) in produto.images"
           :key="i"
-          :src="getSeoImageUrl(img)"
+          :src="resolveSeoImageUrl(img)"
           :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus - foto ${i + 1}`"
           :title="`${produto.name} - foto ${i + 1}`"
           :class="{ active: imagemAtiva === img }"
@@ -499,7 +503,7 @@ export default {
 
       <div class="main-image">
         <img
-          :src="getSeoImageUrl(imagemAtiva)"
+          :src="resolveSeoImageUrl(imagemAtiva)"
           :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus`"
           :title="produto.name"
           fetchpriority="high"
