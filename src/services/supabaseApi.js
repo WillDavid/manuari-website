@@ -377,10 +377,14 @@ function clearCache(pattern = '') {
 
 export { fetchWithCache, clearCache }
 
-// INCREMENTAR ACESSOS
-export async function incrementarAcessos(id) {
+// REGISTRAR ACESSO AO PRODUTO
+export async function registrarAcesso(produtoId) {
+  const ipHash = getVisitorId()
+  const dispositivo = getDevice()
+  const fonte = getOrigin()
+
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/rpc/increment_acessos`,
+    `${SUPABASE_URL}/rest/v1/rpc/registrar_acesso_vitrine`,
     {
       method: 'POST',
       headers: {
@@ -389,14 +393,32 @@ export async function incrementarAcessos(id) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id_produto: id
+        p_vitrine_id: produtoId,
+        p_ip: ipHash,
+        p_dispositivo: dispositivo,
+        p_fonte: fonte
       })
     }
   )
 
   if (!res.ok) {
-    console.error('Erro ao incrementar acessos')
+    console.error('Erro ao registrar acesso')
   }
+}
+
+function getVisitorId() {
+  const stored = localStorage.getItem('visitor_id')
+  if (stored) return stored
+
+  const visitorId = btoa(
+    (navigator.userAgent + Date.now().toString(36) + Math.random().toString(36))
+  ).slice(0, 24)
+
+  try {
+    localStorage.setItem('visitor_id', visitorId)
+  } catch {}
+
+  return visitorId
 }
 
 // UTILITÁRIOS

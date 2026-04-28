@@ -1,5 +1,5 @@
 <script>
-import { fetchProductById, fetchProductBySlug, fetchProductsByType, incrementarAcessos } from '../services/supabaseApi'
+import { fetchProductById, fetchProductBySlug, fetchProductsByType, registrarAcesso } from '../services/supabaseApi'
 import { WHATSAPP } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
 import { useJsonLd, jsonLd } from '../composables/useJsonLd'
@@ -431,7 +431,7 @@ export default {
         }
 
         try {
-          incrementarAcessos(data.id)
+          registrarAcesso(data.id)
         } catch {
           // noop
         }
