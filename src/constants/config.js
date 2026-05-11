@@ -20,7 +20,11 @@ export const BANNERS = {
       image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png',
       link: '/produtos'
     },
-{
+    {
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner7.png',
+      link: '/produtos/bottons'
+    },
+    {
       image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png',
       link: 'https://wa.me/5592991802094?text=Olá, gostaria de saber mais sobre envio para outros estados!'
     }
