@@ -1,4 +1,7 @@
 export const SEO_IMAGE_BY_ORIGINAL = {
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777407045688-Design_sem_nome_3.png": "/seo-images/canecas/caneca-mae-voce-e-a-melhor-para-nos-1.png",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777406980398-Design_sem_nome_4.png": "/seo-images/canecas/caneca-voce-e-a-flor-mais-linda-do-meu-jardim-caneca-dia-das-maes-1.png",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777406851905-Design_sem_nome_5.png": "/seo-images/canecas/caneca-para-uso-exclusivo-da-melhor-mae-do-mundo-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819970620-WhatsApp_Image_2026-04-21_at_21.03.49.jpeg": "/seo-images/canecas/caneca-justin-bieber-seja-forte-1.jpeg",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819896012-WhatsApp_Image_2026-04-21_at_21.01.15-2.jpeg": "/seo-images/canecas/caneca-patixa-telo-1.jpeg",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819905293-WhatsApp_Image_2026-04-21_at_21.01.15.jpeg": "/seo-images/canecas/caneca-patixa-telo-2.jpeg",
@@ -121,11 +124,13 @@ export const SEO_IMAGE_BY_ORIGINAL = {
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/sem%20estresse.png": "/seo-images/canecas/sem-estresse-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png": "/seo-images/banners/manuari-banner-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner7.png": "/seo-images/banners/manuari-banner-2.png",
-  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner5.png": "/seo-images/banners/manuari-banner-3.png",
-  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png": "/seo-images/banners/manuari-banner-4.png"
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png": "/seo-images/banners/manuari-banner-3.png"
 }
 
 export const SEO_IMAGE_BY_ALIAS = {
+  "seo-images/canecas/caneca-mae-voce-e-a-melhor-para-nos-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777407045688-Design_sem_nome_3.png",
+  "seo-images/canecas/caneca-voce-e-a-flor-mais-linda-do-meu-jardim-caneca-dia-das-maes-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777406980398-Design_sem_nome_4.png",
+  "seo-images/canecas/caneca-para-uso-exclusivo-da-melhor-mae-do-mundo-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1777406851905-Design_sem_nome_5.png",
   "seo-images/canecas/caneca-justin-bieber-seja-forte-1.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819970620-WhatsApp_Image_2026-04-21_at_21.03.49.jpeg",
   "seo-images/canecas/caneca-patixa-telo-1.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819896012-WhatsApp_Image_2026-04-21_at_21.01.15-2.jpeg",
   "seo-images/canecas/caneca-patixa-telo-2.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776819905293-WhatsApp_Image_2026-04-21_at_21.01.15.jpeg",
@@ -248,6 +253,5 @@ export const SEO_IMAGE_BY_ALIAS = {
   "seo-images/canecas/sem-estresse-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/sem%20estresse.png",
   "seo-images/banners/manuari-banner-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png",
   "seo-images/banners/manuari-banner-2.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner7.png",
-  "seo-images/banners/manuari-banner-3.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner5.png",
-  "seo-images/banners/manuari-banner-4.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png"
+  "seo-images/banners/manuari-banner-3.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png"
 }

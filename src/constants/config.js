@@ -4,7 +4,7 @@ export const SUPABASE = {
 }
 
 export const WHATSAPP = {
-  phone: '5592991802094',
+  phone: '5592993665994',
   defaultMessage: 'Olá! Vim pelo site da Manuari e gostaria de mais informações sobre canecas, bottons personalizados e outros produtos!',
   messages: {
     home: 'Olá! Vim pelo site da Manuari e gostaria de mais informações!',
@@ -26,7 +26,7 @@ export const BANNERS = {
     },
     {
       image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png',
-      link: 'https://wa.me/5592991802094?text=Olá, gostaria de saber mais sobre envio para outros estados!'
+      link: 'https://wa.me/5592993665994?text=Olá, gostaria de saber mais sobre envio para outros estados!'
     }
   ],
   b2b: [

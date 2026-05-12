@@ -31,7 +31,7 @@
 
         <p class="footer-info">
           WhatsApp: <br />
-          <span>(92) 99180-2094</span>
+          <span>(92) 99366-5994</span>
         </p>
 
         <p class="footer-info">

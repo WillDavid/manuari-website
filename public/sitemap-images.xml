@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-mae-voce-e-a-melhor-para-nos</loc>
+    <image:image>
+      <image:loc>https://manuari.com.br/seo-images/canecas/caneca-mae-voce-e-a-melhor-para-nos-1.png</image:loc>
+      <image:title>Caneca Mãe! Você É a Melhor Para Nós!</image:title>
+      <image:caption>Caneca Mãe! Você É a Melhor Para Nós! - caneca personalizada da Manuari em Manaus</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-voce-e-a-flor-mais-linda-do-meu-jardim-caneca-dia-das-maes</loc>
+    <image:image>
+      <image:loc>https://manuari.com.br/seo-images/canecas/caneca-voce-e-a-flor-mais-linda-do-meu-jardim-caneca-dia-das-maes-1.png</image:loc>
+      <image:title>Caneca Você É a Flor Mais Linda do Meu Jardim (Caneca Dia das Mães)</image:title>
+      <image:caption>Caneca Você É a Flor Mais Linda do Meu Jardim (Caneca Dia das Mães) - caneca personalizada da Manuari em Manaus</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-para-uso-exclusivo-da-melhor-mae-do-mundo</loc>
+    <image:image>
+      <image:loc>https://manuari.com.br/seo-images/canecas/caneca-para-uso-exclusivo-da-melhor-mae-do-mundo-1.png</image:loc>
+      <image:title>Caneca Para Uso Exclusivo da Melhor Mãe do Mundo!</image:title>
+      <image:caption>Caneca Para Uso Exclusivo da Melhor Mãe do Mundo! - caneca personalizada da Manuari em Manaus</image:caption>
+    </image:image>
+  </url>
+
+  <url>
     <loc>https://manuari.com.br/produtos/canecas/caneca-justin-bieber-seja-forte</loc>
     <image:image>
       <image:loc>https://manuari.com.br/seo-images/canecas/caneca-justin-bieber-seja-forte-1.jpeg</image:loc>
@@ -1103,15 +1130,6 @@
     <image:image>
       <image:loc>https://manuari.com.br/seo-images/banners/manuari-banner-3.png</image:loc>
       <image:title>Banner Manuari 3</image:title>
-      <image:caption>Imagem institucional da Manuari para canecas e produtos personalizados em Manaus</image:caption>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://manuari.com.br/</loc>
-    <image:image>
-      <image:loc>https://manuari.com.br/seo-images/banners/manuari-banner-4.png</image:loc>
-      <image:title>Banner Manuari 4</image:title>
       <image:caption>Imagem institucional da Manuari para canecas e produtos personalizados em Manaus</image:caption>
     </image:image>
   </url>
