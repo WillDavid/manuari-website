@@ -5,7 +5,7 @@ const PRODUCTS_ENDPOINT = 'vitrine'
 const VITRINE_SELECT = '*,vitrine_variacoes(*,vitrine_precos(*),vitrine_precos_faixas(*))'
 const FALLBACK_VARIATIONS_BY_TYPE = {
   canecas: [
-    { nome: 'Branca', tipoVariacao: 'cor', ordem: 1, preco: 34.9 },
+    { nome: 'Branca', tipoVariacao: 'cor', ordem: 1, preco: 35.90 },
     { nome: 'Alça e Interior Preta', aliases: ['Alca Preta', 'Alça Preta', 'Alca e Interior Preta'], tipoVariacao: 'cor', ordem: 2, preco: 46.9 },
     { nome: 'Alça e Interior Amarela', aliases: ['Alca Amarela', 'Alça Amarela', 'Alca e Interior Amarela'], tipoVariacao: 'cor', ordem: 3, preco: 46.9 },
     { nome: 'Alça e Interior Vermelha', aliases: ['Alca Vermelha', 'Alça Vermelha', 'Alca e Interior Vermelha'], tipoVariacao: 'cor', ordem: 4, preco: 46.9 },

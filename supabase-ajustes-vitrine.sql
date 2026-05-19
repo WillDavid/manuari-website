@@ -176,7 +176,7 @@ FROM public.vitrine_variacoes vv
 JOIN public.vitrine v ON v.id = vv.vitrine_id
 JOIN (
   VALUES
-    ('canecas', 'Branca', 34.90),
+    ('canecas', 'Branca', 35.90),
     ('canecas', 'Alça e Interior Preta', 46.90),
     ('canecas', 'Alça e Interior Amarela', 46.90),
     ('canecas', 'Alça e Interior Vermelha', 46.90),
