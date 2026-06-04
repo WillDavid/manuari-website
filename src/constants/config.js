@@ -17,15 +17,19 @@ export const WHATSAPP = {
 export const BANNERS = {
   hero: [
     {
-      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner6.png',
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/precos-tabela.png',
       link: '/produtos'
     },
     {
-      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner7.png',
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/bottons-personalizados.png',
       link: '/produtos/bottons'
     },
     {
-      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/banner4.png',
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/dia-dos-namorados.png',
+      link: 'https://wa.me/5592993665994?text=Olá, gostaria de saber mais sobre canecas para o dia dos namorados'
+    },
+    {
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/envio-todo-brasil.png',
       link: 'https://wa.me/5592993665994?text=Olá, gostaria de saber mais sobre envio para outros estados!'
     }
   ],
