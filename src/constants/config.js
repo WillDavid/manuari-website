@@ -25,8 +25,12 @@ export const BANNERS = {
       link: '/produtos/bottons'
     },
     {
-      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/dia-dos-namorados.png',
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/dia-dos-namorados-1.png',
       link: 'https://wa.me/5592993665994?text=Olá, gostaria de saber mais sobre canecas para o dia dos namorados'
+    },
+    {
+      image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/dia-dos-namorados-2.png',
+      link: 'https://wa.me/5592993665994?text=Olá, gostaria de saber mais sobre kit para o dia dos namorados'
     },
     {
       image: 'https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/banner/envio-todo-brasil.png',
