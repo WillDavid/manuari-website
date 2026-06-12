@@ -3,66 +3,7 @@ import { SUPABASE, CACHE_TTL } from '../constants/config'
 const { url: SUPABASE_URL, key: SUPABASE_KEY } = SUPABASE
 const PRODUCTS_ENDPOINT = 'vitrine'
 const VITRINE_SELECT = '*,vitrine_variacoes(*,vitrine_precos(*),vitrine_precos_faixas(*))'
-const FALLBACK_VARIATIONS_BY_TYPE = {
-  canecas: [
-    { nome: 'Branca', tipoVariacao: 'cor', ordem: 1, preco: 35.90 },
-    { nome: 'Alça e Interior Preta', aliases: ['Alca Preta', 'Alça Preta', 'Alca e Interior Preta'], tipoVariacao: 'cor', ordem: 2, preco: 46.9 },
-    { nome: 'Alça e Interior Amarela', aliases: ['Alca Amarela', 'Alça Amarela', 'Alca e Interior Amarela'], tipoVariacao: 'cor', ordem: 3, preco: 46.9 },
-    { nome: 'Alça e Interior Vermelha', aliases: ['Alca Vermelha', 'Alça Vermelha', 'Alca e Interior Vermelha'], tipoVariacao: 'cor', ordem: 4, preco: 46.9 },
-    { nome: 'Alça e Interior Lilás', aliases: ['Alca Lilas', 'Alça Lilás', 'Alça Lilas', 'Alca e Interior Lilas'], tipoVariacao: 'cor', ordem: 5, preco: 46.9 },
-    { nome: 'Alça e Interior Azul', aliases: ['Alca Azul', 'Alça Azul', 'Alca e Interior Azul'], tipoVariacao: 'cor', ordem: 6, preco: 46.9 },
-    { nome: 'Alça e Interior Verde', aliases: ['Alca Verde', 'Alça Verde', 'Alca e Interior Verde'], tipoVariacao: 'cor', ordem: 7, preco: 46.9 }
-  ],
-  xicaras: [
-    { nome: 'Com pires', tipoVariacao: 'modelo', ordem: 1, preco: 46.9 },
-    { nome: 'Sem pires', tipoVariacao: 'modelo', ordem: 2, preco: 42.9 }
-  ],
-  azulejos: [
-    { nome: '15x15', tipoVariacao: 'tamanho', ordem: 1, preco: 29.9 },
-    { nome: '20x20', tipoVariacao: 'tamanho', ordem: 2, preco: 34.9 }
-  ],
-  canecas3d: [
-    { nome: 'Ceramica', tipoVariacao: 'modelo', ordem: 1, preco: 69.9 }
-  ],
-  bottons: [
-    {
-      nome: '33mm',
-      tipoVariacao: 'tamanho',
-      ordem: 1,
-      faixas: [
-        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 4.0, destaque: false, ordem: 1 },
-        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 3.5, destaque: false, ordem: 2 },
-        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 3.0, destaque: false, ordem: 3 },
-        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 2.5, destaque: false, ordem: 4 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 2.3, destaque: true, ordem: 5 }
-      ]
-    },
-    {
-      nome: '44mm',
-      tipoVariacao: 'tamanho',
-      ordem: 2,
-      faixas: [
-        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 5.0, destaque: false, ordem: 1 },
-        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 4.5, destaque: false, ordem: 2 },
-        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 4.0, destaque: false, ordem: 3 },
-        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 3.5, destaque: false, ordem: 4 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 2.7, destaque: true, ordem: 5 }
-      ]
-    },
-    {
-      nome: '58mm',
-      tipoVariacao: 'tamanho',
-      ordem: 3,
-      faixas: [
-        { quantidadeMinima: 1, quantidadeLabel: '01 a 09 un.', preco: 6.0, destaque: false, ordem: 1 },
-        { quantidadeMinima: 10, quantidadeLabel: '10 a 29 un.', preco: 5.5, destaque: false, ordem: 2 },
-        { quantidadeMinima: 30, quantidadeLabel: '30 a 49 un.', preco: 5.0, destaque: false, ordem: 3 },
-        { quantidadeMinima: 50, quantidadeLabel: '50 a 99 un.', preco: 4.5, destaque: false, ordem: 4 },
-        { quantidadeMinima: 100, quantidadeLabel: '100+ un.*', preco: 3.2, destaque: true, ordem: 5 }
-      ]
-    }
-  ]
-}
+
 const currencyFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL'
@@ -101,134 +42,6 @@ function slugify(text) {
     .replace(/^-+|-+$/g, '')
 }
 
-function normalizeText(value) {
-  return String(value || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim()
-}
-
-function getFallbackVariations(tipo) {
-  return FALLBACK_VARIATIONS_BY_TYPE[tipo] || []
-}
-
-function isReadyMadeBotton(product) {
-  const normalizedName = normalizeText(product?.name)
-
-  return product?.tipo === 'bottons'
-    && !normalizedName.includes('envie sua arte')
-    && (normalizedName.includes('kit') || normalizedName.includes('individual'))
-}
-
-function getKitQuantity(productName) {
-  const match = String(productName || '').match(/kit\s+(\d+)/i)
-  return match ? Number(match[1]) : 1
-}
-
-function getReadyMadeBottonVariationPrice(product, variacao) {
-  const normalizedName = normalizeText(product?.name)
-  const normalizedVariationName = normalizeText(variacao.nome)
-
-  if (normalizedName.includes('kit 3')) {
-    const priceBySize = {
-      '33mm': 10,
-      '44mm': 12,
-      '58mm': 15
-    }
-
-    const precoKit = priceBySize[normalizedVariationName]
-
-    if (precoKit != null) {
-      return {
-        ...variacao,
-        preco: precoKit,
-        precoMinimo: precoKit,
-        precoMaximo: precoKit,
-        priceLabel: formatPrice(precoKit)
-      }
-    }
-  }
-
-  const faixaDestaque = variacao.priceTiers.find((faixa) => faixa.destaque)
-  const faixaReferencia = faixaDestaque || variacao.priceTiers[0]
-
-  if (!faixaReferencia?.preco) return variacao
-
-  const multiplier = normalizedName.includes('kit')
-    ? getKitQuantity(product?.name)
-    : 1
-
-  const preco = faixaReferencia.preco * multiplier
-
-  return {
-    ...variacao,
-    preco,
-    precoMinimo: preco,
-    precoMaximo: preco,
-    priceLabel: formatPrice(preco)
-  }
-}
-
-function findFallbackVariation(tipo, nome) {
-  const normalizedName = normalizeText(nome)
-
-  return getFallbackVariations(tipo).find((item) => {
-    if (normalizeText(item.nome) === normalizedName) return true
-
-    return (item.aliases || []).some((alias) => normalizeText(alias) === normalizedName)
-  }) || null
-}
-
-function buildFallbackVariation(variacao, tipo) {
-  const fallback = findFallbackVariation(tipo, variacao.nome)
-
-  if (!fallback) return variacao
-
-  return {
-    ...variacao,
-    nome: fallback.nome,
-    vitrine_precos: variacao.vitrine_precos?.length
-      ? variacao.vitrine_precos
-      : fallback.preco != null
-        ? [{ id: `fallback-price-${tipo}-${variacao.nome}`, preco: fallback.preco, ordem: 1 }]
-        : [],
-    vitrine_precos_faixas: variacao.vitrine_precos_faixas?.length
-      ? variacao.vitrine_precos_faixas
-      : (fallback.faixas || []).map((faixa, index) => ({
-          id: `fallback-tier-${tipo}-${variacao.nome}-${index}`,
-          quantidade_minima: faixa.quantidadeMinima,
-          quantidade_label: faixa.quantidadeLabel,
-          preco: faixa.preco,
-          destaque: faixa.destaque,
-          ordem: faixa.ordem
-        }))
-  }
-}
-
-function createMissingFallbackVariations(product, variacoes) {
-  if (variacoes.length) return variacoes
-
-  return getFallbackVariations(product.tipo).map((item, index) => ({
-    id: `fallback-variation-${product.id}-${index}`,
-    nome: item.nome,
-    tipo_variacao: item.tipoVariacao,
-    ordem: item.ordem,
-    vitrine_precos: item.preco != null
-      ? [{ id: `fallback-price-${product.id}-${index}`, preco: item.preco, ordem: 1 }]
-      : [],
-    vitrine_precos_faixas: (item.faixas || []).map((faixa, faixaIndex) => ({
-      id: `fallback-tier-${product.id}-${index}-${faixaIndex}`,
-      quantidade_minima: faixa.quantidadeMinima,
-      quantidade_label: faixa.quantidadeLabel,
-      preco: faixa.preco,
-      destaque: faixa.destaque,
-      ordem: faixa.ordem
-    }))
-  }))
-}
-
 function getVariationPriceBounds(variacao) {
   const directPrices = (variacao.vitrine_precos || [])
     .map((item) => toNumber(item.preco))
@@ -241,11 +54,7 @@ function getVariationPriceBounds(variacao) {
   const prices = [...directPrices, ...tierPrices]
 
   if (!prices.length) {
-    return {
-      min: null,
-      max: null,
-      base: null
-    }
+    return { min: null, max: null, base: null }
   }
 
   return {
@@ -255,26 +64,24 @@ function getVariationPriceBounds(variacao) {
   }
 }
 
-function normalizeVariation(variacao, tipo) {
-  const variationWithFallback = buildFallbackVariation(variacao, tipo)
-
-  const sortedDirectPrices = [...(variationWithFallback.vitrine_precos || [])]
+function normalizeVariation(variacao) {
+  const sortedDirectPrices = [...(variacao.vitrine_precos || [])]
     .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
 
-  const sortedPriceTiers = [...(variationWithFallback.vitrine_precos_faixas || [])]
+  const sortedPriceTiers = [...(variacao.vitrine_precos_faixas || [])]
     .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
 
   const bounds = getVariationPriceBounds({
-    ...variationWithFallback,
+    ...variacao,
     vitrine_precos: sortedDirectPrices,
     vitrine_precos_faixas: sortedPriceTiers
   })
 
   return {
-    id: variationWithFallback.id,
-    nome: variationWithFallback.nome,
-    tipoVariacao: variationWithFallback.tipo_variacao,
-    ordem: variationWithFallback.ordem || 0,
+    id: variacao.id,
+    nome: variacao.nome,
+    tipoVariacao: variacao.tipo_variacao,
+    ordem: variacao.ordem || 0,
     preco: bounds.base,
     precoMinimo: bounds.min,
     precoMaximo: bounds.max,
@@ -291,21 +98,15 @@ function normalizeVariation(variacao, tipo) {
 }
 
 function normalizeProduct(product) {
-  let variacoes = createMissingFallbackVariations(product, [...(product.vitrine_variacoes || [])])
+  const variacoes = (product.vitrine_variacoes || [])
     .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
-    .map((variacao) => normalizeVariation(variacao, product.tipo))
+    .map((v) => normalizeVariation(v))
 
-  if (isReadyMadeBotton(product)) {
-    variacoes = variacoes.map((variacao) => getReadyMadeBottonVariationPrice(product, variacao))
-  }
-
-  const priceCandidates = variacoes.flatMap((variacao) => {
+  const priceCandidates = variacoes.flatMap((v) => {
     const prices = []
-
-    if (variacao.preco != null) prices.push(variacao.preco)
-    if (variacao.precoMinimo != null) prices.push(variacao.precoMinimo)
-    if (variacao.precoMaximo != null) prices.push(variacao.precoMaximo)
-
+    if (v.preco != null) prices.push(v.preco)
+    if (v.precoMinimo != null) prices.push(v.precoMinimo)
+    if (v.precoMaximo != null) prices.push(v.precoMaximo)
     return prices
   })
 
@@ -323,19 +124,25 @@ function normalizeProduct(product) {
   }
 }
 
+function isLocalhost() {
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+}
+
 async function fetchWithCache(endpoint, params = '', options = {}, select = '*') {
   const cacheKey = getCacheKey(endpoint, params, select)
-  
-  try {
-    const cached = localStorage.getItem(cacheKey)
-    if (cached) {
-      const { data, timestamp } = JSON.parse(cached)
-      if (Date.now() - timestamp < CACHE_TTL) {
-        return data
+
+  if (!isLocalhost()) {
+    try {
+      const cached = localStorage.getItem(cacheKey)
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached)
+        if (Date.now() - timestamp < CACHE_TTL) {
+          return data
+        }
       }
+    } catch {
+      // cache invalid, continue to fetch
     }
-  } catch {
-    // cache invalid, continue to fetch
   }
 
   const res = await fetch(
@@ -353,17 +160,19 @@ async function fetchWithCache(endpoint, params = '', options = {}, select = '*')
   if (!res.ok) throw new Error(`Erro na API: ${res.status}`)
 
   const data = await res.json()
-  
-  try {
-    localStorage.setItem(cacheKey, JSON.stringify({
-      data: data instanceof Promise ? await data : data,
-      timestamp: Date.now()
-    }))
-  } catch (e) {
-    console.warn('Cache write failed:', e)
+
+  if (!isLocalhost()) {
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }))
+    } catch (e) {
+      console.warn('Cache write failed:', e)
+    }
   }
 
-  return data instanceof Promise ? await data : data
+  return data
 }
 
 function clearCache(pattern = '') {
@@ -376,6 +185,18 @@ function clearCache(pattern = '') {
 }
 
 export { fetchWithCache, clearCache }
+
+// TIPOS DE PRODUTO
+export async function fetchProductTypes() {
+  const data = await fetchWithCache(
+    PRODUCTS_ENDPOINT,
+    '&order=name.asc',
+    {},
+    'tipo'
+  )
+  const tipos = [...new Set(data.map(p => p.tipo).filter(Boolean))]
+  return tipos.sort((a, b) => a.localeCompare(b))
+}
 
 // REGISTRAR ACESSO AO PRODUTO
 export async function registrarAcesso(produtoId) {
@@ -430,7 +251,6 @@ function getDevice() {
 
 function getBrowser() {
   const ua = navigator.userAgent
-
   if (ua.includes('Chrome')) return 'Chrome'
   if (ua.includes('Firefox')) return 'Firefox'
   if (ua.includes('Safari')) return 'Safari'
@@ -439,11 +259,9 @@ function getBrowser() {
 
 function getOrigin() {
   const ref = document.referrer
-
   if (!ref) return 'direto'
   if (ref.includes('instagram')) return 'instagram'
   if (ref.includes('wa.me')) return 'whatsapp'
-
   return 'outro'
 }
 

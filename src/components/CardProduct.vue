@@ -1,5 +1,6 @@
 <script>
 import { getSeoImageUrl } from '../utils/seoImage'
+import { formatTipoLabel } from '../constants/config'
 
 export default {
   props: {
@@ -44,25 +45,10 @@ export default {
       return getSeoImageUrl(this.image[this.currentImageIndex])
     },
     tipoLabel() {
-      const labels = {
-        canecas: 'Caneca Personalizada',
-        bottons: 'Botton Personalizado',
-        xicaras: 'Xícara',
-        azulejos: 'Azulejo',
-        canecas3d: 'Caneca 3D'
-      }
-      return labels[this.tipo] || this.tipo
+      return formatTipoLabel(this.tipo) + ' Personalizado'
     },
     imageAlt() {
-      const labels = {
-        canecas: 'caneca personalizada',
-        bottons: 'botton personalizado',
-        xicaras: 'xícara personalizada',
-        azulejos: 'azulejo personalizado',
-        canecas3d: 'caneca 3D personalizada'
-      }
-
-      const tipo = labels[this.tipo] || 'produto personalizado'
+      const tipo = formatTipoLabel(this.tipo).toLowerCase() + ' personalizado'
       return `${this.name} - ${tipo} da Manuari em Manaus`
     }
   },

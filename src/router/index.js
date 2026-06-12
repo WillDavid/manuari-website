@@ -63,10 +63,17 @@ const routes = [
       }
 
       const meta = tipoMeta[route.params.tipo]
-      return meta || {
-        title: 'Produtos Personalizados | Manuari',
-        description: 'Produtos personalizados em Manaus. Canecas, bottons, xícaras e azulejos. Compre online!',
-        keywords: 'produtos personalizados, caneca personalizada, botton personalizado, xícara personalizada, azulejo personalizado'
+      if (meta) return meta
+
+      const labelRaw = route.params.tipo
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+
+      return {
+        title: `${labelRaw} Personalizados em Manaus | Manuari`,
+        description: `${labelRaw} personalizados em Manaus com foto, nome ou arte exclusiva. Compre online!`,
+        keywords: `${route.params.tipo} personalizado, ${route.params.tipo} manaus, comprar ${route.params.tipo} personalizado`
       }
     }
   },

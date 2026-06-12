@@ -4,77 +4,210 @@
     <loc>https://manuari.com.br/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/canecas</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/xicaras</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/azulejos</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/bottons</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/para-empresas</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/sobre</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/politica-privacidade</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/politica-entrega</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/nossos-termos</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-06-12</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/Estilo/pulseira</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-06-12</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-mcqueen-sally</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-polaroid-romantica</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-mario-peach</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-gamer-player-1-player-2</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-nossa-data-especial</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-caricatura-romantica</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-mosaico-de-fotos</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-crepusculo-com-cafe-e-leite</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-greys-anatomy-com-frases</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/xicaras/xicara-minimalista-com-nome</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/xicaras/xicara-astral-personalizada</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/xicaras/xicara-olho-grego</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/azulejo-mosaico-do-amor</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/nosso-amor-em-musica</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/momentos-ao-seu-lado</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/entre-flores-e-amor</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/nossa-historia-de-amor</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/azulejos/amor-em-retratos</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-27</lastmod>
   </url>
 
   <url>

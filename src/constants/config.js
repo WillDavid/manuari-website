@@ -43,13 +43,37 @@ export const BANNERS = {
   ]
 }
 
-export const NAV_ITEMS = [
-  { label: 'Todos', path: '/produtos' },
-  { label: 'Canecas', path: '/produtos/canecas' },
-  { label: 'Xícaras', path: '/produtos/xicaras' },
-  { label: 'Azulejos', path: '/produtos/azulejos' },
-  { label: 'Bottons', path: '/produtos/bottons' },
-  { label: 'Para Empresas', path: '/para-empresas' }
+export const STATIC_NAV_ITEMS = [
+  { label: 'Todos', path: '/produtos' }
 ]
+
+export const FOOTER_NAV_ITEM = { label: 'Para Empresas', path: '/para-empresas' }
+
+export const HIDDEN_TYPES = ['canecas3d']
+
+export const TIPO_ORDER = {
+  canecas: 1,
+  xicaras: 2,
+  azulejos: 3,
+  bottons: 4,
+  Estilo: 5
+}
+
+export function formatTipoLabel(tipo) {
+  if (!tipo) return ''
+  const labels = {
+    canecas: 'Canecas',
+    xicaras: 'Xícaras',
+    azulejos: 'Azulejos',
+    bottons: 'Bottons',
+    estilo: 'Acessórios',
+    Estilo: 'Acessórios'
+  }
+  if (labels[tipo]) return labels[tipo]
+  return tipo
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
 
 export const CACHE_TTL = 5 * 60 * 1000 // 5 minutos

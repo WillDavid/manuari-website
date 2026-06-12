@@ -1,6 +1,6 @@
 <script>
 import { fetchProductById, fetchProductBySlug, fetchProductsByType, registrarAcesso } from '../services/supabaseApi'
-import { WHATSAPP } from '../constants/config'
+import { WHATSAPP, formatTipoLabel } from '../constants/config'
 import { usePreferencias } from '../composables/usePreferencias'
 import { useJsonLd, jsonLd } from '../composables/useJsonLd'
 import { getSeoImageUrl, getSeoImageUrls } from '../utils/seoImage'
@@ -266,7 +266,7 @@ export default {
           name: 'Manuari',
           url: BASE_URL
         },
-        category: this.produto.tipo === 'bottons' ? 'Botton personalizado' : 'Caneca personalizada',
+        category: formatTipoLabel(this.produto.tipo).toLowerCase() + ' personalizado',
         offers: {
           '@type': 'Offer',
           url: `${BASE_URL}${productPath}`,
@@ -309,6 +309,8 @@ export default {
   },
 
   methods: {
+    formatTipoLabel,
+
     getCanonicalProductPath(product) {
       if (!product?.tipo || !product?.slug) return '/produtos'
       return `/produtos/${product.tipo}/${product.slug}`
@@ -323,13 +325,7 @@ export default {
 
       const canonicalPath = this.getCanonicalProductPath(product)
       const productImage = product.images?.[0] ? getSeoImageUrl(product.images[0]) : null
-      const tipoLabel = product.tipo === 'bottons'
-        ? 'botton personalizado'
-        : product.tipo === 'xicaras'
-          ? 'xícara personalizada'
-          : product.tipo === 'azulejos'
-            ? 'azulejo personalizado'
-            : 'caneca personalizada'
+      const tipoLabel = formatTipoLabel(product.tipo).toLowerCase() + ' personalizado'
 
       document.title = `${product.name} | ${tipoLabel} em Manaus | Manuari`
 
@@ -494,7 +490,7 @@ export default {
           v-for="(img, i) in produto.images"
           :key="i"
           :src="resolveSeoImageUrl(img)"
-          :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus - foto ${i + 1}`"
+          :alt="`${produto.name} - ${formatTipoLabel(produto.tipo).toLowerCase()} personalizado da Manuari em Manaus - foto ${i + 1}`"
           :title="`${produto.name} - foto ${i + 1}`"
           :class="{ active: imagemAtiva === img }"
           @click="imagemAtiva = img"
@@ -504,7 +500,7 @@ export default {
       <div class="main-image">
         <img
           :src="resolveSeoImageUrl(imagemAtiva)"
-          :alt="`${produto.name} - ${produto.tipo === 'canecas' ? 'caneca personalizada' : produto.tipo === 'bottons' ? 'botton personalizado' : produto.tipo === 'xicaras' ? 'xícara personalizada' : 'azulejo personalizado'} da Manuari em Manaus`"
+          :alt="`${produto.name} - ${formatTipoLabel(produto.tipo).toLowerCase()} personalizado da Manuari em Manaus`"
           :title="produto.name"
           fetchpriority="high"
           decoding="async"

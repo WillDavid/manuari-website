@@ -5,6 +5,7 @@ import SkeletonCard from '../components/SkeletonCard.vue'
 import Breadcrumb from '../components/Breadcrumb.vue'
 import { useJsonLd, jsonLd } from '../composables/useJsonLd'
 import { getSeoImageUrls } from '../utils/seoImage'
+import { formatTipoLabel } from '../constants/config'
 
 export default {
   components: { CardProduct, SkeletonCard, Breadcrumb },
@@ -83,14 +84,8 @@ export default {
     },
 
     titulo() {
-      const nomes = {
-        canecas: 'Canecas Personalizadas',
-        xicaras: 'Xícaras Personalizadas',
-        azulejos: 'Azulejos Personalizados',
-        canecas3d: 'Canecas 3D',
-        bottons: 'Botton Personalizado'
-      }
-      return this.tipoAtual ? (nomes[this.tipoAtual] || this.tipoAtual) : 'Canecas, Bottons e Mais'
+      if (!this.tipoAtual) return 'Canecas, Bottons e Mais'
+      return formatTipoLabel(this.tipoAtual) + ' Personalizados'
     },
 
     topAcessadosIds() {

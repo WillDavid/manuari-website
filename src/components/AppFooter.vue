@@ -6,10 +6,9 @@
       <div class="footer-col">
         <h3>Produtos</h3>
         <ul>
-          <li><RouterLink to="/produtos/canecas">Canecas Personalizadas</RouterLink></li>
-          <li><RouterLink to="/produtos/bottons">Botton Personalizado</RouterLink></li>
-          <li><RouterLink to="/produtos/xicaras">Xícaras</RouterLink></li>
-          <li><RouterLink to="/produtos/azulejos">Azulejos</RouterLink></li>
+          <li v-for="tipo in sortedTypes" :key="tipo">
+            <RouterLink :to="`/produtos/${tipo}`">{{ formatTipoLabel(tipo) }} Personalizados</RouterLink>
+          </li>
           <li><RouterLink to="/para-empresas">Para Empresas</RouterLink></li>
         </ul>
       </div>
@@ -74,13 +73,38 @@
 </template>
 
 <script>
-import { WHATSAPP } from '../constants/config'
+import { WHATSAPP, TIPO_ORDER, HIDDEN_TYPES, FOOTER_NAV_ITEM, formatTipoLabel } from '../constants/config'
+import { fetchProductTypes } from '../services/supabaseApi'
 
 export default {
   data() {
     return {
-      whatsappPhone: WHATSAPP.phone
+      whatsappPhone: WHATSAPP.phone,
+      productTypes: []
     }
+  },
+
+  computed: {
+    sortedTypes() {
+      const visible = this.productTypes.filter(t => !HIDDEN_TYPES.includes(t))
+      return [...visible].sort((a, b) => {
+        const orderA = TIPO_ORDER[a] ?? 99
+        const orderB = TIPO_ORDER[b] ?? 99
+        return orderA - orderB || a.localeCompare(b)
+      })
+    }
+  },
+
+  async mounted() {
+    try {
+      this.productTypes = await fetchProductTypes()
+    } catch (e) {
+      console.error('Erro ao buscar tipos de produto', e)
+    }
+  },
+
+  methods: {
+    formatTipoLabel
   }
 }
 </script>

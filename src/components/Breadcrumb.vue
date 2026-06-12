@@ -1,11 +1,5 @@
 <script>
-const TIPO_LABELS = {
-  canecas: 'Canecas',
-  xicaras: 'Xícaras',
-  azulejos: 'Azulejos',
-  canecas3d: 'Canecas 3D',
-  bottons: 'Botton Personalizado'
-}
+import { formatTipoLabel } from '../constants/config'
 
 export default {
   name: 'Breadcrumb',
@@ -23,7 +17,7 @@ export default {
 
   computed: {
     tipoLabel() {
-      return this.tipo ? (TIPO_LABELS[this.tipo] || this.tipo) : null
+      return this.tipo ? formatTipoLabel(this.tipo) : null
     }
   },
 

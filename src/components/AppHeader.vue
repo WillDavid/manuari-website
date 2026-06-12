@@ -1,11 +1,36 @@
 <script>
-import { NAV_ITEMS } from '../constants/config'
+import { STATIC_NAV_ITEMS, FOOTER_NAV_ITEM, TIPO_ORDER, HIDDEN_TYPES, formatTipoLabel } from '../constants/config'
+import { fetchProductTypes } from '../services/supabaseApi'
 
 export default {
   data() {
     return {
       menuOpen: false,
-      navItems: NAV_ITEMS
+      productTypes: []
+    }
+  },
+
+  computed: {
+    navItems() {
+      const visible = this.productTypes.filter(t => !HIDDEN_TYPES.includes(t))
+      const sorted = [...visible].sort((a, b) => {
+        const orderA = TIPO_ORDER[a] ?? 99
+        const orderB = TIPO_ORDER[b] ?? 99
+        return orderA - orderB || a.localeCompare(b)
+      })
+      const typeItems = sorted.map(tipo => ({
+        label: formatTipoLabel(tipo),
+        path: `/produtos/${tipo}`
+      }))
+      return [...STATIC_NAV_ITEMS, ...typeItems, FOOTER_NAV_ITEM]
+    }
+  },
+
+  async mounted() {
+    try {
+      this.productTypes = await fetchProductTypes()
+    } catch (e) {
+      console.error('Erro ao buscar tipos de produto', e)
     }
   }
 }
