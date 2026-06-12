@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://manuari.com.br/produtos/Estilo/pulseira</loc>
-    <image:image>
-      <image:loc>https://manuari.com.br/seo-images/Estilo/pulseira-1.jpeg</image:loc>
-      <image:title>Pulseira</image:title>
-      <image:caption>Pulseira - botton personalizado da Manuari em Manaus</image:caption>
-    </image:image>
-  </url>
-
-  <url>
     <loc>https://manuari.com.br/produtos/canecas/caneca-mcqueen-sally</loc>
     <image:image>
       <image:loc>https://manuari.com.br/seo-images/canecas/caneca-mcqueen-sally-1.png</image:loc>
@@ -577,11 +568,11 @@
   </url>
 
   <url>
-    <loc>https://manuari.com.br/produtos/canecas3d/caneca-de-raposa</loc>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-de-raposa</loc>
     <image:image>
-      <image:loc>https://manuari.com.br/seo-images/canecas3d/caneca-de-raposa-1.png</image:loc>
+      <image:loc>https://manuari.com.br/seo-images/canecas/caneca-de-raposa-1.png</image:loc>
       <image:title>Caneca de Raposa</image:title>
-      <image:caption>Caneca de Raposa - botton personalizado da Manuari em Manaus</image:caption>
+      <image:caption>Caneca de Raposa - caneca personalizada da Manuari em Manaus</image:caption>
     </image:image>
   </url>
 

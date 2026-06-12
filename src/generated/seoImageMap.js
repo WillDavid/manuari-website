@@ -1,5 +1,4 @@
 export const SEO_IMAGE_BY_ORIGINAL = {
-  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/Estilo/1781302794129-images_1.jpeg": "/seo-images/Estilo/pulseira-1.jpeg",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077287648-7.png": "/seo-images/canecas/caneca-mcqueen-sally-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077240958-6.png": "/seo-images/canecas/caneca-polaroid-romantica-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077177145-5.png": "/seo-images/canecas/caneca-mario-peach-1.png",
@@ -63,7 +62,7 @@ export const SEO_IMAGE_BY_ORIGINAL = {
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/xicaras/Xicara%20Esporte%20Prof%20(1).png": "/seo-images/xicaras/caneca-fofoca-aceito-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776527102415-Design_sem_nome_2.png": "/seo-images/canecas/expresso-patronum-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/Caneca%20Expresso%20Patronum.png": "/seo-images/canecas/expresso-patronum-2.png",
-  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/caneca%20de%20raposa.png": "/seo-images/canecas3d/caneca-de-raposa-1.png",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/caneca%20de%20raposa.png": "/seo-images/canecas/caneca-de-raposa-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/DragonBall.png": "/seo-images/canecas/dragon-ball-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/Alto%20em%20vicio%20por%20cafezinho.png": "/seo-images/canecas/alto-em-vicio-por-cafezinho-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/xicaras/Xicara%20Esporte%20Prof%20(2).png": "/seo-images/xicaras/xicara-noite-estrelada-a-grande-onda-1.png",
@@ -150,7 +149,6 @@ export const SEO_IMAGE_BY_ORIGINAL = {
 }
 
 export const SEO_IMAGE_BY_ALIAS = {
-  "seo-images/Estilo/pulseira-1.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/Estilo/1781302794129-images_1.jpeg",
   "seo-images/canecas/caneca-mcqueen-sally-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077287648-7.png",
   "seo-images/canecas/caneca-polaroid-romantica-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077240958-6.png",
   "seo-images/canecas/caneca-mario-peach-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077177145-5.png",
@@ -214,7 +212,7 @@ export const SEO_IMAGE_BY_ALIAS = {
   "seo-images/xicaras/caneca-fofoca-aceito-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/xicaras/Xicara%20Esporte%20Prof%20(1).png",
   "seo-images/canecas/expresso-patronum-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1776527102415-Design_sem_nome_2.png",
   "seo-images/canecas/expresso-patronum-2.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/Caneca%20Expresso%20Patronum.png",
-  "seo-images/canecas3d/caneca-de-raposa-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/caneca%20de%20raposa.png",
+  "seo-images/canecas/caneca-de-raposa-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/caneca%20de%20raposa.png",
   "seo-images/canecas/dragon-ball-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/DragonBall.png",
   "seo-images/canecas/alto-em-vicio-por-cafezinho-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/Alto%20em%20vicio%20por%20cafezinho.png",
   "seo-images/xicaras/xicara-noite-estrelada-a-grande-onda-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/xicaras/Xicara%20Esporte%20Prof%20(2).png",

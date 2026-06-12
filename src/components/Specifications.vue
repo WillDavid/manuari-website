@@ -70,20 +70,6 @@ diferente da caneca totalmente branca.
     ]
   },
 
-  canecas3d: {
-    descricao: 'Caneca 3D em cerâmica com relevo, ideal para colecionadores.',
-    caracteristicas: [
-      ['Material', 'Cerâmica'],
-      ['Capacidade', '350 ml'],
-      ['Acabamento', 'Relevo 3D'],
-      ['Uso', 'Decorativo e funcional'],
-      ['Embalagem', 'Caixa reforçada']
-    ],
-    duvidas: [
-      ['Pode ir ao micro-ondas?', 'Não recomendado.'],
-      ['Pode ir na lava-louças?', 'Não. Lavar à mão.']
-    ]
-  },
 
 bottons: {
     descricao: 'Botton personalizado com sua arte, logo ou foto. Alta qualidade e acabamento profissional.',

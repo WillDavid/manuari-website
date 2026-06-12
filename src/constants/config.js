@@ -49,14 +49,12 @@ export const STATIC_NAV_ITEMS = [
 
 export const FOOTER_NAV_ITEM = { label: 'Para Empresas', path: '/para-empresas' }
 
-export const HIDDEN_TYPES = ['canecas3d']
-
 export const TIPO_ORDER = {
   canecas: 1,
   xicaras: 2,
   azulejos: 3,
   bottons: 4,
-  Estilo: 5
+  acessorios: 5
 }
 
 export function formatTipoLabel(tipo) {
@@ -66,8 +64,7 @@ export function formatTipoLabel(tipo) {
     xicaras: 'Xícaras',
     azulejos: 'Azulejos',
     bottons: 'Bottons',
-    estilo: 'Acessórios',
-    Estilo: 'Acessórios'
+    acessorios: 'Acessórios'
   }
   if (labels[tipo]) return labels[tipo]
   return tipo

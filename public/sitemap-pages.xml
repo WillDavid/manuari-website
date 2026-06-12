@@ -78,13 +78,6 @@
   </url>
 
   <url>
-    <loc>https://manuari.com.br/produtos/Estilo/pulseira</loc>
-    <priority>0.6</priority>
-    <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
-  </url>
-
-  <url>
     <loc>https://manuari.com.br/produtos/canecas/caneca-mcqueen-sally</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
@@ -505,8 +498,8 @@
   </url>
 
   <url>
-    <loc>https://manuari.com.br/produtos/canecas3d/caneca-de-raposa</loc>
-    <priority>0.6</priority>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-de-raposa</loc>
+    <priority>0.9</priority>
     <changefreq>weekly</changefreq>
     <lastmod>2026-01-27</lastmod>
   </url>
