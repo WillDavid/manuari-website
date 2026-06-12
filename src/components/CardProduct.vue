@@ -45,7 +45,7 @@ export default {
       return getSeoImageUrl(this.image[this.currentImageIndex])
     },
     tipoLabel() {
-      return formatTipoLabel(this.tipo) + ' Personalizado'
+      return formatTipoLabel(this.tipo)
     },
     imageAlt() {
       const tipo = formatTipoLabel(this.tipo).toLowerCase() + ' personalizado'
