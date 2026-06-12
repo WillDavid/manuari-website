@@ -7,7 +7,7 @@
         <h3>Produtos</h3>
         <ul>
           <li v-for="tipo in sortedTypes" :key="tipo">
-            <RouterLink :to="`/produtos/${tipo}`">{{ formatTipoLabel(tipo) }} Personalizados</RouterLink>
+            <RouterLink :to="`/produtos/${tipo}`">{{ formatTipoLabel(tipo) }}</RouterLink>
           </li>
           <li><RouterLink to="/para-empresas">Para Empresas</RouterLink></li>
         </ul>
