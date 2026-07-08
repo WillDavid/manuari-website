@@ -36,12 +36,14 @@ export default {
 
   data() {
     return {
-      currentImageIndex: 0
+      currentImageIndex: 0,
+      imageError: false
     }
   },
 
   computed: {
     currentImage() {
+      if (this.imageError || !this.image.length) return null
       return getSeoImageUrl(this.image[this.currentImageIndex])
     },
     tipoLabel() {
@@ -50,6 +52,11 @@ export default {
     imageAlt() {
       const tipo = formatTipoLabel(this.tipo).toLowerCase() + ' personalizado'
       return `${this.name} - ${tipo} da Manuari em Manaus`
+    },
+    displayPrice() {
+      if (!this.priceRange) return ''
+      if (this.priceRange.includes(' - ')) return `A partir de ${this.priceRange.split(' - ')[0]}`
+      return this.priceRange
     }
   },
 
@@ -65,13 +72,15 @@ export default {
     },
 
     startHover() {
-      if (this.image.length > 1) {
-        this.currentImageIndex = 1
-      }
+      if (this.image.length > 1 && !this.imageError) this.currentImageIndex = 1
     },
 
     stopHover() {
-      this.currentImageIndex = 0
+      if (!this.imageError) this.currentImageIndex = 0
+    },
+
+    onImageError() {
+      this.imageError = true
     }
   }
 }
@@ -86,28 +95,29 @@ export default {
   >
     <div class="image-wrapper">
         <img
+          v-if="currentImage"
           :src="currentImage"
           :alt="imageAlt"
           :title="imageAlt"
           loading="lazy"
           decoding="async"
+          @error="onImageError"
         />
+        <div v-else class="image-fallback">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40%" height="40%">
+            <rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+        </div>
       <span v-if="isTopAcessado" class="top-badge">
         <i class="fas fa-star"></i> Em Alta
       </span>
     </div>
 
-    <span class="product-tipo">
-      {{ tipoLabel }}
-    </span>
+    <span class="product-tipo">{{ tipoLabel }}</span>
 
-    <h3 class="product-name">
-      {{ name }}
-    </h3>
+    <h3 class="product-name">{{ name }}</h3>
 
-    <span class="product-price">
-      {{ priceRange }}
-    </span>
+    <span class="product-price">{{ displayPrice }}</span>
   </article>
 </template>
 
@@ -137,6 +147,15 @@ export default {
   object-fit: cover;
 }
 
+.image-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+}
+
 .top-badge {
   position: absolute;
   top: 8px;
@@ -151,13 +170,7 @@ export default {
   align-items: center;
   gap: 4px;
   box-shadow: 0 2px 12px rgba(255, 165, 0, 0.6);
-  animation: pulse-gold 2s ease-in-out infinite;
   text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-@keyframes pulse-gold {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
 }
 
 .top-badge i {
@@ -165,23 +178,27 @@ export default {
 }
 
 .product-tipo {
-  margin-top: 0.5rem;
-  font-size: 0.7rem;
+  margin-top: 0.4rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   opacity: 0.6;
   text-align: center;
 }
 
 .product-name {
-  margin: 0.6rem 0 0.9rem;
-  font-size: 0.9rem;
+  margin: 0.4rem 0 0.5rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
   text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-price {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   opacity: 0.65;
   text-align: center;

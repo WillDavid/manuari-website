@@ -4,76 +4,97 @@
     <loc>https://manuari.com.br/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/canecas</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/xicaras</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/azulejos</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/produtos/bottons</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/para-empresas</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/sobre</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/politica-privacidade</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/politica-entrega</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-08</lastmod>
   </url>
 
   <url>
     <loc>https://manuari.com.br/nossos-termos</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
+    <lastmod>2026-07-08</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/keep-calm-and-vai-brasil</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-06-12</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/canecas/caneca-figurinha-da-copa</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-06-12</lastmod>
+  </url>
+
+  <url>
+    <loc>https://manuari.com.br/produtos/acessorios/pulseira-da-copa-do-mundo</loc>
+    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
     <lastmod>2026-06-12</lastmod>
   </url>
 

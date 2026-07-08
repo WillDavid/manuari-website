@@ -23,589 +23,253 @@ export default {
       ordenacao: 'relevancia',
       categoriaSelecionada: null,
       loading: true,
+      error: null,
       paginaAtual: 1,
-      porPagina: 50
+      porPagina: 24
     }
   },
 
   computed: {
-    tipoAtual() {
-      return this.$route.params.tipo || null
-    },
+    tipoAtual() { return this.$route.params.tipo || null },
 
     categoriasDisponiveis() {
-      const cats = this.produtosFiltradosRaw
-        .flatMap(p => p.categorias || [])
-      return [...new Set(cats)]
+      const cats = this.products.flatMap(p => p.categorias || [])
+      return [...new Set(cats)].sort((a, b) => a.localeCompare(b))
     },
 
-    produtosFiltradosRaw() {
+    produtosFiltrados() {
       return this.products.filter(p => {
         if (this.tipoAtual && p.tipo !== this.tipoAtual) return false
         if (this.categoriaSelecionada && !(p.categorias || []).includes(this.categoriaSelecionada)) return false
         if (this.busca.trim()) {
-          const buscaLower = this.busca.toLowerCase()
-          const nomeMatch = (p.name || '').toLowerCase().includes(buscaLower)
-          const categoriasMatch = (p.categorias || []).some(c => c.toLowerCase().includes(buscaLower))
-          if (!nomeMatch && !categoriasMatch) return false
+          const b = this.busca.toLowerCase()
+          if (!(p.name || '').toLowerCase().includes(b) && !(p.categorias || []).some(c => c.toLowerCase().includes(b))) return false
         }
         return true
       })
     },
 
     produtosOrdenados() {
-      const lista = [...this.produtosFiltradosRaw]
-      
+      const lista = [...this.produtosFiltrados]
       switch (this.ordenacao) {
-        case 'recent':
-          return lista.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        case 'price-asc':
-          return lista.sort((a, b) => (a.preco || 0) - (b.preco || 0))
-        case 'price-desc':
-          return lista.sort((a, b) => (b.preco || 0) - (a.preco || 0))
-        case 'relevancia':
-        default:
-          return lista.sort((a, b) => (b.acessos || 0) - (a.acessos || 0))
+        case 'recent': return lista.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        case 'price-asc': return lista.sort((a, b) => (a.preco || 0) - (b.preco || 0))
+        case 'price-desc': return lista.sort((a, b) => (b.preco || 0) - (a.preco || 0))
+        default: return lista.sort((a, b) => (b.acessos || 0) - (a.acessos || 0))
       }
     },
 
     produtosPaginados() {
       const inicio = (this.paginaAtual - 1) * this.porPagina
-      const fim = inicio + this.porPagina
-      return this.produtosOrdenados.slice(inicio, fim)
+      return this.produtosOrdenados.slice(inicio, inicio + this.porPagina)
     },
 
-    totalPaginas() {
-      return Math.ceil(this.produtosOrdenados.length / this.porPagina)
-    },
-
-    totalResultados() {
-      return this.produtosOrdenados.length
-    },
+    totalPaginas() { return Math.max(1, Math.ceil(this.produtosOrdenados.length / this.porPagina)) },
+    totalResultados() { return this.produtosOrdenados.length },
 
     titulo() {
       if (!this.tipoAtual) return 'Canecas, Bottons e Mais'
       return formatTipoLabel(this.tipoAtual) + ' Personalizados'
     },
 
-    topAcessadosIds() {
-      return new Set(this.topAcessados.map(p => p.id))
-    },
+    topAcessadosIds() { return new Set(this.topAcessados.map(p => p.id)) },
+    hasActiveFilters() { return !!(this.busca.trim() || this.categoriaSelecionada) },
 
     listingImageJsonLd() {
       if (!this.produtosPaginados.length) return null
-
       return {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        name: this.titulo,
-        description: `Coleção da Manuari para ${this.titulo.toLowerCase()} em Manaus.`,
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: this.titulo, description: `Coleção da Manuari para ${this.titulo.toLowerCase()} em Manaus.`,
         url: `https://manuari.com.br${this.$route.path}`,
-        mainEntity: {
-          '@type': 'ItemList',
-          itemListElement: this.produtosPaginados.slice(0, 16).map((product, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            url: `https://manuari.com.br/produtos/${product.tipo}/${product.slug}`,
-            item: {
-              '@type': 'Product',
-              name: product.name,
-              image: getSeoImageUrls(product.images || []).map((url) => (
-                url.startsWith('/') ? `https://manuari.com.br${url}` : url
-              )),
-              category: product.tipo,
-              brand: {
-                '@type': 'Brand',
-                name: 'Manuari'
-              }
-            }
-          }))
-        }
+        mainEntity: { '@type': 'ItemList', itemListElement: this.produtosPaginados.slice(0, 16).map((p, i) => ({
+          '@type': 'ListItem', position: i + 1, url: `https://manuari.com.br/produtos/${p.tipo}/${p.slug}`,
+          item: { '@type': 'Product', name: p.name, image: getSeoImageUrls(p.images || []).map(u => u.startsWith('/') ? `https://manuari.com.br${u}` : u), category: p.tipo, brand: { '@type': 'Brand', name: 'Manuari' } }
+        })) }
       }
     }
   },
 
   watch: {
-    tipoAtual() {
-      this.categoriaSelecionada = null
-      this.paginaAtual = 1
-    },
-    busca() {
-      this.paginaAtual = 1
-    },
-    ordenacao() {
-      this.paginaAtual = 1
-    },
-    porPagina() {
-      this.paginaAtual = 1
-    },
-    listingImageJsonLd(newVal) {
-      if (newVal) {
-        this.injectJsonLd(`listing-image-seo-${this.$route.fullPath}`, newVal)
-      }
-    }
+    '$route.query.busca'(v) { this.busca = v || '' },
+    '$route.query.categoria'(v) { this.categoriaSelecionada = v || null },
+    '$route.query.ordenacao'(v) { this.ordenacao = v || 'relevancia' },
+    '$route.query.pagina'(v) { const p = parseInt(v); this.paginaAtual = p > 0 ? p : 1 },
+    '$route.params.tipo'() { this.categoriaSelecionada = null; this.busca = ''; this.paginaAtual = 1 },
+
+    busca() { this.paginaAtual = 1; this.syncUrl() },
+    categoriaSelecionada() { this.paginaAtual = 1; this.syncUrl() },
+    ordenacao() { this.paginaAtual = 1; this.syncUrl() },
+    paginaAtual() { this.syncUrl() },
+    listingImageJsonLd(v) { if (v) this.injectJsonLd(`listing-seo-${this.$route.fullPath}`, v) }
   },
 
   async mounted() {
-    await this.carregarProdutos()
-    await this.carregarTopAcessados()
-
-    if (this.listingImageJsonLd) {
-      this.injectJsonLd(`listing-image-seo-${this.$route.fullPath}`, this.listingImageJsonLd)
-    }
+    this.readUrl()
+    try {
+      this.loading = true
+      const [products, top] = await Promise.all([fetchProducts(), fetchMaisAcessados()])
+      this.products = products
+      this.topAcessados = top.slice(0, 10)
+      if (this.listingImageJsonLd) this.injectJsonLd(`listing-seo-${this.$route.fullPath}`, this.listingImageJsonLd)
+    } catch (e) { this.error = e.message || 'Erro ao carregar' }
+    finally { this.loading = false }
   },
 
-  beforeUnmount() {
-    jsonLd.remove()
-  },
+  beforeUnmount() { jsonLd.remove() },
 
   methods: {
-    async carregarProdutos() {
-      try {
-        this.loading = true
-        const data = await fetchProducts()
-        this.products = data
-      } catch (e) {
-        console.error(e)
-      } finally {
-        this.loading = false
-      }
+    formatTipoLabel,
+    readUrl() {
+      const q = this.$route.query
+      if (q.busca) this.busca = q.busca
+      if (q.categoria) this.categoriaSelecionada = q.categoria
+      if (q.ordenacao) this.ordenacao = q.ordenacao
+      if (q.pagina) { const p = parseInt(q.pagina); if (p > 0) this.paginaAtual = p }
     },
-
-    async carregarTopAcessados() {
-      try {
-        const data = await fetchMaisAcessados()
-        this.topAcessados = data.slice(0, 10)
-      } catch (e) {
-        console.error(e)
-      }
+    syncUrl() {
+      const query = {}
+      if (this.busca.trim()) query.busca = this.busca.trim()
+      if (this.categoriaSelecionada) query.categoria = this.categoriaSelecionada
+      if (this.ordenacao !== 'relevancia') query.ordenacao = this.ordenacao
+      if (this.paginaAtual > 1) query.pagina = this.paginaAtual
+      this.$router.replace({ query })
     },
-
-    irParaPagina(pagina) {
-      if (pagina >= 1 && pagina <= this.totalPaginas) {
-        this.paginaAtual = pagina
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }
+    clearAll() {
+      this.busca = ''; this.categoriaSelecionada = null; this.ordenacao = 'relevancia'; this.paginaAtual = 1
+    },
+    goToPage(p) {
+      if (p >= 1 && p <= this.totalPaginas) { this.paginaAtual = p; window.scrollTo({ top: 0, behavior: 'smooth' }) }
     }
   }
 }
 </script>
 
-
 <template>
-  <section class="products-page">
-    <!-- FILTROS LATERAL (Desktop) -->
-    <aside class="filters desktop-only">
-      <h4>Categorias</h4>
-      <ul>
-        <li
-          :class="{ active: !categoriaSelecionada }"
-          @click="categoriaSelecionada = null"
-        >
-          Todas
-        </li>
-        <li
-          v-for="cat in categoriasDisponiveis"
-          :key="cat"
-          :class="{ active: categoriaSelecionada === cat }"
-          @click="categoriaSelecionada = cat"
-        >
-          {{ cat }}
-        </li>
-      </ul>
-    </aside>
+  <section class="catalog">
+    <Breadcrumb :tipo="tipoAtual" nomeProduto="" />
 
-    <div class="products-area">
-      <Breadcrumb :tipo="tipoAtual" nomeProduto="" />
-
-      <!-- FILTROS CATEGORIAS (MOBILE) -->
-      <div class="filters-mobile">
-        <span 
-          v-for="cat in categoriasDisponiveis" 
-          :key="cat"
-          :class="['filter-chip', { active: categoriaSelecionada === cat }]"
-          @click="categoriaSelecionada = categoriaSelecionada === cat ? null : cat"
-        >
-          {{ cat }}
-        </span>
+    <div class="catalog-hdr">
+      <div class="catalog-hdr-top">
+        <div>
+          <h1 class="catalog-title">{{ titulo }}</h1>
+          <p v-if="!loading" class="catalog-count">{{ totalResultados }} produtos</p>
+        </div>
+        <select v-model="ordenacao" class="catalog-sort">
+          <option value="relevancia">Mais relevantes</option>
+          <option value="recent">Mais recentes</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+        </select>
       </div>
 
-      <!-- CONTROLES -->
-      <div class="controls">
-        <h2 class="titulo">{{ titulo }}</h2>
+      <div v-if="hasActiveFilters" class="catalog-chips">
+        <span v-if="busca.trim()" class="chip">"{{ busca }}" <button @click="busca = ''">✕</button></span>
+        <span v-if="categoriaSelecionada" class="chip">{{ categoriaSelecionada }} <button @click="categoriaSelecionada = null">✕</button></span>
+        <button class="chip chip--clear" @click="clearAll">Limpar todos</button>
+      </div>
+    </div>
 
-        <div class="search-sort">
-          <input
-            v-model="busca"
-            type="text"
-            placeholder="Buscar caneca, botton, xícara..."
-            class="search-input"
-          />
-          <select v-model="ordenacao" class="sort-select">
-            <option value="relevancia">Mais relevantes</option>
-            <option value="recent">Mais recentes</option>
-            <option value="price-asc">Menor preço</option>
-            <option value="price-desc">Maior preço</option>
-          </select>
-          <select v-model="porPagina" class="per-page-select desktop-only">
-            <option :value="50">50 por página</option>
-            <option :value="100">100 por página</option>
-            <option :value="200">200 por página</option>
-          </select>
+    <div class="catalog-layout">
+      <aside class="catalog-sidebar">
+        <h4>Categorias</h4>
+        <ul>
+          <li :class="{ active: !categoriaSelecionada }" @click="categoriaSelecionada = null">Todas</li>
+          <li v-for="cat in categoriasDisponiveis" :key="cat" :class="{ active: categoriaSelecionada === cat }" @click="categoriaSelecionada = cat">{{ cat }}</li>
+        </ul>
+      </aside>
+
+      <div class="catalog-main">
+
+        <!-- busca mobile -->
+        <input v-model="busca" type="search" placeholder="Buscar produtos..." class="catalog-search-mobile mobile-only" />
+
+        <!-- loading -->
+        <div v-if="loading" class="product-grid">
+          <SkeletonCard v-for="i in 8" :key="i" />
         </div>
 
-        <p v-if="!loading" class="results-count">
-          Mostrando {{ produtosPaginados.length }} de {{ totalResultados }} canecas, bottons e mais
-        </p>
-      </div>
+        <!-- error -->
+        <div v-else-if="error" class="empty-box">
+          <h3>Erro ao carregar</h3>
+          <p>{{ error }}</p>
+        </div>
 
-      <!-- LOADING -->
-      <div v-if="loading" class="grid">
-        <SkeletonCard v-for="i in 8" :key="i" />
-      </div>
+        <!-- empty -->
+        <div v-else-if="!produtosPaginados.length" class="empty-box">
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente buscar por outros termos ou limpar os filtros.</p>
+          <button @click="clearAll" class="empty-btn">Limpar filtros</button>
+        </div>
 
-      <!-- PRODUTOS -->
-      <div v-else-if="produtosPaginados.length" class="grid">
-        <CardProduct
-          v-for="(p, i) in produtosPaginados"
-          :key="i"
-          :id="p.id"
-          :name="p.name"
-          :image="p.images"
-          :tipo="p.tipo"
-          :slug="p.slug"
-          :priceRange="p.priceRange"
-          :isTopAcessado="topAcessadosIds.has(p.id)"
-        />
-      </div>
+        <!-- grid -->
+        <div v-else class="product-grid">
+          <CardProduct
+            v-for="p in produtosPaginados"
+            :key="p.id"
+            :id="p.id" :name="p.name" :image="p.images"
+            :tipo="p.tipo" :slug="p.slug"
+            :priceRange="p.priceRange"
+            :isTopAcessado="topAcessadosIds.has(p.id)"
+          />
+        </div>
 
-      <!-- EMPTY STATE -->
-      <div v-else class="empty-state">
-        <p>Nenhum produto encontrado</p>
-        <span>Busque por caneca, botton, xícara ou outra palavra-chave</span>
-        <button @click="busca = ''; categoriaSelecionada = null">
-          Limpar filtros
-        </button>
-      </div>
-
-      <!-- PAGINAÇÃO -->
-      <div v-if="totalPaginas > 1" class="pagination">
-        <button
-          :disabled="paginaAtual === 1"
-          @click="irParaPagina(paginaAtual - 1)"
-        >
-          ‹ Anterior
-        </button>
-        
-        <span class="page-info">
-          {{ paginaAtual }} / {{ totalPaginas }}
-        </span>
-
-        <button
-          :disabled="paginaAtual === totalPaginas"
-          @click="irParaPagina(paginaAtual + 1)"
-        >
-          Próxima ›
-        </button>
-      </div>
-
-      <!-- QUANTIDADE POR PÁGINA (MOBILE) -->
-      <div class="per-page-mobile mobile-only">
-        <label>Por página:</label>
-        <select v-model="porPagina">
-          <option :value="50">50</option>
-          <option :value="100">100</option>
-          <option :value="200">200</option>
-        </select>
+        <!-- pagination -->
+        <nav v-if="totalPaginas > 1" class="pagination">
+          <button :disabled="paginaAtual === 1" @click="goToPage(paginaAtual - 1)">‹ Anterior</button>
+          <span>{{ paginaAtual }} de {{ totalPaginas }}</span>
+          <button :disabled="paginaAtual >= totalPaginas" @click="goToPage(paginaAtual + 1)">Próxima ›</button>
+        </nav>
       </div>
     </div>
   </section>
 </template>
 
-
 <style scoped>
-.products-page {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 2rem;
-  align-items: flex-start;
-}
+.catalog-hdr { margin-bottom: 1.5rem; }
+.catalog-hdr-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.5rem; }
+.catalog-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.2rem; }
+.catalog-count { font-size: 0.85rem; color: #777; }
+.catalog-sort { padding: 0.45rem 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 0.85rem; background: #fff; cursor: pointer; }
 
-/* FILTROS */
-.filters {
-  font-size: 0.85rem;
-}
+.catalog-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 0.25rem 0.7rem; background: #f4f4f4; border-radius: 20px; font-size: 0.8rem; color: #111; }
+.chip button { background: none; border: none; padding: 0; cursor: pointer; color: #777; font-size: 0.85rem; line-height: 1; }
+.chip--clear { background: none; color: #e94b35; text-decoration: underline; cursor: pointer; border: none; font-size: 0.8rem; padding: 0.25rem 0.5rem; }
 
-.filters h4 {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
+.catalog-layout { display: grid; grid-template-columns: 180px 1fr; gap: 2rem; align-items: flex-start; }
+.catalog-sidebar { font-size: 0.85rem; position: sticky; top: 1rem; }
+.catalog-sidebar h4 { margin-bottom: 0.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.catalog-sidebar ul { list-style: none; padding: 0; }
+.catalog-sidebar li { cursor: pointer; padding: 0.3rem 0; opacity: 0.7; transition: opacity 0.15s; }
+.catalog-sidebar li:hover { opacity: 1; }
+.catalog-sidebar li.active { font-weight: 600; opacity: 1; }
 
-.filters ul {
-  list-style: none;
-  padding: 0;
-}
+.catalog-main { min-width: 0; }
 
-.filters li {
-  cursor: pointer;
-  padding: 0.3rem 0;
-  opacity: 0.75;
-  transition: opacity 0.2s ease;
-}
+.catalog-search-mobile { display: none; width: 100%; margin-bottom: 0.8rem; padding: 0.5rem 0.8rem; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; }
 
-.filters li:hover {
-  opacity: 1;
-}
+.product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
 
-.filters li.active {
-  font-weight: 600;
-  opacity: 1;
-}
+.empty-box { text-align: center; padding: 3rem 1rem; }
+.empty-box h3 { margin-bottom: 0.5rem; }
+.empty-box p { color: #777; margin-bottom: 1rem; }
+.empty-btn { padding: 0.5rem 1.5rem; background: #e94b35; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
 
-/* FILTROS MOBILE */
-.filters-mobile {
-  display: none;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
+.pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee; }
+.pagination button { padding: 0.4rem 1rem; border: 1px solid #ddd; background: #fff; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+.pagination button:disabled { opacity: 0.4; cursor: default; }
+.pagination button:not(:disabled):hover { background: #f5f5f5; }
+.pagination span { font-size: 0.85rem; color: #777; }
 
-.filter-chip {
-  padding: 0.4rem 0.8rem;
-  background: #f0f0f0;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.filter-chip.active {
-  background: #111;
-  color: white;
-}
-
-/* CONTROLES */
-.controls {
-  margin-bottom: 1.5rem;
-}
-
-.titulo {
-  margin-bottom: 1rem;
-}
-
-.search-sort {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.search-input {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #e94b35;
-}
-
-.sort-select {
-  padding: 0.6rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  background: white;
-  cursor: pointer;
-}
-
-.per-page-select {
-  padding: 0.6rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  background: white;
-  cursor: pointer;
-}
-
-.per-page-mobile {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-
-.per-page-mobile label {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.per-page-mobile select {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  background: white;
-}
-
-.desktop-only {
-  display: inline-block;
-}
-
-.mobile-only {
-  display: none;
-}
-
-.results-count {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2.2rem;
-}
-
-/* EMPTY STATE */
-.empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.empty-state p {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state span {
-  color: #666;
-  display: block;
-  margin-bottom: 1.5rem;
-}
-
-.empty-state button {
-  padding: 0.6rem 1.5rem;
-  background: #e94b35;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* PAGINAÇÃO */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-
-.pagination button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination button:not(:disabled):hover {
-  background: #f5f5f5;
-}
-
-.page-info {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* RESPONSIVO */
-@media (max-width: 1024px) {
-  .products-page {
-    grid-template-columns: 140px 1fr;
-  }
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+.mobile-only { display: none; }
 
 @media (max-width: 768px) {
-  .products-page {
-    grid-template-columns: 1fr;
-  }
-
-  .filters {
-    display: none;
-  }
-
-  .filters-mobile {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
-
-  .desktop-only {
-    display: none;
-  }
-
-  .mobile-only {
-    display: flex;
-  }
-
-  .controls {
-    background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-  }
-
-  .search-sort {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .search-input,
-  .sort-select,
-  .per-page-select {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .results-count {
-    text-align: center;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  .pagination {
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .pagination button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
-  }
-
-  .empty-state {
-    padding: 2rem 1rem;
-  }
+  .catalog-layout { grid-template-columns: 1fr; }
+  .catalog-sidebar { display: none; }
+  .catalog-search-mobile { display: block; }
+  .product-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+  .catalog-title { font-size: 1.3rem; }
+  .mobile-only { display: block; }
+  .catalog-hdr-top { flex-direction: column; }
 }
 </style>

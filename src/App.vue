@@ -155,7 +155,7 @@ export default {
   <div class="app-layout">
     <AppHeader />
 
-    <main class="container">
+    <main class="app-main">
       <ModalOrcamento />
 
       <router-view />
@@ -183,19 +183,16 @@ body {
   flex-direction: column;
 }
 
-.container {
+.app-main {
   flex: 1;
-  padding: 2rem 12rem 2rem 12rem;
-}
-
-@media (max-width: 1024px) {
-  .container {
-    padding: 1.5rem;
-  }
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
 }
 
 @media (max-width: 768px) {
-  .container {
+  .app-main {
     padding: 1rem;
   }
 }

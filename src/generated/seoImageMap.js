@@ -1,4 +1,10 @@
 export const SEO_IMAGE_BY_ORIGINAL = {
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305261391-Mockup_Catalogo_2.png": "/seo-images/canecas/keep-calm-and-vai-brasil-1.png",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305214185-Mockup_Catalogo_1.png": "/seo-images/canecas/caneca-figurinha-da-copa-1.png",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305758421-WhatsApp_Image_2026-06-12_at_19.08.07.jpeg": "/seo-images/canecas/caneca-figurinha-da-copa-2.jpeg",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305739467-WhatsApp_Image_2026-06-12_at_19.08.06.jpeg": "/seo-images/canecas/caneca-figurinha-da-copa-3.jpeg",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305773216-WhatsApp_Image_2026-06-12_at_19.08.06-2.jpeg": "/seo-images/canecas/caneca-figurinha-da-copa-4.jpeg",
+  "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/acessorios/1781305035591-Captura_de_Tela_2026-06-12_as_18.55.25.png": "/seo-images/acessorios/pulseira-da-copa-do-mundo-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077287648-7.png": "/seo-images/canecas/caneca-mcqueen-sally-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077240958-6.png": "/seo-images/canecas/caneca-polaroid-romantica-1.png",
   "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077177145-5.png": "/seo-images/canecas/caneca-mario-peach-1.png",
@@ -149,6 +155,12 @@ export const SEO_IMAGE_BY_ORIGINAL = {
 }
 
 export const SEO_IMAGE_BY_ALIAS = {
+  "seo-images/canecas/keep-calm-and-vai-brasil-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305261391-Mockup_Catalogo_2.png",
+  "seo-images/canecas/caneca-figurinha-da-copa-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305214185-Mockup_Catalogo_1.png",
+  "seo-images/canecas/caneca-figurinha-da-copa-2.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305758421-WhatsApp_Image_2026-06-12_at_19.08.07.jpeg",
+  "seo-images/canecas/caneca-figurinha-da-copa-3.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305739467-WhatsApp_Image_2026-06-12_at_19.08.06.jpeg",
+  "seo-images/canecas/caneca-figurinha-da-copa-4.jpeg": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1781305773216-WhatsApp_Image_2026-06-12_at_19.08.06-2.jpeg",
+  "seo-images/acessorios/pulseira-da-copa-do-mundo-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/acessorios/1781305035591-Captura_de_Tela_2026-06-12_as_18.55.25.png",
   "seo-images/canecas/caneca-mcqueen-sally-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077287648-7.png",
   "seo-images/canecas/caneca-polaroid-romantica-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077240958-6.png",
   "seo-images/canecas/caneca-mario-peach-1.png": "https://byriesholblgyysnmnpu.supabase.co/storage/v1/object/public/products/canecas/1780077177145-5.png",

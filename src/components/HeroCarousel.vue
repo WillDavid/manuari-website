@@ -117,6 +117,7 @@ export default {
   width: 100%;
   aspect-ratio: 1920 / 650;
   position: relative;
+  margin-bottom: 2rem;
   overflow: hidden;
 }
 
