@@ -4,6 +4,7 @@ import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import WhatsAppFloat from './components/WhatsAppFloat.vue'
 import InstagramFloat from './components/InstagramFloat.vue'
+import ShopeeFloat from './components/ShopeeFloat.vue'
 import ModalOrcamento from './components/ModalOrcamento.vue'
 
 import {
@@ -18,6 +19,7 @@ export default {
     AppFooter,
     WhatsAppFloat,
     InstagramFloat,
+    ShopeeFloat,
     ModalOrcamento
   },
 
@@ -165,6 +167,7 @@ export default {
         :message="whatsappMessage"
       />
       <InstagramFloat username="manuari.loja" />
+      <ShopeeFloat url="https://shopee.com.br/manuari_perfil?entryPoint=ShopByPDP" />
     </main>
 
     <AppFooter />

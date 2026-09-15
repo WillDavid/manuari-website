@@ -261,7 +261,12 @@ export default {
             <span class="wa-text">WhatsApp</span>
           </a>
 
-          <a href="/para-empresas" class="b2b-link desktop-only">Para Empresas</a>
+          <a href="https://shopee.com.br/manuari_perfil?entryPoint=ShopByPDP" target="_blank" class="shopee-link desktop-only">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M13.976 20.5c-.65.265-1.35.385-2.051.352a6.628 6.628 0 01-2.802-.725 6.992 6.992 0 01-1.124-.772c-.09-.075-.1-.123-.04-.207.16-.243.273-.404.455-.671.06-.093.159-.101.256-.025.049.039-.1-.074.141.11.933.73 2.02 1.151 3.116 1.194 1.526-.021 2.623-.707 2.82-1.76.216-1.16-.694-2.162-2.475-2.72-.557-.175-1.965-.738-2.224-.89-1.22-.716-1.79-1.653-1.708-2.81.124-1.604 1.613-2.8 3.494-2.808a6.36 6.36 0 012.488.513c.286.12.795.398.971.53.102.074.122.16.064.254l-.388.622c-.06.089-.129.097-.235.03a5.224 5.224 0 00-2.872-.893c-1.31.026-2.292.806-2.357 1.868-.017.96.702 1.66 2.257 2.194 3.154 1.013 4.362 2.202 4.134 4.076-.14 1.152-.838 2.075-1.92 2.538zm1.831-14.71H8.194C8.272 3.35 9.947 1.401 12 1.402c2.054 0 3.728 1.948 3.807 4.388zm6.367.001H17.24C17.119 2.57 14.82 0 12 0 9.181 0 6.882 2.569 6.76 5.79H1.82a.457.457 0 00-.446.495c.241 5.49.496 11.014.711 15.722.107 1.08.894 1.953 1.96 1.993h15.752c1.086-.03 1.964-.913 2.057-2.007.26-5.233.518-10.482.776-15.731a.46.46 0 00-.456-.471Z"/>
+            </svg>
+            Shopee
+          </a>
 
           <button class="hamburger" @click="menuOpen = !menuOpen" :aria-expanded="menuOpen" aria-label="Menu">
             <span></span><span></span><span></span>
@@ -520,6 +525,22 @@ export default {
 }
 
 .b2b-link:hover { background: #f5f5f5; }
+
+.shopee-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem;
+  background: #ee4d2d;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.shopee-link:hover { background: #d7421f; }
 
 /* HAMBURGER */
 .hamburger {
