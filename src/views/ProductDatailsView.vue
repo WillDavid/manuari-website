@@ -526,50 +526,49 @@ export default {
         </div>
       </div>
 
-      <div v-if="temTabelaPreco && tabelaPrecoBottons" class="tabela-bottons">
+      <div v-if="temTabelaPreco" class="tabela-bottons">
         <table class="tabela-precos tabela-precos-bottons">
           <thead>
             <tr>
               <th>Quantidade</th>
-              <th
-                v-for="variacao in tabelaPrecoBottons.variacoes"
-                :key="variacao.id"
-              >
-                {{ variacao.titulo }}
-              </th>
+              <th>Button 33mm (Pequeno)</th>
+              <th>Button 44mm (Padrão)</th>
+              <th>Button 58mm (Premium)</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="linha in tabelaPrecoBottons.linhas"
-              :key="linha.chave"
-            >
-              <td class="qty">
-                {{ linha.quantidadeLabel }}
-              </td>
-              <td
-                v-for="variacao in tabelaPrecoBottons.variacoes"
-                :key="`${linha.chave}-${variacao.id}`"
-                class="unit"
-              >
-                <template v-if="linha.precos[variacao.id] != null">
-                  R$ {{ linha.precos[variacao.id].toFixed(2) }}
-                  <span
-                    v-if="linha.possuiObservacao"
-                    class="tabela-asterisco"
-                  >*</span>
-                </template>
-                <template v-else>
-                  --
-                </template>
-              </td>
+            <tr>
+              <td class="qty">30–49</td>
+              <td class="unit">R$ 4,00</td>
+              <td class="unit">R$ 4,80</td>
+              <td class="unit">R$ 6,00</td>
+            </tr>
+            <tr>
+              <td class="qty">50–99</td>
+              <td class="unit">R$ 3,20</td>
+              <td class="unit">R$ 3,80</td>
+              <td class="unit">R$ 4,80</td>
+            </tr>
+            <tr>
+              <td class="qty">100–199</td>
+              <td class="unit">R$ 2,60</td>
+              <td class="unit">R$ 3,20</td>
+              <td class="unit">R$ 4,00</td>
+            </tr>
+            <tr>
+              <td class="qty">200–499</td>
+              <td class="unit">R$ 2,30</td>
+              <td class="unit">R$ 2,90</td>
+              <td class="unit">R$ 3,50</td>
+            </tr>
+            <tr>
+              <td class="qty">500+</td>
+              <td class="unit">Sob consulta</td>
+              <td class="unit">Sob consulta</td>
+              <td class="unit">Sob consulta</td>
             </tr>
           </tbody>
         </table>
-
-        <p v-if="possuiObsTabelaBottons" class="tabela-precos-nota">
-          * Valores especiais para pedidos a partir de 100 unidades. Confirme com nosso time para validar a arte e o prazo.
-        </p>
       </div>
 
       <div v-if="mostrarPreco" class="price">
